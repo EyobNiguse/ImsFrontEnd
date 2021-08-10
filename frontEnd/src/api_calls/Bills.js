@@ -71,6 +71,18 @@ const updateBillExpense = (data) => {
   
   return axios(config)
 }
+const updateBillType = (data)=>{
+  var config = {
+    method: 'put',
+    url: '/api/expence/BT/update_BT',
+    headers: { 
+      'Content-Type': 'application/json'
+    },
+    data : data
+  };
+  
+  return axios(config)
+}
 export default {
   addBillType,
   addBillExpense,
@@ -78,5 +90,6 @@ export default {
   getAllBillTypes,
   removeBillExpense,
   removeBillType,
-  updateBillExpense
+  updateBillExpense,
+  updateBillType
 }

@@ -103,7 +103,7 @@
                                 Driver
                             </th>
                             <th>
-                                X
+                               Delete
                             </th>
                         </tr>
                      <tr  :name="x.ItemType" v-bind:key="index" v-for="(x,index) in items">  
@@ -114,7 +114,7 @@
                           <td>{{x.PricePerQuantity}}</td>
                           <td>{{x.PurchaseType==1 ?'Cash':'Credit'}}</td>
                           <td>{{getDriverName(x.Driver)}}</td>
-                          <td> <button class="btn-del" @click="removeItem($event)">X</button></td>
+                          <td> <button class="btn-err" @click="removeItem($event)"><i class="fas fa-trash-alt"></i></button></td>
                    
                       </tr>
                     </table>
@@ -149,7 +149,7 @@ export default {
                     console.log(singleOrder);                    
                    
                  if(singleOrder[0] == this.ItemType){
-                     alert("an  entry with the same ItemType  can not be repeated");
+                     this.$confirm("an  entry with the same ItemType  can not be repeated","ERROR","error");
                      repeated = true;
                      break;
                 } 
@@ -234,12 +234,17 @@ export default {
                     "Date":this.SalesDate,
                     "CutomerID":this.CustomerID.toString(),
                     "TransactionID":this.purchaseType,
-                    "EmployeeId":"9",
-                    "DriverId":this.Driver,
+                    "EmployeeId":"6",
+                    "DriverId":"",
                     "SalesInformation":this.OrderString
             }
-            Sales.addSales(data).then(res=>{console.log(res)}).catch(err=>{
-                alert(err.response.data.message);
+            Sales.addSales(data).then(res=>{
+                
+                this.$confirm("Sales Added Successfully","SUCCESS","success");
+                console.log(res)
+                
+                }).catch(err=>{
+                this.$confirm(err.response.data.message,"ERROR","error");
             });
             console.log(data);
         },

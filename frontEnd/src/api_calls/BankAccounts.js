@@ -56,11 +56,37 @@ const addTransaction = (data)=>{
   
   return axios(config)
  }
+  const removeTransaction = (data)=>{
+    var config = {
+      method: 'delete',
+      url: '/api/personalBankAccount/delete_transaction',
+      headers: { 
+        'Content-Type': 'application/json'
+      },
+      data : data
+    };
+    
+    return axios(config)
+  }
+  const updateBank = (data)=>{
+    var config = {
+      method: 'put',
+      url: '/api/personalBankAccount/update_bank_account',
+      headers: { 
+        'Content-Type': 'application/json'
+      },
+      data : data
+    };
+    
+    return axios(config)
+  }
  export default {
     getAllPersonnalAccounts,
     addPersonlaAccount,
     addTransaction,
     getTransaction,
-    removeBankAccount
+    removeBankAccount,
+    removeTransaction,
+    updateBank
 
  }

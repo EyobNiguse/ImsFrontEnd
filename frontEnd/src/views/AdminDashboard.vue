@@ -49,6 +49,12 @@
                 </a>
             
               </router-link>
+                  <router-link to="personalexpense">
+                  <a href="">
+                    <li>Personal Expense</li>
+                </a>
+            
+              </router-link>
                    <router-link to="bill">
                   <a href="">
                     <li>Bill</li>
@@ -63,11 +69,17 @@
             
               </router-link>
               
-                    <router-link to="banks">
+              <router-link to="banks">
                   <a href="">
                     <li>MY Bank</li>
                 </a>
-            
+      
+              </router-link>
+                <router-link to="grnCredit">
+                  <a href="">
+                    <li>Credit settlement</li>
+                </a>
+      
               </router-link>
               
         

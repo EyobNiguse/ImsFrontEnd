@@ -2,6 +2,30 @@
     <div>
             <div class="router-view-container">
                 <SubHeaderControl :links="links"/>
+                <!-- Order edit pop up -->
+                <vue-window-modal :active="editVisible"  v-on:clickClose="editVisibleUpdate(false)" style="width:auto;height:auto;overflow-y:scroll;">
+                        <table class="view-items">
+                            <tr class="view-items-header">
+                                <th>
+                                    Date
+                                </th>
+                                <th>
+                                    Customer
+                                </th>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <input type="date" v-model="editDate" required/>
+                                </td>
+                                <td>
+                                    <select   v-model="editCustomer" required>
+                                        <option  :key="x.CustomerID"  :value="x.CustomerID" v-for="x in CustomersList">{{x.CustomerID}} </option>
+                                    </select>
+                                </td>
+                            </tr>
+                        </table>
+                </vue-window-modal>
+                <!-- / Order edit pop up -->
             <div class="router-view">
                 <div class="add-purchase">
                   <fieldset class="form-contain">
@@ -51,7 +75,7 @@
                             </th>
                     
                             <th>
-                                X
+                                Change
                             </th>
                             </tr>
                         <tr   class="clickable" :key="x.OrderId" v-for="x in items">
@@ -67,20 +91,19 @@
                          <td @click="viewItemWithId($event)" >
                              SALES
                          </td>
-                           <td> <button class="btn-del" @click.prevent="removeOrder(x.OrderID)">X</button></td>
+                           <td>  
+                               
+                               <button  @click="editOrderView(x.OrderID)" class="btn-submit-mini">
+                                <i class="fas fa-edit">
+
+                                </i>
+                                </button>    <button class="btn-err" @click.prevent="removeOrder(x.OrderID)"><i class="fas fa-trash-alt"></i></button></td>
                        </tr> 
                   
                      
                 
                   </table>
-            <vue-window-modal  :active="visibleFormCrud"  title="EDIT FORM"  v-on:clickClose="visibleFormCrudUpdate(false)" style="width:auto;">  
-              
        
-                    
-            </vue-window-modal>
-            <vue-window-modal  :active="visibleFormCrudTwo"  title="Loaded data"  v-on:clickClose="visibleFormCrudTwoUpdate(false)">  
-                details for crudgo here
-            </vue-window-modal>
                   
                 </fieldset>
                 </div>
@@ -99,6 +122,7 @@ export default {
         SubHeaderControl
     },
     methods:{
+        
         viewWithId(){
           this.visibleFormCrud=true
         },
@@ -142,6 +166,7 @@ export default {
     data(){
         return {
             items:[],
+            editVisible:false,
             CustomersList:[],
     links:
                [

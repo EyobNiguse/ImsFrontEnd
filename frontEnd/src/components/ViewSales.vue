@@ -2,6 +2,141 @@
     <div>
             <div class="router-view-container">
                 <SubHeaderControl :links="links"/>
+                <!-- edit Item pop up -->
+                <vue-window-modal :active="editVisibleItem" title="Update Item" v-on:clickClose="editVisibleItemUpdate(false)" style="width:auto;height:auto;">
+                    <form @submit.prevent="updateSaleItem">
+                    <table class="view-items">
+                        <tr class="view-items-header">
+                            <th>
+                                PPP
+                            </th>
+                            <th>
+                                Quantity
+                            </th>
+                        </tr>
+                        <tr>
+                            <td>
+                                <input    v-model="editPPP"  type="number" min="0"  placeholder="PPP">
+                            </td>
+                            <td>
+                                <input  v-model="editQuantity" type="number" min="0" placeholder="Quantity">
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <button class="btn-submit" type="submit">
+                                    Confirm
+                                </button>
+                            </td>
+                        </tr>
+                    </table>
+                    </form>
+                </vue-window-modal>
+                <!-- /edit item pop up -->
+                <!-- edit Sales pop up-->
+                <vue-window-modal :active="editVisible" title="Edit Sales" v-on:clickClose="editVisibleUpdate(false)" style="width:auto;height:auto;">
+                 <form @submit.prevent="updateSale">
+                    <table class="view-items">
+                        <tr class="view-items-header">
+                            <th>
+                                Date
+                            </th>
+                            <th>
+                                Customer
+                            </th>
+                            <th>
+                                Driver
+                            </th>
+                        </tr>
+                        <tr>
+
+                            <td>
+                  
+                                <input v-model="editDate" type="date">
+                            </td>
+                            <td>
+                   
+
+                                <select  v-model="editCustomer"  >
+                                    <option :value="x.CustomerID"  :key="x.CutomerID" v-for="x in CustomersList">
+                                        {{x.CustomerName}}
+                                    </option>
+                                </select>
+                            </td>
+                            <td>
+                                 
+
+                                <select  v-model="editDriver"  >
+                                    <option :key="x.DriverID" v-for="x in DriversList">{{x.DriverName}}</option>
+                                </select>
+                            </td>
+                        </tr>
+                                <tr>
+                        <td>
+                            <button class="btn-submit" type="submit">
+                                Confirm
+                            </button>
+                        </td>
+                    </tr>
+                    </table>
+            
+                    </form>
+                </vue-window-modal>
+                
+                <!-- /edit sales pop up -->
+                <!-- view list  -->
+                <vue-window-modal :active="listVisible"  title="Items List" v-on:clickClose="listVisibleUpdate(false)" style="width:auto;height:auto;">
+                            <table class="view-items">
+                                <tr class="view-items-header">
+                                    <th>
+                                        REFNO
+                                    </th>
+                                    <th>
+                                        Item ID
+                                    </th>
+                                    <th>
+                                        PPP
+                                    </th>
+                                    <th>
+                                        Quantity
+                                    </th>
+                                    <th>
+                                        Total
+                                    </th>
+                                    <th>
+                                        Change
+                                    </th>
+                                </tr>
+                                <tr  :key="x.ItemID"  v-for="x in SalesList">
+                                    <td>
+                                        {{x.REFNO}}
+                                    </td>
+                                    <td>
+                                        {{x.ItemID}}
+                                    </td>
+                                    <td>
+                                        {{x.PPP}}
+                                    </td>
+                                    <td>
+                                        {{x.Quantity}}
+                                    </td>
+                                    <td>
+                                        {{x.Total}}
+                                    </td>
+                                    <td>
+                                        <button   @click="updateItemView(x.SalesId,x.REFNO)" class="btn-submit-mini">
+                                            <i class="fas fa-edit"></i>
+                                        </button>
+                                        <button @click="removeItem(x.SalesId,x.REFNO)" class="btn-err">
+                                            <i class="fas fa-trash-alt">
+
+                                            </i>
+                                        </button>
+                                    </td>
+                                </tr>
+                            </table>
+                </vue-window-modal>
+                <!-- /view list -->
             <div class="router-view">
                 <div class="add-purchase">
                   <fieldset class="form-contain">
@@ -54,7 +189,7 @@
                              REFNO 
                             </th>
                             <th>
-                              Date
+                              Sales Date
                             </th>
                             <th>
                               Type
@@ -63,10 +198,10 @@
                                Customer
                             </th>
                             <th>
-                              Number of Orders
+                              Item Types 
                             </th>
                             <th>
-                                X
+                               Change
                             </th>
                         </tr>
                      <tr  :key="x.REFNO" :name="x.REFNO" v-for="x in items" >
@@ -74,8 +209,8 @@
                           <td>{{x.Date}}</td>
                           <td> {{x.TransactionID==1?'Cash':'Credit'}}</td>
                           <td>{{getCustomerName(x.CutomerID)}}</td>
-                          <td>{{x.Sales.length}}</td>
-                          <td> <button class="btn-del" @click="removeSales($event)">X</button></td>
+                          <td> <button  @click="listView(x.REFNO)" class="btn-submit-mini"><i class="fas fa-eye"></i></button></td>
+                          <td>   <button  @click="editView(x.REFNO)" class="btn-submit-mini">  <i class="fas fa-edit"></i> </button> <button class="btn-err" @click="removeSales(x.REFNO)"><i class="fas fa-trash-alt"></i></button></td>
                      </tr>
                     </table>
                 </fieldset>
@@ -89,16 +224,31 @@
 import SubHeaderControl from "@/components/SubHeaderControl.vue";
 import Supplier from "@/api_calls/Supplier.js";
 import Sales from "@/api_calls/Sales.js";
-import Customers from "@/api_calls/Customer.js";
+import Driver from "@/api_calls/Driver.js";
+import Customer from "@/api_calls/Customer.js";
 export default {
     name:"ViewSales",
     components:{
         SubHeaderControl
     },data(){
         return {
+            editPPP:'',
+            editID:'',
+            editableSale:'',
+            editQuantity:'',
+            editVisibleItem:false,
+            REFNO:'',
+            editDate:'',
+            editCustomer:'',
+            editDriver:'',
+            editVisible:false,
+            DriversList:[],
+             REFNNO:'',
+            listVisible:false,
             items:[],
             SuppliersList:[],
             CustomersList:[],
+            SalesList:[],
             SupplierID:'',
             links:[
                 {
@@ -122,6 +272,7 @@ export default {
         getSales(){
             Sales.getSales().then(res=>{
                 this.items =  res["data"];
+                
             })
         },
         getCustomerName(id){
@@ -131,22 +282,115 @@ export default {
               }
             }
         },
-        removeSales(e){
-            const id = e.target.parentNode.parentNode.getAttribute("name");
-            console.log(id);
+        removeSales(id){
+           this.$confirm("Are you sure You want to Delete you can not undo This Action","WARNING","error").then(res=>{
+            console.log(res);
             Sales.removeSales(id).then(res=>{
                 console.log(res);
                 this.items = this.items.filter(item=>{return item.REFNO != id});
             }).catch(err=>{
                 console.log(err);
             })
+           })
+           
+        },
+        listView(id){
+            this.listVisible = true;
+            this.viewREF  = id;
+            this.SalesList = this.items.filter(item=>{return item.REFNO == id})[0].Sales;
         }
+        ,listVisibleUpdate(state){
+            this.listVisible= state;
+        },editView(id){
+            this.editVisible = true;
+            this.REFNO = id;
+           
+         const dt = this.items.filter(item=>{
+             return item.REFNO == id;
+         })[0]
+         console.log("check here", dt);
+         this.editDate  = dt.Date;
+         this.editCustomer =  dt.CutomerID;
+          
+       
+       }, getDrivers(){
+               },
+            getCustomers(){
+                Customer.getCustomers().then(res=>{
+                    this.CustomersList = res["data"];
+                }).catch(err=>{
+                    this.$alert(err.response.data.message);
+                })
+            },editVisibleUpdate(state){
+                this.editVisible = state;
+            }, updateSaleItem(){
+                const data = {
+                    "PPP":this.editPPP,
+                    "Quantity":this.editQuantity,
+                    "SalesID":this.editID,
+                    "REFNO":this.editableSale
+                }
+            Sales.updateSaleItem(data).then(res=>{
+                console.log(res["data"])
+                this.editVisibleItem = false;
+                this.$confirm("item Updated Successfully", "SUCCESS","success");
+            }).catch(err=>{
+                console.log(err);
+                this.$alert("an error occured can't Update");
+            })},updateItemView(id,ref){
+                this.editableSale = ref;
+                this.editID = id;
+                this.editVisibleItem = true;
+                this.listVisible = false;
+            const dt = this.SalesList.filter(item=>{return item.SalesId == id})[0]
+            
+            this.editPPP = dt.PPP;
+            this.editQuantity  = dt.Quantity; 
+            },editVisibleItemUpdate(state){
+                this.editVisibleItem=state;
+            },removeItem(id,ref){
+                const data = {
+                "SalesID":id,
+                "REFNO":ref
+                }
+                this.listVisible=false;
+                this.$confirm("Are you sure You want to Delete you can not undo This Action","WARNING","error").then(res=>{
+             console.log(res);
+             Sales.removeItem(data).then(res=>{
+                    console.log(res["data"])
+                    this.getSales();
+
+                }).catch(err=>{
+                    this.$alert(err.response.data.message)
+                })
+                })
+  
+            },updateSale(){
+                const data = {
+                    "SoldDate":this.editDate,
+                    "CutomerID":this.editCustomer,
+                    "DriverID":this.editDriver || '',
+                    "REFNO":this.REFNO
+                }
+                Sales.updateSale(data).then(res=>{
+               console.log(res["data"]);
+               this.editVisible  = false;
+               this.$confirm("Successfully update Sales Information","SUCCESS","success");
+            
+            }).catch(err=>{
+                this.editVisible = false;
+                    this.$confirm("An Error occurred can't update","ERROR","error");
+                    console.log(err);
+                })
+            }
     },created(){
-        this.getSuppliers();
         this.getSales();
-        Customers.getCustomers().then(res=>{
-            this.CustomersList = res["data"];
-        }).catch(err=>console.log(err))
+        this.getCustomers();
+         Driver.getDrivers().then(res=>{
+               this.DriversList =  res["data"];
+           }).catch(err=>{
+               this.$alert(err.response.data.message);
+           }) 
     }
 }
 </script>

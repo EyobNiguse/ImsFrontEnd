@@ -89,7 +89,7 @@
                      
            
                   </fieldset>
-                <fieldset class="view-items-container" id="print">
+                <fieldset class="view-items-container">
                  
 
                   
@@ -138,6 +138,46 @@
                 </div>
             </div>
             
+            <vue-window-modal :active="false">
+           <table class="view-items"   id="print">
+                        <tr class="view-items-header">
+                            <th>
+                                Supplier
+                            </th>
+                            <th>
+                                Item Code
+                            </th>
+                            <th>
+                                Item Type
+                            </th>
+                            <th>
+                                Item Quantity
+                            </th>
+                            <th>
+                                Price Per Quantity
+                            </th>
+                            <th>
+                                Purchase Type
+                            </th>
+                              <th>
+                                Driver
+                            </th>
+                           
+                          
+                        </tr>
+                      <tr  :name="x.Index" v-bind:key="index" v-for="(x,index) in items">  
+                          <td>{{x.Supplier}}</td>
+                          <td>{{x.ItemCode}}</td>
+                          <td>{{x.ItemType}}</td>
+                          <td>{{x.ItemQuantity}}</td>
+                          <td>{{x.PricePerQuantity}}</td>
+                          <td>{{x.PurchaseType}}</td>
+                          <td>{{x.Driver}}</td>
+                         
+                   
+                      </tr>
+                    </table>
+            </vue-window-modal>
         </div>
     </div>
     

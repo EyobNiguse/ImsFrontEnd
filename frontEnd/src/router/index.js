@@ -36,7 +36,11 @@ import AddBill from "@/components/AddBill.vue";
 import Billtypes from "@/components/BillTypes.vue";
 import BankAccounts from '@/components/BankAccounts.vue';
 import AddBank from  "@/components/AddBank.vue";
- Vue.use(VueRouter);
+import AddPersonnalExpense from  "@/components/AddPersonnalExpense.vue";
+import PersonalExpenseType from "@/components/PersonalExpenseType.vue";
+import GrnCreditSettlement from "@/components/GrnCreditSettlement.vue";
+import RefCreditSettlement from "@/components/RefCreditSettlement.vue";
+Vue.use(VueRouter);
 const routes = [
   {
     path: '/',
@@ -139,6 +143,24 @@ const routes = [
         name:"Expenses",
         component:AddLoadingExpense
       },{
+        path:'personalexpense',
+        name:"personal expense",
+        component:AddPersonnalExpense  
+      },{
+        path:'personalexpenseType',
+        name:"personal expense",
+        component:PersonalExpenseType  
+      },{
+        path:'grnCredit',
+        name:"GRN CREDIT",
+        component:GrnCreditSettlement  
+      },
+      {
+        path:'refCredit',
+        name:'REF CRDIT',
+        component:RefCreditSettlement
+      },
+      {
         path:"bill",
         name:"Add Bill",
         component:AddBill

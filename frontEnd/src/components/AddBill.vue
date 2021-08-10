@@ -78,13 +78,13 @@
                     <table class="view-items">
                         <tr class="view-items-header">
                             <th>
+                              Bill Type
+                            </th>
+                            <th>
                                 Date
                             </th>
                             <th>
                                 Cost
-                            </th>
-                            <th>
-                                GRTypeNNO
                             </th>
                             <th>
                                 Change

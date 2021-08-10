@@ -38,8 +38,48 @@ const removeSales = (id)=>{
       
      return axios(config)
 }
+const updateSale = (data)=>{
+  var config = {
+    method: 'put',
+    url: '/api/purchase/update_ref',
+    headers: { 
+      'Content-Type': 'application/json'
+    },
+    data : data
+  };
+  
+  return axios(config);
+}
+const updateSaleItem = (data)=>{
+  var config = {
+    method: 'put',
+    url: '/api/purchase/update_sales',
+    headers: { 
+      'Content-Type': 'application/json'
+    },
+    data : data
+  };
+  
+ return axios(config)
+}
+const removeItem = (data)=>{
+  var config = {
+    method: 'delete',
+    url: '/api/purchase/delete_sales',
+    headers: { 
+      'Content-Type': 'application/json'
+    },
+    data : data
+  };
+  
+ return axios(config)
+}
+ 
 export default {
     getSales,
     addSales,
     removeSales,
-}
+    updateSale,
+    updateSaleItem,
+    removeItem
+  }

@@ -163,7 +163,7 @@ ItemsList:[],
             Purchase.getNotDelivered().then(res=>{
                 this.items = res["data"];
                 console.log(res["data"]);
-            }).catch(err=>{alert(err.response.data.message)})
+            }).catch(err=>{this.$confirm(err.response.data.message,"ERROR","error")})
         },
         Suppliers(){
             Supplier.getSuppliers().then(res=>{

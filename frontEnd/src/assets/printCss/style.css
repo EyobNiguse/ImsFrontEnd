@@ -1,0 +1,21 @@
+*{
+    padding:0;
+    margin:0;
+    box-sizing: border-box;
+    background:red;
+}
+
+.view-items th{
+    padding:15px;
+    }
+.view-items td{
+        padding:15px;
+    }
+.view-items-header{
+        background: rgb(11, 170, 96);
+        color:white;
+    }
+.view-items-container{
+    display: grid;
+    place-items: center;
+    }
