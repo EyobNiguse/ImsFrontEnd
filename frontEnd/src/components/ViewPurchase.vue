@@ -14,14 +14,15 @@
                 
                         <tr>
                             <td>  <label for="supplier"> <h3>Supplier</h3></label>
-                                <select  v-model="supplierFilter" name="supplier" id="" class="txt-input" @change="filterBySupplier">
+                                <select  v-model="supplierFilter" name="supplier" id="" class="txt-input" @change="filter">
                                     <option value="">---select Supplier---</option>
                                     <option   :key="x.SupplierID" v-for="x in supplierList" :value="x.SupplierID">{{x.SupplierName}}</option>
                     
                                 </select></td> 
                             <td>
                                 <label for="purchaseType"> <h3>Purchase type</h3></label>
-                                <select  v-model="transactionFilter"  name="purchaseType" id="" class="txt-input" @change="filterByPurhcaseType" >
+                                <select  v-model="transactionFilter"  name="purchaseType" id="" class="txt-input" @change="filter" >
+                                    <option value="">-- select Type--</option>
                                     <option value="1">cash</option>
                                     <option value="2">Credit</option>
                                 </select>
@@ -268,6 +269,7 @@ export default {
         return {
             driverList:[],
             editableItem:[],
+            // itemsFull:[],
             editQuantity:'',
             editRemainder: '',
             editPPP: '' ,
@@ -278,6 +280,8 @@ export default {
             listVisible:false,
             supplierFilter:'',
             transactionFilter:"",
+            fitlerContent:[],
+            dateFilter:'',
             supplierList:[],
             purchaseItemsList:[],
             purchaseDateFilter:"",
@@ -293,13 +297,14 @@ export default {
             purchaseEdit:[],
             links:[
                 {
-                    id:0,
-                    address:"purchase",
-                    displayText:"Add Purchase"
-                },{
                     id:1,
                     address:"viewPurchase",
                     displayText:"Purchases"
+                },
+                {
+                    id:0,
+                    address:"addPurchase",
+                    displayText:"Add Purchase"
                 }
             ]
 
@@ -317,29 +322,30 @@ export default {
         },getSupplierName(id){
             for(const x in this.supplierList){
                 if(this.supplierList[x].SupplierID == id){
-                    console.log("check value here");
+                    // console.log("check value here");
                     console.log(this.supplierList[x].SupplierID);
                     return this.supplierList[x].SupplierName;
                 }
             }
-        },filterBySupplier(){
-             this.items = this.tempItems;
-             if(this.supplierFilter != ''){
-                  this.items = this.items.filter(item=>{
-                  return  item.SupplierID == this.supplierFilter;          
-            });
-               }else{
+        },filter(){
+               
+                if(this.supplierFilter != "" && this.supplierFilter !=""){
+                    this.items =  this.tempItems.filter(item=>{return item.SupplierID == this.supplierFilter}).filter(item=>{return item.TransactionID == this.transactionFilter})
+                }if(this.transactionFilter!="" && this.supplierFilter == ""){
+                    this.items = this.tempItems.filter(item=>{return item.TransactionID == this.transactionFilter})
+                }if(this.supplierFilter !="" && this.transactionFilter == ""){
+                    this.items =  this.tempItems.filter(item=>{return item.SupplierID == this.supplierFilter})
+                    if(this.filterContent.length <= 0){
+                          this.items = this.tempItems;
+                    }
+                }if(this.supplierFilter == "" && this.transactionFilter ==""){
                     this.items = this.tempItems;
-               }
-        },filterByPurhcaseType(){
-            this.items = this.tempItems;
-            if(this.transactionFilter  != ""){
-                  this.items = this.items.filter(item=>{
-                  return  item.TransactionID == this.transactionFilter;          
-            });
-            }else{
-                     this.items = this.tempItems;
-            }
+                }
+     
+             
+          
+
+                 
         },filterByPurchaseDate(){
   this.items = this.tempItems;
             if(this.purchaseDateFilter  != ""){
@@ -370,7 +376,7 @@ export default {
          }, viewPurchaseItems(id){
              this.listVisible = true;
             this.purchaseItemsList =  this.items.filter(item=>{return item.GRNNO == id})[0].Purchase;
-            console.log(this.purchaseItemsList);     
+            // console.log(this.purchaseItemsList);     
          },closeList(state){
              this.listVisible = state;
          },editPurchaseView(id){
@@ -378,7 +384,7 @@ export default {
              this.editablePurchase =  this.items.filter(item=>{
                  return item.GRNNO == id
              })
-             console.log("check this", this.editablePurchase);
+            //  console.log("check this", this.editablePurchase);
              this.editPurchaseDate = this.editablePurchase[0].PurchsedDate;
              this.editDeliveredDate = this.editablePurchase[0].DeliverdDate;
              this.editSupplierName = this.editablePurchase[0].SupplierID;
@@ -395,7 +401,7 @@ export default {
                  "DriverID":this.editDriver || '',
                   "GRNNO":this.editablePurchase[0].GRNNO
                  }
-                 console.log(data);
+                //  console.log(data);
                  Purchase.updateGRN(data).then(res=>(console.log(res))).catch(err=>{
                      alert(err.response.data.message);
                  })},
@@ -407,7 +413,7 @@ export default {
                  this.editExtra = this.editableItem.Extra;
                  this.editPPP = this.editableItem.PPP;
                  this.closeList(false);
-                 console.log("Editable Item",this.editableItem);
+                //  console.log("Editable Item",this.editableItem);
              },
              closeEditItem(state){
                  this.editItemVisible = state;

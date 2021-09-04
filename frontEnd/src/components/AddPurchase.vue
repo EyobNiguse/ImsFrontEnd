@@ -152,16 +152,17 @@ export default {
         OrderString:'',
         links:
                [
-                   {    
-                       id:0,
-                       address:"purchase",
-                       displayText:"Add Purchase"
-                   },
                    {
                     id:1,
                     address:"viewPurchase",
                     displayText:"Purchases"
+                   },
+                  {    
+                       id:0,
+                       address:"addPurchase",
+                       displayText:"Add Purchase"
                    }
+                  
                ]
    }
     },

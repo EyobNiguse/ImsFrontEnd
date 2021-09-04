@@ -1,6 +1,6 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
-import Home from '../views/Home.vue'
+// import Home from '../views/Home.vue'
 import Dashboard from "../views/DashboardView.vue"
 import AddPurchase from "@/components/AddPurchase";
 import ViewPurchase from "@/components/ViewPurchase";
@@ -45,7 +45,7 @@ const routes = [
   {
     path: '/',
     name: 'Home',
-    component: Home
+    component: Login
   },
   {
     path:"/dashboard",
@@ -106,9 +106,13 @@ const routes = [
     children:[
       {
         path:"purchase",
-          name:"AddPurchase",
-          component:AddPurchase,
+          name:"viewPurchase",
+          component:ViewPurchase,
   
+        },{
+          path:"addPurchase",
+          name:"addPurchase",
+          component:AddPurchase
         },{
           path:'viewpurchase',
           name:"ViewPurchase",
@@ -235,12 +239,15 @@ const routes = [
     ]
   }
  
-]
+];
+// beforeEnter: (to, from,next)=>{
+// console.log(from);
+// }
 
 const router = new VueRouter({
   mode: 'history',
   base: process.env.BASE_URL,
   routes
 })
-router.beforeEnter
+
 export default router
