@@ -96,16 +96,16 @@ export default {
        "items":[],
        links:
                [
-                   {    
-                       id:0,
-                       address:"employees",
-                       displayText:"Add Employee"
-                   },
-                   {
+                    {
                     id:1,
-                    address:"viewEmployee",
-                    displayText:"Employees"
+                    address:"employees",
+                    displayText:"viewEmployees"
+                   },{    
+                       id:0,
+                       address:"addEmployees",
+                       displayText:"Add Employees"
                    }
+                 
                ]
    }
     },

@@ -47,16 +47,16 @@ export default {
             employeePassword:'',
            links:
                [
-                   {    
-                       id:0,
-                       address:"employees",
-                       displayText:"Add Employees"
-                   },
-                   {
+                     {
                     id:1,
-                    address:"viewEmployees",
+                    address:"employees",
                     displayText:"viewEmployees"
+                   },{    
+                       id:0,
+                       address:"addEmployees",
+                       displayText:"Add Employees"
                    }
+                 
                ]
            
         }

@@ -51,15 +51,15 @@ data(){
         supplierBankAccountNumber:'',
 
         links:[
-        {
-            id:0,
-            address:"supplier",
-            displayText:"Add Supplier"
-        },{
-            id:1,
-            address:"viewSupplier",
-            displayText:"Suppliers"
-        }
+          {
+                       id:1,
+                       address:"supplier",
+                       displayText:"View Supplier"
+                   },{    
+                       id:0,
+                       address:"addsupplier",
+                       displayText:"Add Supplier"
+                   }
     ]
 }},methods:{
    

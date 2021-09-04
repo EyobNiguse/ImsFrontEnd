@@ -207,16 +207,16 @@ export default {
        bankAccoutAdd:'',
        links:
                [
-                   {    
-                       id:0,
-                       address:"supplier",
-                       displayText:"Add Supplier"
-                   },
-                   {
+                        {
                        id:1,
-                       address:"viewSupplier",
+                       address:"supplier",
                        displayText:"View Supplier"
+                   },{    
+                       id:0,
+                       address:"addsupplier",
+                       displayText:"Add Supplier"
                    }
+              
                ]
    }
     },

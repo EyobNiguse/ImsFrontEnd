@@ -121,6 +121,10 @@ const routes = [
       {
         path:"employees",
         name:"AddEmployee",
+        component:ViewEmployees
+      },{
+        path:"addEmployees",
+        name:"viewEmployee",
         component:AddEmployees
       },{
       path:"customer",
@@ -197,12 +201,12 @@ const routes = [
       ,{
         path:"supplier",
         name:"Supplier",
-        component:AddSupplier
+        component:ViewSupplier
       }
       ,{
-        path:"viewSupplier",
+        path:"addSupplier",
         name:"view Supplier",
-        component:ViewSupplier
+        component:AddSupplier
       },
       {
         path:"driver",
