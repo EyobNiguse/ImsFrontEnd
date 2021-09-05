@@ -145,6 +145,10 @@ export default {
       editableBank:'',
       TransactionType: "",
       transactionDate: "",
+      page:1,
+      pages:[],
+      perPage:5,
+      clicked:true,
       visibleAdd: false,
       visibleFormCrud: false,
       tempTransactionID: "",
@@ -154,6 +158,7 @@ export default {
       Transaction: [],
       items: [],
       bankDetails: [],
+      tempBankDetails:[],
       links: [
         {
           id: 0,
@@ -175,7 +180,7 @@ export default {
     showDetail(id) {
       const sb = this.BankAccounts.filter(item => item.PBID == id);
       this.bankDetails = sb[0].BankTransaction;
-      console.log(this.bankDetails);
+      this.tempBankDetails = sb[0].BankTransaction;
       this.visibleFormCrud = true;
     },
     getMyAccounts() {
@@ -254,11 +259,12 @@ export default {
             console.log(res["data"])
             this.getMyAccounts();
             this.editBankVisible = false;
-             this.editName =  "";
-             this.editBank = "";
-              this.editableBank = "";
+            this.$alert("Bank Updated!!","SUCCESS","success");
+            this.editName =  "";
+            this.editBank = "";
+            this.editableBank = "";
         }).catch(err=>{
-            alert(err.response.data.message);
+            this.$alert(err.response.data.message,"ERROR","error");
         })
     },editBankUpdate(state){
         this.editBankVisible =  state;
