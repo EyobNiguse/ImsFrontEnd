@@ -70,13 +70,30 @@
             style="width:auto;height:auto;"
           >
             <table class="view-items">
+              <tr>
+                <td>From</td>
+                <td>To</td>
+                <td>
+                  <button @click="clearForm" class="btn-submit-mini">
+                    x
+                  </button>
+                </td>
+              </tr>
+              <tr>
+                <td>
+                <input   @change="filter"  v-model="dateFilterLower" type="date" >
+                </td>
+                <td>
+                  <input  @change="filter"  v-model="dateFilterUpper"  type="date">
+                </td>
+              </tr>
               <tr class="view-items-header">
                 <th>Date</th>
                 <th>Deposit</th>
                 <th>WithDraw</th>
                 <th>Del</th>
               </tr>
-              <tr :key="x.BTID" v-for="x in bankDetails">
+              <tr :key="x.BTID" v-for="x in displayedDetails">
                 <td>{{x.Date}}</td>
 
                 <td>{{x.TransactionIN || "-"}}</td>
@@ -89,6 +106,22 @@
                 </td>
               </tr>
             </table>
+                 <span>
+                <span class='prev'>
+                    <button  v-if="page != 1" @click="page--"  class='btn-submit'>
+                            Previous
+                    </button>
+                    </span>
+                    <span class='number'>
+                        <button  class='btn-submit-page'  :key='pageNumber' v-for="pageNumber in pages.slice(page-1, page+5)" @click="page = pageNumber">{{pageNumber}}</button>
+                    </span>
+                    <span class='next'>
+                        <button @click="page++" v-if="page < pages.length"  class='btn-submit'>
+                            Next
+                        </button>
+                    </span>
+                    
+            </span>
           </vue-window-modal>
           <fieldset class="view-items-container">
             <legend>
@@ -124,7 +157,9 @@
                 </td>
               </tr>
             </table>
+          
           </fieldset>
+
         </div>
       </div>
     </div>
@@ -147,8 +182,10 @@ export default {
       transactionDate: "",
       page:1,
       pages:[],
-      perPage:5,
+      perPage:2,
       clicked:true,
+      dateFilterLower:'',
+      dateFilterUpper:'',
       visibleAdd: false,
       visibleFormCrud: false,
       tempTransactionID: "",
@@ -174,6 +211,53 @@ export default {
     };
   },
   methods: {
+          clearForm(){
+      this.dateFilterLower = "";
+      this.dateFilterUpper = "";
+    
+      this.filter(); 
+    },
+    filter(){
+      //one variable
+      if(this.dateFilterLower != ""){
+        console.log("her ewe are")
+        this.bankDetails = this.tempBankDetails.filter(item=>{
+          return item.Date == this.dateFilterLower;
+        })
+        console.log(this.bankDetails);
+      }
+      if(this.typeFilter != ""){
+        this.bankDetails = this.tempBankDetails.filter(item=>{
+          return item.OEID == this.typeFilter;
+        })
+      }
+      //two variable
+      if(this.dateFilterLower !="" && this.dateFilterUpper !=""){
+        this.bankDetails =  this.tempBankDetails.filter(item=>{
+        const d1 =  new Date(this.dateFilterUpper);
+        const d2 =  new Date(item.Date);
+        const d3 =  new Date(this.dateFilterLower);
+        return d3 < d2  && d2 < d1;
+    })
+      } if(this.dateFilterLower == "" && this.dateFilterUpper == "" && this.typeFilter == ""){
+        this.bankDetails= this.tempBankDetails;
+    }
+
+    },
+    setPages () {
+      this.pages = [];
+      let numberOfPages = Math.ceil(this.bankDetails.length / this.perPage);
+      for (let index = 1; index <= numberOfPages; index++) {
+        this.pages.push(index);
+      }
+    },
+    paginate (pagedItems) {
+      let page = this.page;
+      let perPage = this.perPage;
+      let from = (page * perPage) - perPage;
+      let to = (page * perPage);
+      return  pagedItems.slice(from, to);
+    },
     visibleFormCrudUpdate(state) {
       this.visibleFormCrud = state;
     },
@@ -213,19 +297,23 @@ export default {
         });
     },
     removeBank(id) {
-      const data = {
-        PBID: id
-      };
-      BankAccounts.removeBankAccount(data)
+      this.$confirm("Are you sure? removing an account can not be undone!!").then(()=>{
+           BankAccounts.removeBankAccount(data)
         .then(res => {
           console.log(res);
           this.BankAccounts = this.BankAccounts.filter(bank => {
             return bank.PBID != id;
           });
+          this.$alert("Account Removed!!","SUCCESS","success")
         })
         .catch(err => {
-          alert(err.response.data.message);
+          this.$alert(err.response.data.message,"ERROR","error");
         });
+      })
+      const data = {
+        PBID: id
+      };
+   
     },
     removeTransaction(id) {
       const data = {
@@ -269,7 +357,16 @@ export default {
     },editBankUpdate(state){
         this.editBankVisible =  state;
     }
-  },
+  },watch:{
+    bankDetails (){
+        this.setPages();
+    }
+},computed:{
+    displayedDetails(){
+      console.log("called");
+        return this.paginate(this.bankDetails);
+    }
+},
   created() {
     this.getMyAccounts();
   }

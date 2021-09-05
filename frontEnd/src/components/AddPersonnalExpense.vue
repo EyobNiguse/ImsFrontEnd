@@ -134,7 +134,7 @@
                    
                       </tr>
                     </table>
-                                        <span>
+                <span>
                 <span class='prev'>
                     <button  v-if="page != 1" @click="page--"  class='btn-submit'>
                             Previous
