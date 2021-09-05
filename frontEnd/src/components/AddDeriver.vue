@@ -40,14 +40,15 @@ data(){
         DriverPhone:'',
         DriverPlateNumber:'',
         links:[
+            {
+            id:1,
+            address:"Driver",
+            displayText:"Drivers"
+        },
         {
             id:0,
-            address:"driver",
+            address:"addDriver",
             displayText:"Add Driver"
-        },{
-            id:1,
-            address:"viewDriver",
-            displayText:"Drivers"
         }
     ]
 }},
@@ -58,7 +59,10 @@ methods:{
     "DriverPhoneNumber":this.DriverPhone,
     "DriverPlate":this.DriverPlateNumber
         }
-      Driver.addDriver(data).then(res=>{console.log(res)}).catch(err=>{console.log(err)})  
+      Driver.addDriver(data).then(res=>{
+          this.$alert(res.data.message,"SUCCESS","success")
+          console.log(res)}).catch(err=>{
+              this.$alert(err.response.data.message,"ERROR","error")})  
     }
 }
 

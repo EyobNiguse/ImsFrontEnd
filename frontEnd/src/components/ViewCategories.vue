@@ -46,7 +46,7 @@
 
                           
                         </tr>
-                      <tr  :name="x.CategoryId" v-bind:key="index" v-for="(x,index) in items">  
+                      <tr  :name="x.CategoryId" v-bind:key="index" v-for="(x,index) in displayedCategory">  
                           <td> {{x.CategoryId}}</td>
                           <td>{{x.CategoryName}}</td>
                       <td>   <button  @click="updateCategoryView(x.CategoryId)" class="btn-submit-mini"> <i class="fas fa-edit"></i> </button> <button class="btn-err" @click="removeCategory(x.CategoryId)"> <i class="fas fa-trash-alt"></i></button></td>
@@ -54,6 +54,22 @@
                       </tr>
                          
                     </table>
+                            <span >
+                <span class='prev'>
+                    <button  v-if="page != 1" @click="page--"  class='btn-submit'>
+                            Previous
+                    </button>
+                    </span>
+                    <span class='number'>
+                        <button  class='btn-submit-page'  :key='pageNumber' v-for="pageNumber in pages.slice(page-1, page+5)" @click="page = pageNumber">{{pageNumber}}</button>
+                    </span>
+                    <span class='next'>
+                        <button @click="page++" v-if="page < pages.length"  class='btn-submit'>
+                            Next
+                        </button>
+                    </span>
+                    
+            </span>
                 </fieldset>
                 </div>
             </div>
@@ -94,6 +110,20 @@ export default {
    }
     },
     methods:{
+            setPages () {
+      this.pages = [];
+      let numberOfPages = Math.ceil(this.items.length / this.perPage);
+      for (let index = 1; index <= numberOfPages; index++) {
+        this.pages.push(index);
+      }
+    },
+    paginate (pagedItems) {
+      let page = this.page;
+      let perPage = this.perPage;
+      let from = (page * perPage) - perPage;
+      let to = (page * perPage);
+      return  pagedItems.slice(from, to);
+    },
       getCategories(){
            Categories.getCategories().then(item=>{
                 this.items = item["data"];
@@ -114,9 +144,11 @@ export default {
 Categories.updateCategory(data).then(res=>{
     console.log(res["data"])
     this.getCategories();
+    this.$alert("Category Updated","SUCCESS",'success');
     this.editCategoryVisible = false;
 }).catch(err=>{
-    alert(err.response.data.message);
+    this.$alert(err.response.data.message,"SUCCESS",'success');
+ 
 })
       },editCatUpdate(state){
           this.editCategoryVisible = state;
