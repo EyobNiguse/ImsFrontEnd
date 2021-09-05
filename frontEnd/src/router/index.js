@@ -1,6 +1,6 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
-import Home from '../views/Home.vue'
+// import Home from '../views/Home.vue'
 import Dashboard from "../views/DashboardView.vue"
 import AddPurchase from "@/components/AddPurchase";
 import ViewPurchase from "@/components/ViewPurchase";
@@ -45,7 +45,7 @@ const routes = [
   {
     path: '/',
     name: 'Home',
-    component: Home
+    component: Login
   },
   {
     path:"/dashboard",
@@ -106,9 +106,13 @@ const routes = [
     children:[
       {
         path:"purchase",
-          name:"AddPurchase",
-          component:AddPurchase,
+          name:"viewPurchase",
+          component:ViewPurchase,
   
+        },{
+          path:"addPurchase",
+          name:"addPurchase",
+          component:AddPurchase
         },{
           path:'viewpurchase',
           name:"ViewPurchase",
@@ -117,27 +121,31 @@ const routes = [
       {
         path:"employees",
         name:"AddEmployee",
+        component:ViewEmployees
+      },{
+        path:"addEmployees",
+        name:"viewEmployee",
         component:AddEmployees
       },{
       path:"customer",
-        name:"ADD CUSTOMER",
-        component:AddCustomer
+        name:"View CUSTOMER",
+        component:ViewCustomer
       },{
-       path:"viewCustomer",
-       name:"view customer",
-       component:ViewCustomer 
+       path:"addCustomer",
+       name:"Add customer",
+       component:AddCustomer 
       },{
         path:"viewEmployees",
         name:"ViewEmployees",
         component:ViewEmployees
       },{
        path:"itemCategory",
-       name:"Add Item Category",
-       component:AddItemCategory
+       name:"View Item Category",
+       component:viewCategories
       },{
-        path:"viewCategory",
-        name:"View Category",
-        component:viewCategories
+        path:"addCategory",
+        name:"Add Item Category",
+        component:AddItemCategory
       },{
         path:"expenses",
         name:"Expenses",
@@ -193,12 +201,12 @@ const routes = [
       ,{
         path:"supplier",
         name:"Supplier",
-        component:AddSupplier
+        component:ViewSupplier
       }
       ,{
-        path:"viewSupplier",
+        path:"addSupplier",
         name:"view Supplier",
-        component:ViewSupplier
+        component:AddSupplier
       },
       {
         path:"driver",
@@ -214,13 +222,13 @@ const routes = [
         component:AddExpenseType
       },{
         path:"item",
-        name:"AddItem",
-        component:AddItem,
+        name:"View Item",
+        component:ViewItem,
 
       },{
-        path:"viewItem",
+        path:"addItem",
         name:"AddItem",
-        component:ViewItem,
+        component:AddItem,
 
       },{
         path:"banks",
@@ -235,12 +243,15 @@ const routes = [
     ]
   }
  
-]
+];
+// beforeEnter: (to, from,next)=>{
+// console.log(from);
+// }
 
 const router = new VueRouter({
   mode: 'history',
   base: process.env.BASE_URL,
   routes
 })
-router.beforeEnter
+
 export default router

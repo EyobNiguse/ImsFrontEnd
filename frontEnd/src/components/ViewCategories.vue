@@ -73,20 +73,23 @@ export default {
    return {
        "items":[],
        editCategoryVisible:false,
+       pages:[],
+       page:1,
+       perPage:5,
        editableCat:'',
        editCategory:'',
        links:
                [
-                   {    
-                       id:0,
-                       address:"itemCategory",
-                       displayText:"Add Category"
-                   },
-                   {
+                    {
                     id:1,
-                    address:"viewCategory",
+                    address:"itemCategory",
                     displayText:"Categories"
+                   }, {    
+                       id:0,
+                       address:"addCategory",
+                       displayText:"Add Category"
                    }
+                 
                ]
    }
     },
@@ -119,18 +122,31 @@ Categories.updateCategory(data).then(res=>{
           this.editCategoryVisible = state;
       },
       removeCategory(id){
-          const data = {
+             const data = {
             "CategoryId":id
         }
+          this.$confirm("Are you sure? removing a category can not be undone!!").then(()=>{
           Categories.removeCategory(data).then(res=>{
+              this.$alert("Category removed!","SUCCESS",'success');
               this.items = this.items.filter(item=>{
                   return item.CategoryId != id
               })
               console.log(res["data"]);
               }).catch(err=>{
-              alert(err.response.data.message);
+              this.$alert(err.response.data.message,"ERROR",'error');
           })
+          })
+       
+        
       }
+        },watch:{
+            items(){
+               this.setPages(); 
+            }
+        },computed:{
+            displayedCategory(){
+                return this.paginate(this.items);
+            }
         },
         created(){
             console.log("here")

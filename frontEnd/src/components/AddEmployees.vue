@@ -47,16 +47,16 @@ export default {
             employeePassword:'',
            links:
                [
-                   {    
-                       id:0,
-                       address:"employees",
-                       displayText:"Add Employees"
-                   },
-                   {
+                     {
                     id:1,
-                    address:"viewEmployees",
+                    address:"employees",
                     displayText:"viewEmployees"
+                   },{    
+                       id:0,
+                       address:"addEmployees",
+                       displayText:"Add Employees"
                    }
+                 
                ]
            
         }
@@ -71,7 +71,11 @@ export default {
     "EmployeeUserName": this.employeeUserName
             }
            console.log(data);
-            Employees.addEmployee(data).then(res=>console.log(res)).catch(err=>console.log(err));
+            Employees.addEmployee(data).then(res=>{
+                this.$alert("Employee Added!!","SUCCESS",'success')
+                console.log(res)}).catch(err=>{
+                    this.$alert(err.response.data.message,'ERROR','error');
+                    });
         }
     }
     

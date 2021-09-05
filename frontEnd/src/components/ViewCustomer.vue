@@ -143,6 +143,16 @@
 
             </table>
              </vue-window-modal>
+             <fieldset class='view-items-container'>
+                 <legend>
+                     <h3>
+                         Search Customer
+                     </h3>
+                     
+                 </legend>
+                 Search By Name
+                 <input  v-model="nameFilter"  @input="filter" type="text" class='txt-input'  placeholder="Enter Customer Name">
+             </fieldset>
                 <fieldset class="view-items-container">
                     <legend> <h3> Customers </h3></legend>
                     <table class="view-items">
@@ -168,7 +178,7 @@
                             </th>
                           
                         </tr>
-                      <tr  :name="x.CustomerID" v-bind:key="index" v-for="(x,index) in items">  
+                      <tr  :name="x.CustomerID" v-bind:key="index" v-for="(x,index) in displayedItems">  
                           <td> {{x.CustomerName}}</td>
                           <td>{{x.CustomerAddress}}</td>
                           <td>{{x.CustomerPhoneNumber}}</td>
@@ -178,6 +188,22 @@
 
                       </tr>
                     </table>
+                            <span >
+                <span class='prev'>
+                    <button  v-if="page != 1" @click="page--"  class='btn-submit'>
+                            Previous
+                    </button>
+                    </span>
+                    <span class='number'>
+                        <button  class='btn-submit-page'  :key='pageNumber' v-for="pageNumber in pages.slice(page-1, page+5)" @click="page = pageNumber">{{pageNumber}}</button>
+                    </span>
+                    <span class='next'>
+                        <button @click="page++" v-if="page < pages.length"  class='btn-submit'>
+                            Next
+                        </button>
+                    </span>
+                    
+            </span>
                 </fieldset>
                 </div>
             </div>
@@ -207,29 +233,48 @@ export default {
        editTin:'',
        visibleFormCrud:false,
        editableBankVisible:false,
+       nameFilter:'',
+       page:1,
+       pages:[],
+       perPage:5,
        "items":[],
+       tempItems:[],
        "bankDetails":[],
        addBankVisible:false,
        CustomerBankAdd:'',
        links:
                [
-                   {    
-                       id:0,
-                       address:"customer",
-                       displayText:"Add Customer"
-                   },
-                   {
+                     {
                        id:1,
-                       address:"viewCustomer",
+                       address:"Customer",
                        displayText:"View Customer"
+                   },{    
+                       id:0,
+                       address:"addCustomer",
+                       displayText:"Add Customer"
                    }
+                 
                ]
    }
     },
     methods:{
+         setPages () {
+      this.pages = [];
+      let numberOfPages = Math.ceil(this.items.length / this.perPage);
+      for (let index = 1; index <= numberOfPages; index++) {
+        this.pages.push(index);
+      }},
+      paginate (pagedItems) {
+      let page = this.page;
+      let perPage = this.perPage;
+      let from = (page * perPage) - perPage;
+      let to = (page * perPage);
+      return  pagedItems.slice(from, to);
+    },
     getCustomerList(){
          Customer.getCustomers().then(item=>{
-                this.items = item["data"];            
+                this.items = item["data"];  
+                this.tempItems =  item["data"];          
             });
     },
       visibleFormCrudUpdate(state){
@@ -261,7 +306,8 @@ export default {
             "BankName": this.editBankName
             }
             Customer.updateCustomerBank(data).then(res=>{
-               
+               this.BankEditView(false);
+               this.$alert("Bank Account Updated","SUCCESS",'success');
                 console.log(res["data"]);
                 this.editBankName = "";
                 this.editBank = "";
@@ -269,15 +315,25 @@ export default {
                 this.getCustomerList();
                 
             }).catch(err=>{
-                alert(err.response.data.message);
+               this.BankEditView(false);
+               this.$alert(err.response.data.message,"ERROR",'error');
+             
                 })
                 this.editableBankVisible = false;
                 
       }, removeCustomerBank(id){
-            Customer.removeCustomerBank(id).then(res=>{
+          this.visibleFormCrudUpdate(false);
+         this.$confirm("Are you sure? Deleting an Account can not be Undone").then(()=>{
+                Customer.removeCustomerBank(id).then(res=>{
+                this.$alert("Bank Account Removed!!","SUCCESS","success");
+                this.getCustomerList();
               this.bankDetails =  this.bankDetails.filter(bnk=>{return bnk.BankAccountID != id});
               console.log(res["data"]);
+            }).catch(err=>{
+                   this.$alert(err.response.data.message,"ERROR","error");
             })
+         })
+         
       
       },addBankView(id){
             this.addBankVisible= true;
@@ -289,9 +345,14 @@ export default {
         "BankName":this.bankName
         }
         Customer.addBankAccount(data).then(res=>{
+            this.addBankVisibleUpdate(false);
+            this.$alert("Bank Accout Added!!","SUCCESS",'success');
             this.getCustomerList();
             this.addBankVisible=false;
-            console.log(res["data"])}).catch(err=>{alert(err.response.data.message)})
+            console.log(res["data"])}).catch(err=>{
+                this.addBankVisibleUpdate(false);
+                this.$alert(err.response.data.message,"ERROR",'error');
+            })
       
       },addBankVisibleUpdate(state){
           this.addBankVisible =  state;
@@ -318,12 +379,15 @@ export default {
             "CustomerID":this.editCustomer
 }  
     Customer.updateCustomer(data).then(res=>{
+        this.editCustomerUpdate(false);
+        this.$alert("Customer Updated","SUCCESS",'success');
         this.getCustomerList();
         this.editCustomerVisible = false;
         console.log(res["data"])
         
         }).catch(err=>{
-          alert(err.response.data.message);
+        this.editCustomerUpdate(false);
+        this.$alert(err.response.data.message,"ERROR",'error');
         })
 
       }, removeCustomer(id){
@@ -331,16 +395,37 @@ export default {
           const  data = {
                  "CustomerID":id
           }
-          Customer.removeCustomer(data).then(res=>{
+          this.$confirm("Are you  sure? Deleting a Customer can not be Undone!!").then(()=>{
+    Customer.removeCustomer(data).then(res=>{
+                this.$alert("Customer Removed",'SUCCESS','success');
               console.log(res["data"])
               this.items =  this.items.filter(item=>{
                  return item.CustomerID != id;
               })
           }).catch(err=>{
-                  alert(err.response.data.message);
+                this.$alert(err.response.data.message,'ERROR','error');
               })
+          })
+      
+      }, filter(){
+          if(this.nameFilter !=""){
+              this.items  =  this.tempItems.filter(item=>{
+                  return item.CustomerName.includes(this.nameFilter) ==  true; 
+              })
+          }else{
+              this.items =  this.tempItems;
+          }
       }
     
+        },watch:{
+            items() {
+                return this.setPages();
+            }
+        },
+        computed:{
+            displayedItems(){
+                return this.paginate(this.items);
+            }
         },
         created(){
          this.getCustomerList();

@@ -131,10 +131,6 @@ data(){
             address:"expenses",
             displayText:"Loading"
         },{
-            id:1,
-            address:"unloadingExpense",
-            displayText:"Unloading"
-        },{
             id:2,
             address:"salaryExpense",
             displayText:"Salary"

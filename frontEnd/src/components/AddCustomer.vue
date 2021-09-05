@@ -50,13 +50,13 @@ data(){
     "BankName":"",
         links:[
         {
-            id:0,
-            address:"customer",
-            displayText:"Add customer"
-        },{
             id:1,
-            address:"viewCustomer",
-            displayText:"Customers"
+            address:"Customer",
+            displayText:"View Customer"
+        },{
+            id:0,
+            address:"addCustomer",
+            displayText:"Add Customer"
         }
     ]
 }},methods:{
@@ -71,7 +71,12 @@ data(){
     "BankName":this.BankName,
     } 
   
-    Customer.addCustomer(data).then(res=>console.log(res)).catch(err=>console.log(err));
+    Customer.addCustomer(data).then(res=>{
+        this.$alert("Customer Added","SUCCESS",'success');
+        console.log(res)}).catch(err=>{
+        this.$alert(err.response.data.message,"ERROR",'error');
+            }
+            );
 
     }
 

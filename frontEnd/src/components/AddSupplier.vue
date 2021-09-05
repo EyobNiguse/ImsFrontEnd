@@ -51,15 +51,15 @@ data(){
         supplierBankAccountNumber:'',
 
         links:[
-        {
-            id:0,
-            address:"supplier",
-            displayText:"Add Supplier"
-        },{
-            id:1,
-            address:"viewSupplier",
-            displayText:"Suppliers"
-        }
+          {
+                       id:1,
+                       address:"supplier",
+                       displayText:"View Supplier"
+                   },{    
+                       id:0,
+                       address:"addsupplier",
+                       displayText:"Add Supplier"
+                   }
     ]
 }},methods:{
    
@@ -73,7 +73,11 @@ data(){
     "BankName":this.supplierBankName,
     } 
   
-    Supplier.addSupplier(data).then(res=>console.log(res)).catch(err=>console.log(err));
+    Supplier.addSupplier(data).then(res=>{
+        this.$alert("Supplier Added!!","SUCCESS",'success')
+        console.log(res)}).catch(err=>{
+        this.$alert(err.response.data.message,"ERROR",'error');
+            });
 
     }
 

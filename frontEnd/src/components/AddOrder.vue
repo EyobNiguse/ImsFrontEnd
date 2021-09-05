@@ -126,7 +126,7 @@
     
                           <td style="padding:15px;">{{getCustomerName(x.Customer)}}</td>
                           <td style="padding:15px;">{{getItemCodeName(x.ItemType)}}</td>
-                          <td stye="padding:15px;">{{x.ItemQuantity}}</td>
+                          <td style="padding:15px;">{{x.ItemQuantity}}</td>
                           <td style="padding:15px;">{{x.PricePerQuantity}}</td>
                         
                    
@@ -139,7 +139,6 @@
 </template>
 <script>
 import SubHeaderControl from "@/components/SubHeaderControl.vue";
- 
 import Customer from "@/api_calls/Customer.js";
 import  Supplier from  "@/api_calls/Supplier.js";
 import Driver from "@/api_calls/Driver.js";
