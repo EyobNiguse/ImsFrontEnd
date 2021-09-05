@@ -5,7 +5,11 @@
       :active="editPriceVisible"
       title="Edit Details"
       v-on:clickClose="editViewUpdate(false)"
+ 
       style="width:auto;height:auto;"
+ 
+      style="width: auto; height: auto"
+ 
     >
       <form @submit.prevent="updateItemDetails">
         <table class="view-items">
@@ -16,12 +20,22 @@
           </tr>
           <tr>
             <td>
+ 
               <select v-model="editCategory" id>
+ 
+              <select v-model="editCategory" id="">
+ 
                 <option
                   :key="x.CategoryId"
                   :value="x.CategoryId"
                   v-for="x in categoryList"
+ 
                 >{{x.CategoryName}}</option>
+ 
+                >
+                  {{ x.CategoryName }}
+                </option>
+ 
               </select>
             </td>
             <td>
@@ -39,13 +53,19 @@
         </table>
       </form>
     </vue-window-modal>
+ 
 
     <!-- / edit  -->
 
+ 
+
+    <!-- / edit  -->
+ 
     <div class="router-view-container">
       <SubHeaderControl :links="links" />
       <div class="router-view">
         <div class="add-purchase">
+ 
             <fieldset class="view-items-container">
                 <legend>
                     <h3>
@@ -65,6 +85,10 @@
             <legend>
               <h3>Items Added</h3>
             </legend>
+ 
+          <fieldset class="view-items-container">
+            <legend><h3>Items Added</h3></legend>
+ 
             <table class="view-items">
               <tr class="view-items-header">
                 <th>Category</th>
@@ -78,6 +102,7 @@
                 :active="HistoryInfoVisible"
                 title="Inventory History"
                 v-on:clickClose="closeHistory(false)"
+ 
                 style="width:auto;height:auto;"
               >  
                 <fieldset >
@@ -123,12 +148,17 @@
                             </tr>
                     </table>
                 </fieldset>
+ 
+                style="width: auto; height: auto"
+              >
+ 
                 <table class="view-items">
                   <tr class="view-items-header">
                     <th>Date</th>
                     <th>Item ID</th>
                     <th>REFNO</th>
                     <th>GRNNO</th>
+ 
                     <th>OUT</th>
                     <th>IN</th>
                     <th>balance</th>
@@ -159,12 +189,63 @@
                     </span>
                     
             </span>
+ 
+                    <th>IN</th>
+                    <th>Purchase-Price</th>
+                    <th>Purchase-Total</th>
+                    <th>OUT</th>
+                    <th>Sales-Price</th>
+                    <th>Sales-Total</th>
+                    <th>balance</th>
+                  </tr>
+                  <tr :key="x.ItemId" v-for="x in historyInfo">
+                    <td>
+                      {{ x.Date }}
+                    </td>
+                    <td>
+                      {{ x.ItemId }}
+                    </td>
+                    <td>
+                      {{ x.REFNO || "-" }}
+                    </td>
+                    <td>
+                      {{ x.GRNNO || "-" }}
+                    </td>
+                    <td>
+                      {{ x.IN || "-" }}
+                    </td>
+
+                    <td>
+                      {{ x["Purchase-Price"] || "-" }}
+                    </td>
+                    <td>
+                      {{ x["Purchase-Total"] || "-" }}
+                    </td>
+                    <td>
+                      {{ x.OUT || "-" }}
+                    </td>   
+                    <td>
+                      {{ x["Sales-Price"] || "-" }}
+                    </td>
+                    <td>
+                      {{ x["Sales-Total"] || "-" }}
+                    </td>
+                    <td>
+                      {{ x.balance }}
+                    </td>
+                  </tr>
+                </table>
+ 
               </vue-window-modal>
               <vue-window-modal
                 :active="InventoryInfoVisible"
                 title="Inventory Details"
                 v-on:clickClose="closeView(false)"
+ 
                 style="width:auto;height:auto;"
+ 
+                style="width: auto; height: auto"
+ 
               >
                 <form @submit.prevent="updateItemPrice">
                   <table class="view-items">
@@ -177,6 +258,7 @@
                       <th>History</th>
                     </tr>
                     <tr :key="x.ItemId" v-for="x in InventoryInfoObj">
+ 
                       <td>{{x["warehouse-balance"]}}</td>
                       <td>{{x["store-balance"]}}</td>
                       <td>{{x["total-balance"]}}</td>
@@ -186,18 +268,44 @@
                       <td>{{x["Total-price"]}}</td>
                       <td>
                         <button class="btn-submit-mini" type="button" @click="viewHistoryInfo(x.ItemId)">
+ 
+                      <td>{{ x["warehouse-balance"] }}</td>
+                      <td>{{ x["store-balance"] }}</td>
+                      <td>{{ x["total-balance"] }}</td>
+                      <td>
+                        <input
+                          v-model="editPPP"
+                          type="number"
+                          min="0"
+                          required
+                        />
+                      </td>
+                      <td>{{ x["Total-price"] }}</td>
+                      <td>
+                        <button
+                          class="btn-submit-mini"
+                          @click="viewHistoryInfo(x.ItemId)"
+                        >
+ 
                           <i class="fas fa-clock"></i>
                         </button>
                       </td>
                     </tr>
                     <tr>
                       <td>
+ 
                         <button class="btn-submit" type="submit">Confirm</button>
+ 
+                        <button class="btn-submit" type="submit">
+                          Confirm
+                        </button>
+ 
                       </td>
                     </tr>
                   </table>
                 </form>
               </vue-window-modal>
+ 
               <tr :name="x.ItemID" v-bind:key="index" v-for="(x,index) in displayedItems">
                 <td>{{x.ItemCategory[0].CategoryName}}</td>
                 <td>{{x.ItemCode}}</td>
@@ -205,13 +313,35 @@
                 <td>{{x.PPP}}</td>
                 <td>
                   <button class="btn-submit-mini" @click="viewInfo(x.ItemID,x.PPP)">
+ 
+              <tr
+                :name="x.ItemID"
+                v-bind:key="index"
+                v-for="(x, index) in items"
+              >
+                <td>{{ x.ItemCategory[0].CategoryName }}</td>
+                <td>{{ x.ItemCode }}</td>
+                <td>{{ x.ItemType }}</td>
+                <td>{{ x.PPP }}</td>
+                <td>
+                  <button
+                    class="btn-submit-mini"
+                    @click="viewInfo(x.ItemID, x.PPP)"
+                  >
+ 
                     <i class="fa fa-eye"></i>
                   </button>
                 </td>
                 <td>
                   <button
                     class="btn-submit-mini"
+ 
                     @click="editPriceView(x.ItemID,x.ItemCategory[0].CategoryId)"
+ 
+                    @click="
+                      editPriceView(x.ItemID, x.ItemCategory[0].CategoryId)
+                    "
+ 
                   >
                     <i class="fas fa-edit"></i>
                   </button>
@@ -221,6 +351,7 @@
                 </td>
               </tr>
             </table>
+ 
                  <span >
                 <span class='prev'>
                     <button  v-if="page != 1" @click="page--"  class='btn-submit'>
@@ -237,6 +368,7 @@
                     </span>
                     
             </span>
+ 
           </fieldset>
         </div>
       </div>
@@ -250,7 +382,11 @@ import Category from "@/api_calls/Category.js";
 export default {
   name: "AddPurchase",
   components: {
+ 
     SubHeaderControl
+ 
+    SubHeaderControl,
+ 
   },
   data() {
     return {
@@ -264,6 +400,7 @@ export default {
       InventoryInfoVisible: false,
       InventoryInfoObj: [],
       historyInfo: [],
+ 
       tempHistoryInfo:[],
       HistoryInfoVisible: false,
       categoryList: [],
@@ -369,16 +506,62 @@ export default {
         });
       })
    
+ 
+      HistoryInfoVisible: false,
+      categoryList: [],
+      links: [
+        {
+          id: 0,
+          address: "item",
+          displayText: "Add Item",
+        },
+        {
+          id: 1,
+          address: "viewItem",
+          displayText: "Items",
+        },
+      ],
+    };
+  },
+  methods: {
+    getItems() {
+      Items.getItems().then((item) => {
+        this.items = item["data"];
+      });
+    },
+    removeItem(id) {
+      const data = {
+        ItemID: id,
+      };
+
+      Items.removeItem(data)
+        .then((res) => {
+          console.log(res["data"]);
+          this.items = this.items.filter((item) => {
+            return item.ItemID != id;
+          });
+        })
+        .catch((err) => {
+          alert(err.response.data.message);
+        });
+ 
     },
     viewInfo(id, ppp) {
       this.InventoryInfoVisible = true;
       this.editPPP = ppp;
       this.editableItem = id;
       Items.getInventoryInfo(id)
+ 
         .then(res => {
           this.InventoryInfoObj = res["data"];
         })
         .catch(err => {
+ 
+        .then((res) => {
+          this.InventoryInfoObj = res["data"];
+        })
+        .catch((err) => {
+ 
           alert(err.response.data.message);
         });
     },
@@ -390,12 +573,20 @@ export default {
       this.HistoryInfoVisible = true;
       this.historyInfo = [];
       Items.getInventoryHistoryInfo(id)
+ 
         .then(res => {
           this.historyInfo = res["data"];
           this.tempHistoryInfo = res["data"];
           console.log("check this", this.historyInfo);
         })
         .catch(err => {
+ 
+        .then((res) => {
+          this.historyInfo = res["data"];
+          console.log("check this", this.historyInfo);
+        })
+        .catch((err) => {
+ 
           alert(err.response.data.message);
         });
     },
@@ -405,7 +596,11 @@ export default {
     editPriceView(id, catId) {
       this.editPriceVisible = true;
       this.editableItem = id;
+ 
       const dt = this.items.filter(item => {
+ 
+      const dt = this.items.filter((item) => {
+ 
         return item.ItemID == id;
       })[0];
       console.log("check here", dt);
@@ -418,8 +613,13 @@ export default {
     },
     getCategories() {
       Category.getCategories()
+ 
         .then(res => (this.categoryList = res["data"]))
         .catch(err => {
+ 
+        .then((res) => (this.categoryList = res["data"]))
+        .catch((err) => {
+ 
           alert(err.response.data.message);
         });
     },
@@ -428,6 +628,7 @@ export default {
         CategoryID: this.editCategory,
         ItemCode: this.editCode,
         ItemType: this.editType,
+ 
         ItemId: this.editableItem
       };
       Items.updateItemDetails(data)
@@ -441,11 +642,24 @@ export default {
               this.editPriceVisible = false;
           this.$alert(err.response.data.message,"ERROR","error");
           alert();
+ 
+        ItemId: this.editableItem,
+      };
+      Items.updateItemDetails(data)
+        .then((res) => {
+          console.log(res["data"]);
+          this.getItems();
+          this.editPriceVisible = false;
+        })
+        .catch((err) => {
+          alert(err.response.data.message);
+ 
         });
     },
     updateItemPrice() {
       const data = {
         PPP: this.editPPP,
+ 
         ItemId: this.editableItem
       };
       Items.updateItemPrice(data)
@@ -504,11 +718,30 @@ export default {
             return this.paginateList(this.historyInfo);
             }
         },
+ 
+        ItemId: this.editableItem,
+      };
+      Items.updateItemPrice(data)
+        .then((res) => {
+          console.log(res["data"]);
+          this.getItems();
+          this.InventoryInfoVisible = false;
+        })
+        .catch((err) => {
+          alert(err.response.data.message);
+        });
+    },
+  },
+ 
   created() {
     console.log("here");
     this.getCategories();
     this.getItems();
+ 
   }
+ 
+  },
+ 
 };
 </script>
 <style>
