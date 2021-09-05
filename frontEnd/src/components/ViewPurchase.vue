@@ -250,16 +250,15 @@
             </table>
                         <span >
                 <span class='prev'>
-                    <button  v-if="page != 1" @click="page--"  class='btn-submit'>
+                    <button  v-if="pageList != 1" @click="pageList--"  class='btn-submit'>
                             Previous
                     </button>
                     </span>
                     <span class='number'>
-                      
-                        <button  class='btn-submit-page'  :key='pageNumber' v-for="pageNumber in pages.slice(page-1, page+5)" @click="page = pageNumber">{{pageNumber}}</button>
+                        <button  class='btn-submit-page'  :key='pageNumber' v-for="pageNumber in pagesList.slice(pageList-1, pageList+5)" @click="pageList = pageNumber">{{pageNumber}}</button>
                     </span>
                     <span class='next'>
-                        <button @click="page++" v-if="page < pages.length"  class='btn-submit'>
+                        <button @click="pageList++" v-if="pageList < pagesList.length"  class='btn-submit'>
                             Next
                         </button>
                     </span>
@@ -386,11 +385,13 @@ export default {
       filterView:false,
       editablePurchase: [],
       editDriverID: "",
+      pagesList:[],
       items: [],
       tempItems: [],
       purchaseEdit: [],
       page: 1,
-      perPage: 2,
+      pageList:1,
+      perPage: 5,
       pages: [],
       pagedItems:[],
       links: [
@@ -729,23 +730,28 @@ export default {
         this.filterView = false;
       }
       console.log("this is ", transaction);
+      this.setPages();
     },
     removePurchase(id) {
-      Purchase.removePurchase(id)
+      this.$confirm("are you sure? Deleting a purchase can not be undone").then(
+        ()=>{
+  Purchase.removePurchase(id)
         .then(res => {
+          this.$alert("Purchase Removed","SUCCESS",'success'); 
           this.items = this.items.filter(ele => {
             return ele.GRNNO != id;
           });
           console.log(res);
         })
         .catch(err => {
-          alert(err.response.data.message);
+          this.$alert(err.response.data.message,"ERROR",'error');
         });
+        }
+      )
+    
     },
     viewPurchaseItems(id) {
       this.listVisible = true;
-      this.pages = [];
-      this.setPagesList();
       this.purchaseItemsList = this.items.filter(item => {
         return item.GRNNO == id;
       })[0].Purchase;
@@ -753,7 +759,7 @@ export default {
     },
     closeList(state) {
       this.listVisible = state;
- 
+      this.setPagesList();
     },
     editPurchaseView(id) {
       this.editVisible = true;
@@ -779,9 +785,16 @@ export default {
       };
       //  console.log(data);
       Purchase.updateGRN(data)
-        .then(res => console.log(res))
+        .then(res => 
+        {
+        this.closeEditPurchase(false);
+        this.$alert("Purchase Updated","Success","success");
+        console.log(res)}
+        )
         .catch(err => {
-          alert(err.response.data.message);
+          this.closeEditPurchase(false);
+          this.$alert(err.response.data.message,"ERROR","error");
+
         });
     },
     editItemView(id, grn) {
@@ -814,24 +827,36 @@ export default {
       };
       Purchase.updatePurchase(data)
         .then(res => {
+          this.closeEditItem(false);
+          this.$alert("Purchase Item Updated","SUCCESS",'success');
           console.log(res["data"]);
         })
         .catch(err => {
+          this.closeEditItem(false);
+          this.$alert(err.response.data.message,"ERROR",'error');
           console.log(err);
         });
     },
     removeItem(id, grn) {
-      const data = {
+      this.closeList(false);
+      this.$confirm("Are you sure? deleting an Item can not be undone!").then(()=>{
+     const data = {
         PurchaseID: id,
         GRNNO: grn
       };
+
       Purchase.removeItem(data)
         .then(res => {
+         this.closeList(false);
+          this.$alert("Item Removed","SUCCES",'success');
           console.log(res["data"]);
         })
         .catch(err => {
-          alert(err.response.data.message);
+          this.closeList(false);
+          this.$alert(err.response.data.message,"ERROR",'error');
         });
+      })
+ 
     },
     getDriverList() {
       Driver.getDrivers()
@@ -843,16 +868,16 @@ export default {
         });
     },
     setPages () {
-      let numberOfPages = Math.ceil(this.items.length / this.perPage);
       this.pages = [];
+      let numberOfPages = Math.ceil(this.items.length / this.perPage);
       for (let index = 1; index <= numberOfPages; index++) {
         this.pages.push(index);
       }
     },setPagesList(){
-         this.pages = [];
+        this.pagesList = [];
         let numberOfPages = Math.ceil(this.purchaseItemsList.length / this.perPage);
         for (let index = 1; index <= numberOfPages; index++) {
-        this.pages.push(index);
+        this.pagesList.push(index);
       }
       },
     paginate (pagedItems) {
@@ -861,25 +886,27 @@ export default {
       let from = (page * perPage) - perPage;
       let to = (page * perPage);
       return  pagedItems.slice(from, to);
+    },paginateList(pagedItems){
+      let page = this.pageList;
+      let perPage = this.perPage;
+      let from = (page * perPage) - perPage;
+      let to = (page * perPage);
+      return  pagedItems.slice(from, to);
     }
   },  computed: {
     displayedItems () {
       return this.paginate(this.items);
-    },
-    displayedListItems(){
-        this.setPagesList();
-       return this.paginate(this.purchaseItemsList);
-    }
+    }, displayedListItems(){
+      return this.paginateList(this.purchaseItemsList) 
+    } 
   },
   watch: {
     items () {
       this.setPages();
     },
     purchaseItemsList(){
-        this.setPagesList();
-        console.log(this.pages);
+      this.setPagesList();
     }
-  
   },
   created() {
     this.getPurchase();
