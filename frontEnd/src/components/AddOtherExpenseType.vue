@@ -149,6 +149,7 @@ addOtherExpenseType(){
     };
     Expenses.addOtherExpenseType(data).then(res=>{
      this.items.push(data);   
+     this.$alert("Expense type Added!!","SUCCESS","success");
      console.los(res);
     }).catch(err=>{
         console.log(err.response);
@@ -156,11 +157,17 @@ addOtherExpenseType(){
 
 },
 removeOtherExpenseType(id){
-   
-    Expenses.removeOtherExpenseType(id).then(res=>{
+   this.$confirm("Are you Sure? Removing expense type can not be undone").then(()=>{
+        Expenses.removeOtherExpenseType(id).then(res=>{
         this.items=this.items.filter(item=>{return item.OEID != id});
+        this.$alert("Expense Type Removed!!","SUCCESS","success");
         console.log(res);
-    }).catch(err=>{alert(err.response.data.message)});
+    }).catch(err=>{
+        this.$alert(err.response.data.message,"ERROR","error");
+        });
+
+   })
+  
 },
 editFormView(id){
     this.editVisible = true;
@@ -183,9 +190,12 @@ updateExpenseType(){
         this.editDescription = '';
         this.editableType = '';
         this.editVisible = false;
+        this.$alert("Expense Type Updated!!","SUCCESS","success");
         this.getOtherExpenseType();
     }).catch(err=>{
-        alert(err.response.data.message);
+         this.editVisible = false;
+        this.$alert(err.response.data,"ERROR","error");
+
     })
 }
 },
