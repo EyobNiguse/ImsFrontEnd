@@ -87,17 +87,16 @@ export default {
       DriverPlate: "",
       items: [],
       links: [
-         {
-          id: 1,
-          address: "Driver",
-          displayText: "Drivers"
-        },
         {
           id: 0,
-          address: "addDriver",
+          address: "driver",
           displayText: "Add Driver"
+        },
+        {
+          id: 1,
+          address: "viewDriver",
+          displayText: "Drivers"
         }
-       
       ]
     };
   },
@@ -132,29 +131,24 @@ export default {
           this.editPlate = "";
           this.getDrivers();
           this.editVisible = false;
-          this.$alert(res.data.message,"SUCCESS","success");
         })
 .catch(err => {
-          this.$alert(err.response.data.message,"ERROR","error");
+          alert(err.response.data.message);
         });
     },editVisibleUpdate(state){
         this.editVisible = state;
     },removeDriver(id){
-      this.$confirm("Are you sure? Removing a driver can not be undone").then(()=>{
-               const data = 
+        const data = 
             {
     "DriverID":id
 }
         Driver.removeDriver(data).then(res=>{
             console.log(res["data"])
             this.items = this.items.filter(item=>{return item.DriverID != id});
-            this.$alert(res.data.message,"SUCCESS","success");
             
         }).catch(err=>{
-            this.$alert(err.response.data.message,"ERROR","error");
+            alert(err.response.data.message);
         })
-      })
- 
     }
   },
   created() {

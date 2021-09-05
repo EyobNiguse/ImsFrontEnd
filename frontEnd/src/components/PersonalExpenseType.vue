@@ -132,31 +132,24 @@ export default {
       };
       personalExpense.addExpenseType(data)
         .then(res => {
-          
+        
           console.log(res["data"]);
           this.getAllExpenseTypes();
-          this.$alert(res.data.message,"SUCCESS","success");
         })
         .catch(err => {
-          this.$alert(err.response.data.message,"ERROR","error");
           console.log(err.response);
-          });
+          alert(err.response.data.message);
+        });
     },
     removeExpenseType(id) {
-      this.$confirm("Are you sure? removing Type can not be undone!").then(()=>{
-           personalExpense.removeExpenseType(id)
+      personalExpense.removeExpenseType(id)
         .then(res => {
           this.expenseTypes = this.expenseTypes.filter(item => {
             return item.PEID != id;
           });
-          this.$alert(res.data.message,"SUCCESS","success");
           console.log(res);
         })
-        .catch(err =>{
-          this.$alert(err.response.data.message,"ERROR","error");
-          });
-      });
-     
+        .catch(err => alert(err.response.data.message));
     },
     getAllExpenseTypes() {
       personalExpense.getAllExpenseTypeList().then(res => {
@@ -191,11 +184,10 @@ export default {
             this.getAllExpenseTypes();
          this.editableType = "";
          this.editVisible = false;
-         this.$alert(res.data.message,"SUCCESS","success");
          this.editType = "";
         this.editDescription = "";
             }).catch(err=>{
-              this.$alert(err.response.data.message,"ERROR","error")
+                alert(err.response.data.message)
                 })
     },editVisibleUpdate(state){
         this.editVisible=state;
