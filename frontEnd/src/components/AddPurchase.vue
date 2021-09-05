@@ -141,7 +141,7 @@
                 <td>{{x.PurchaseType}}</td>
                 <td>{{x.Driver}}</td>
                 <td>
-                  <button class="btn-del" @click="removeItem($event)">X</button>
+                  <button class="btn-del" @click="removeItem($event)"> <i class="fas fa-trash-alt"></i></button>
                 </td>
               </tr>
             </table>
