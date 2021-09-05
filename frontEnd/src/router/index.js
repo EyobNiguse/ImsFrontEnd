@@ -128,24 +128,24 @@ const routes = [
         component:AddEmployees
       },{
       path:"customer",
-        name:"ADD CUSTOMER",
-        component:AddCustomer
+        name:"View CUSTOMER",
+        component:ViewCustomer
       },{
-       path:"viewCustomer",
-       name:"view customer",
-       component:ViewCustomer 
+       path:"addCustomer",
+       name:"Add customer",
+       component:AddCustomer 
       },{
         path:"viewEmployees",
         name:"ViewEmployees",
         component:ViewEmployees
       },{
        path:"itemCategory",
-       name:"Add Item Category",
-       component:AddItemCategory
+       name:"View Item Category",
+       component:viewCategories
       },{
-        path:"viewCategory",
-        name:"View Category",
-        component:viewCategories
+        path:"addCategory",
+        name:"Add Item Category",
+        component:AddItemCategory
       },{
         path:"expenses",
         name:"Expenses",
@@ -222,13 +222,13 @@ const routes = [
         component:AddExpenseType
       },{
         path:"item",
-        name:"AddItem",
-        component:AddItem,
+        name:"View Item",
+        component:ViewItem,
 
       },{
-        path:"viewItem",
+        path:"addItem",
         name:"AddItem",
-        component:ViewItem,
+        component:AddItem,
 
       },{
         path:"banks",

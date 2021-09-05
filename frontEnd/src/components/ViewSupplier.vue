@@ -135,6 +135,13 @@
 
             </table>
              </vue-window-modal>
+     <fieldset class="view-items-container">
+
+                       <legend> <h3>Search Suppliers</h3></legend>
+                            Search By Name:    
+                           <input v-model="nameFilter"  @input="filter" type="text" class='txt-input' placeholder="Enter Name">
+                         
+</fieldset>
                 <fieldset class="view-items-container">
                     <legend> <h3> Suppliers </h3></legend>
                     <table class="view-items">
@@ -161,7 +168,7 @@
                             </th>
                           
                         </tr>
-                      <tr  :name="x.SupplierID" v-bind:key="index" v-for="(x,index) in items">  
+                      <tr  :name="x.SupplierID" v-bind:key="index" v-for="(x,index) in displayedSuppliers">  
                           <td> {{x.SupplierName}}</td>
                           <td>{{x.SupplierAddress}}</td>
                           <td>{{x.SupplierPhoneNumber}}</td>
@@ -171,6 +178,22 @@
                       
                       </tr>
                     </table>
+                             <span >
+                <span class='prev'>
+                    <button  v-if="page != 1" @click="page--"  class='btn-submit'>
+                            Previous
+                    </button>
+                    </span>
+                    <span class='number'>
+                        <button  class='btn-submit-page'  :key='pageNumber' v-for="pageNumber in pages.slice(page-1, page+5)" @click="page = pageNumber">{{pageNumber}}</button>
+                    </span>
+                    <span class='next'>
+                        <button @click="page++" v-if="page < pages.length"  class='btn-submit'>
+                            Next
+                        </button>
+                    </span>
+                    
+            </span>
                 </fieldset>
                 </div>
             </div>
@@ -200,11 +223,16 @@ export default {
        editAddress:'',
        editPhone:'',
        editTin:'',
+       pages:[],
+       page:1,
+       perPage: 5,
        editSupplierBankVisible:false,
        "items":[],
        "bankDetails":[],
        bankNameAdd:'',
+       nameFilter:'',
        bankAccoutAdd:'',
+       tempItems:[],
        links:
                [
                         {
@@ -221,14 +249,26 @@ export default {
    }
     },
     methods:{
-    
+    setPages () {
+      this.pages = [];
+      let numberOfPages = Math.ceil(this.items.length / this.perPage);
+      for (let index = 1; index <= numberOfPages; index++) {
+        this.pages.push(index);
+      }
+      },
+    paginate (pagedItems) {
+      let page = this.page;
+      let perPage = this.perPage;
+      let from = (page * perPage) - perPage;
+      let to = (page * perPage);
+      return  pagedItems.slice(from, to);
+        },
       visibleFormCrudUpdate(state){
           this.visibleFormCrud = state;
                         
       },
       showDetail(id){
-         
-          const sb = (this.items.filter(item=>item.SupplierID == id))
+        const sb = (this.items.filter(item=>item.SupplierID == id))
         this.bankDetails = sb[0].sb;
         this.visibleFormCrud = true;
       },
@@ -243,17 +283,17 @@ export default {
                   "BankName":this.bankNameAdd
            }
            Supplier.addBankAccount(data).then(res=>{
+                this.addBankVisible = false;
+                this.$alert("Bank Account Added!!","SUCCESS",'success');
                console.log(res["data"])
-                    this.supplierAddBank='';
+                 this.supplierAddBank='';
                   this.bankAccoutAdd='';
                   this.bankNameAdd ='';
-                  this.addBankVisible = false;
-              Supplier.getSuppliers().then(item=>{
-                this.items = item["data"];            
-            });
-                    this.supplierAddBank = "";
-                    this.bankAccoutAdd = "";
-                    this.bankNameAdd = "";
+                 
+                  this.getSuppliers();
+                  this.supplierAddBank = "";
+                  this.bankAccoutAdd = "";
+                  this.bankNameAdd = "";
                }).catch(err=>{
                alert(err.response.data.message);
            })
@@ -279,7 +319,13 @@ export default {
              "BankAccountNumber": this.editBankNumber,
              "BankName": this.editBankName
            }
-           Supplier.updateSupplierBank(data).then(res=>console.log(res)).catch(err=>alert(err.response.data.message));
+           Supplier.updateSupplierBank(data).then(res=>{
+               this.EditBankVisible(false);
+               this.$alert("Supplier Bank Updated!","SUCCESS",'success');
+               console.log(res)}).catch(err=>{
+                 this.EditBankVisible(false);
+                 this.$alert(err.response.data.message,"ERROR",'error');   
+                });
             this.bankEditId="";
             this.editBankNumber="";
             this.editBankName="";
@@ -310,6 +356,8 @@ export default {
            }
 
         Supplier.updateSupplier(data).then(res=>{
+           this.closeEditSupplier(false);
+           this.$alert("Supplier Updated!!","SUCCESS",'success');
            console.log(res["data"])
            this.editSupplierVisible = false;
            this.editableSupplier = "";
@@ -317,34 +365,76 @@ export default {
            this.editAddress = "";
            this.editTin = "";
            this.editPhone = "";
-           Supplier.getSuppliers().then(item=>{
-                this.items = item["data"];            
-            });
+           this.getSuppliers();
         }).catch(err=>{
-            alert(err.response.data.message)
+            this.closeEditSupplier(false);
+           this.$alert(err.response.data.message,"ERROR",'error');
         })
        
 }        , removeSupplier(id){
              const data = {
                  "SupplierID":id
              }
-            Supplier.removeSupplier(data).then(res=>console.log(res)).catch(err=>alert(err.response.data.message));
+             this.$confirm("Are you sure? Deleting a Supplier can not be Undone!!").then(
+                 ()=>{
+            Supplier.removeSupplier(data).then(res=>{
+                this.$alert("Supplier Deleted","SUCCES",'success');
                 this.items =  this.items.filter(itm=>{return itm.SupplierID != id});
+                console.log(res);
+                }).catch(err=>{
+                this.$alert(err.response.data.message,"ERROR",'error');
+                });
+              
+                 }
+             )
+
                 } ,
                 removeSupplierBank(id){
-                    Supplier.removeSupplierBank(id).then(res=>{
-                        console.log(res["data"]);
+                       this.visibleFormCrudUpdate(false);
+                    this.$confirm("Are you Sure? removing a bank Account can not be Undone!!").then(()=>{
+                            Supplier.removeSupplierBank(id).then(res=>{
+                            this.visibleFormCrudUpdate(false);
+                            this.$alert("Bank Account Removed!","SUCCESS",'success');
+                            console.log(res["data"]);
                         this.bankDetails = this.bankDetails.filter(bnk=>{return bnk.BankAccountID != id});
-                    }).catch(err=>alert(err.response.data.message))
+                    }).catch(err=>{
+                        this.visibleFormCrudUpdate(false);
+                            this.$alert(err.response.data.message,"ERROR",'error');
+                        })
+                        })
+       
                 }
-    
+      ,filter(){
+          console.log("this",this.nameFilter);
+            if(this.nameFilter !=""){
+               
+                this.items =  this.tempItems.filter(item=>{
+                    console.log(item.SupplierName);
+                return item.SupplierName.includes(this.nameFilter) == true;
+                })
+            }else{
+                this.items =  this.tempItems;
+            }
+      },getSuppliers(){
+            Supplier.getSuppliers().then(item=>{
+                this.items = item["data"];    
+                this.tempItems = item["data"];        
+            });
+      }
+        } , computed:{
+            displayedSuppliers(){
+                return this.paginate(this.items);
+            }
+        }, watch:{
+            items() {
+                this.setPages();
+            }
+
         },
         created(){
-       
+       this.getSuppliers();
             
-            Supplier.getSuppliers().then(item=>{
-                this.items = item["data"];            
-            });
+          
         }
 }
 </script>

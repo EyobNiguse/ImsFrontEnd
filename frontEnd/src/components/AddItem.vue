@@ -47,20 +47,21 @@ export default {
                     ItemCode:'',
                     ItemType:'',
                     PPP:'' ,
+                  
       CategoryNames:[],
        links:
                [
-                   {    
-                       id:0,
-                       address:"item",
-                       displayText:"Add Item"
-                   },
-                   {
+                      {
                     id:1,
-                    address:"viewItem",
+                    address:"Item",
                     displayText:"Items",
                  
-                   }
+                   },{    
+                       id:0,
+                       address:"addItem",
+                       displayText:"Add Item"
+                   },
+                
                ]
    }
     },
@@ -76,7 +77,13 @@ export default {
       }
 
       
-        Items.addItem(data).then(res=>console.log(res));
+        Items.addItem(data).then(res=>{
+            this.$alert("Item Added!!","SUCCESS","success");
+            console.log(res)}).catch(
+            err=>{
+            this.$alert(err.response.data.message,"ERROR","error");
+            }
+        );
 
       
  

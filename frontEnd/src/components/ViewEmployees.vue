@@ -42,6 +42,7 @@
                          </table>
                          </form>          
                          </vue-window-modal>
+                    
                 <fieldset class="view-items-container">
                     <legend> <h3> Employees </h3></legend>
                     <table class="view-items">
@@ -119,12 +120,18 @@ export default {
 
 
     }, removeEmployee(id){
-    Employees.removeEmployee(id).then(res=>{
-        console.log(res["data"])
+        this.$confirm("Are you sure? Deleting an employee can not be Undone!").then(
+()=>{
+      Employees.removeEmployee(id).then(res=>{
+        this.$alert("Emloyee Removed Successfully",'SUCCESS','success');
+       
         this.items = this.items.filter(item=>{return item.EmployeeID != id});
+         console.log(res);
         }).catch(err=>{
-        alert(err.response.data.message);
-    })
+            this.$alert(err.response.data.message,'ERROR','error');
+            })}
+        )
+  
     }, updateEmployee(){
         const data = {
     "EmployeeName":this.editName,
@@ -132,21 +139,28 @@ export default {
     "EmployeeAddress":this.editAddress,
     "EmployeeId":this.employeeEditable[0].EmployeeID
 }
-       Employees.updateEmployee(data).then(res=>console.log(res["data"])).catch(err=>{
-           alert(err.response.data.message);
+       Employees.updateEmployee(data).then(res=>{
+           this.closeUpdate(false);
+           this.$alert("Employee updated","SUCCESS",'success');
+           this.getEmployees();
+
+           console.log(res["data"])}).catch(err=>{
+            this.closeUpdate(false);
+            this.$alert(err.response.data.message,"ERROR",'error');
        }) 
     }, closeUpdate(state){
             this.editVisible = state;
-        }
         },
-        created(){
-            console.log("here")
-            
+        getEmployees(){
             Employees.getEmployees().then(item=>{
                 this.items = item["data"];
                 
                 
             });
+        }
+        },
+        created(){
+          this.getEmployees();
         }
 }
 </script>

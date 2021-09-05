@@ -225,7 +225,7 @@ export default {
           console.log(singleOrder);
 
           if (singleOrder[0] == this.ItemType) {
-            this.$alert("an  entry with the same ItemType  can not be repeated","ERROR",'error');
+            this.$alert("an  entry with the same Item Type  must not be repeated","ERROR",'error');
             repeated = true;
             break;
           }

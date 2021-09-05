@@ -37,16 +37,16 @@ export default {
            
            links:
                [
-                   {    
+                    {
+                    id:1,
+                    address:"itemCategory",
+                    displayText:"Categories"
+                   },{    
                        id:0,
-                       address:"itemCategory",
+                       address:"addCategory",
                        displayText:"Add Category"
                    },
-                   {
-                    id:1,
-                    address:"viewCategory",
-                    displayText:"Categories"
-                   }
+                  
                ]
            
         }
@@ -59,7 +59,11 @@ export default {
     
             }
            console.log(data);
-            Categories.addCategory(data).then(res=>console.log(res)).catch(err=>console.log(err));
+            Categories.addCategory(data).then(res=>{
+                this.$alert("Item Category Added","SUCCESS",'success');
+                console.log(res)}).catch(err=>{
+                        this.$alert(err.reponse.data.message,"ERROR",'error');
+                    });
         }
     }
     

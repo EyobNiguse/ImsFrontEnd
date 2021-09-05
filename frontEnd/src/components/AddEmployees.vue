@@ -71,7 +71,11 @@ export default {
     "EmployeeUserName": this.employeeUserName
             }
            console.log(data);
-            Employees.addEmployee(data).then(res=>console.log(res)).catch(err=>console.log(err));
+            Employees.addEmployee(data).then(res=>{
+                this.$alert("Employee Added!!","SUCCESS",'success')
+                console.log(res)}).catch(err=>{
+                    this.$alert(err.response.data.message,'ERROR','error');
+                    });
         }
     }
     
