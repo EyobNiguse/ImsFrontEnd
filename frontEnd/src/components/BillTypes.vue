@@ -133,29 +133,22 @@ export default {
       Bill.addBillType(data)
         .then(res => {
           this.billTypes.push(data);
-          this.$alert(res.data.message,"SUCCESS","success");
           console.los(res);
         })
         .catch(err => {
-          this.$alert(err.response.data.message,"ERROR","error");
+          console.log(err.response);
+          alert(err.response.data.message);
         });
     },
     removeBillType(id) {
-      this.$confirm("Are you sure? Removing type can not be undone!!").then(()=>{
-            Bill.removeBillType(id)
+      Bill.removeBillType(id)
         .then(res => {
           this.billTypes = this.billTypes.filter(item => {
             return item.BID != id;
           });
-          this.$alert(res.data.message,"SUCCESS","success");
-          this.getAllExpenseList();
           console.log(res);
         })
-        .catch(err => {
-          this.$alert(err.response.data.message,"ERROR","error");
-          });
-      })
-    
+        .catch(err => alert(err.response.data.message));
     },
     getAllBillTypes() {
       Bill.getAllBillTypes().then(res => {
@@ -194,13 +187,10 @@ export default {
             this.getAllBillTypes();
          this.editableType = "";
          this.editVisible = false;
-         this.$alert(res.data.message,"SUCCESS","success");
          this.editType = "";
         this.editDescription = "";
             }).catch(err=>{
-             
-             this.$alert(err.response.data.message,"ERROR","error");
-
+                alert(err.response.data.message)
                 })
     },editVisibleUpdate(state){
         this.editVisible=state;

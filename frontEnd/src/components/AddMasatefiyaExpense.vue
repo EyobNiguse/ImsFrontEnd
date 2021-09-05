@@ -71,43 +71,13 @@ Cost
            
             </fieldset>
             <fieldset class="view-items-container">
-                <legend>
-                    <h3>
-                        Search  Expense
-                    </h3>
-                </legend>
-                <table>
-                    <tr>
-                        <td>From</td>
-                        <td>TO</td>
-                        <td>REFNO</td>
-                        <td>  
-                            <button @click="clearForm"  class="btn-submit-mini">
-                                x
-                            </button>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>
-                            <input  @change="filter"  v-model="dateFilterLower" type="date" >
-                        </td>
-                        <td>
-                            <input  @change="filter" v-model="dateFilterUpper" type="date" >
-                        </td>
-                        <td>
-                            <input  @input="filter"  v-model="refFilter"  type="number" class="txt-input" placeholder="REFNO">
-                        </td>
-                    </tr>
-                </table>
-            </fieldset>
-            <fieldset class="view-items-container">
                     <legend> <h3> Expenses </h3></legend>
                     <table class="view-items">
                         <tr class="view-items-header">
                             <th>
                                 Date
                             </th>
-                            <th @click="sortCost" style="cursor:pointer">
+                            <th>
                                 Cost
                             </th>
                             <th>
@@ -118,7 +88,7 @@ Cost
                             </th> 
                           
                         </tr>
-                      <tr  :name="x.MID" v-bind:key="index" v-for="(x,index) in displayedItems">  
+                      <tr  :name="x.MID" v-bind:key="index" v-for="(x,index) in items">  
                           <td>{{x.Date}}</td>
                           <td>{{x.Cost}}</td>
                           <td>{{x.REFNO}}</td>
@@ -126,22 +96,6 @@ Cost
                    
                       </tr>
                     </table>
-                                     <span>
-                <span class='prev'>
-                    <button  v-if="page != 1" @click="page--"  class='btn-submit'>
-                            Previous
-                    </button>
-                    </span>
-                    <span class='number'>
-                        <button  class='btn-submit-page'  :key='pageNumber' v-for="pageNumber in pages.slice(page-1, page+5)" @click="page = pageNumber">{{pageNumber}}</button>
-                    </span>
-                    <span class='next'>
-                        <button @click="page++" v-if="page < pages.length"  class='btn-submit'>
-                            Next
-                        </button>
-                    </span>
-                    
-            </span>
                 </fieldset>
             </div>
          
@@ -157,16 +111,8 @@ components:{
     SubHeaderControl
 } ,
 data(){
-    return{  
-        clicked:true, 
+    return{   
         items:[],
-        tempItems:[],
-        page:1,
-        pages:[],
-        perPage:5,
-        dateFilterLower:'',
-        dateFilterUpper:'',
-        refFilter:'',
         editableExpense:'',
         editableRef:'',
         editVisible:false,
@@ -200,69 +146,9 @@ data(){
     ]
 }},
 methods:{
-    setPages () {
-      this.pages = [];
-      let numberOfPages = Math.ceil(this.items.length / this.perPage);
-      for (let index = 1; index <= numberOfPages; index++) {
-        this.pages.push(index);
-      }
-    },
-    paginate (pagedItems) {
-      let page = this.page;
-      let perPage = this.perPage;
-      let from = (page * perPage) - perPage;
-      let to = (page * perPage);
-      return  pagedItems.slice(from, to);
-    },
-  sortCost(){
-  if(this.clicked){
-  this.items =  this.tempItems.sort((a,b)=>(a.Cost > b.Cost) ? 1 : -1);  
-
-  }else{
-  this.items = this.tempItems.sort((a,b)=>(a.Cost < b.Cost) ? 1 : -1);    
- 
-  }
-this.clicked = !this.clicked;
- 
-  console.log(this.clicked);
-
-
-}   ,
-    clearForm(){
-        this.dateFilterLower = "";
-        this.dateFilterUpper ="";
-        this.filter();
-    },
-filter(){
-    // one Variable
-    if(this.dateFilterLower != ""){
-        this.items = this.tempItems.filter(item=>{
-            return item.Date == this.dateFilterLower
-        });
-    }
-    if(this.refFilter !=""){
-        this.items = this.tempItems.filter(item=>{
-            // console.log(item.REFNO.includes(this.refFilter) );
-            return item.REFNO == this.refFilter;
-        });
-    }
-    //two variable
-    if(this.dateFilterLower !="" && this.dateFilterUpper !=""){
-        this.items = this.tempItems.filter(item=>{
-            const d1 =  new Date(this.dateFilterUpper);
-            const d2 = new Date(item.Date);
-            const d3 = new Date(this.dateFilterLower);
-            return d3 < d2 && d2 < d1; 
-        });
-    }
-    if(this.dateFilterLower == "" && this.dateFilterUpper == "" && this.refFilter == ""){
-        this.items = this.tempItems;
-    }
-},
 getMasatefiyaExpense(){
     Expenses.getMasatefiyaExpense().then(res=>{
        this.items = res["data"];
-       this.tempItems = res["data"];
     })
 },
 addMasatefiyaExpense(){
@@ -273,26 +159,19 @@ addMasatefiyaExpense(){
     };
     Expenses.addMasatefiyaExpense(data).then(res=>{
      this.items.push(data);
-     this.$alert("Expense Added!!","SUCCESS","success");
      console.log(res);
   
     }).catch(err=>{
-        this.$alert(err.response.data.message,"ERROR","error");
-        });
+        console.log(err);
+        alert(err.response.data.message)});
 
 },
 removeMasatefiyaExpense(e){
-    this.$confirm("Are you sure? removing Expense can not be undone").then(()=>{
- const id= e.target.parentNode.parentNode.getAttribute("name");
+    const id= e.target.parentNode.parentNode.getAttribute("name");
     Expenses.removeMasatefiyaExpense(id).then(res=>{
         this.items=this.items.filter(item=>{return item.MID != id});
-        this.$alert("Expense removed!!","SUCCESS","success");
         console.log(res);
-    }).catch(err=>{
-        this.$alert(err.response.data.message,"ERROR","error");
-        console.log(err)});
-    })
-   
+    }).catch(err=>console.log(err));
 },
 updateExpenseView(id,rfno){
  
@@ -316,20 +195,10 @@ updateEditVisible(state){
         console.log(res["data"])
         this.getMasatefiyaExpense();
         this.editVisible = false;
-        this.$alert("Expense Updated!!","SUCCESS","success");
     }).catch(err=>{
-        this.editVisible = false;
-        this.$alert(err.response.data.messagem,"ERROR","error");
+        alert(err.response.data.message)
     })
 }
-},watch:{
-    items (){
-        this.setPages();
-    }
-},computed:{
-    displayedItems(){
-        return this.paginate(this.items);
-    }
 },
 created(){
 this.getMasatefiyaExpense();

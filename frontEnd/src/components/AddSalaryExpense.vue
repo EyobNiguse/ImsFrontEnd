@@ -73,26 +73,13 @@
            
             </fieldset>
             <fieldset class="view-items-container">
-                <legend>
-                    <h3>
-                        Search Expense
-                    </h3>
-                </legend>
-                Filter By Name:
-                 <select  @change="filter" v-model="employeeFilter" class="txt-input">
-                      <option value=""> -- select Employee -- </option>
-                        <option  :key="x.EmployeeID" v-for="x in EmployeeList" :value="x.EmployeeID">{{x.EmployeeName}}</option>
-                    </select>
-                
-            </fieldset>
-            <fieldset class="view-items-container">
                     <legend> <h3> Expenses </h3></legend>
                     <table class="view-items">
                         <tr class="view-items-header">
                             <th>
                                 Date
                             </th>
-                            <th @click="sortCost" style="cursor:pointer;">
+                            <th>
                                 Cost
                             </th>
                             <th>
@@ -103,7 +90,7 @@
                             </th> 
                           
                         </tr>
-                      <tr  :name="x.SalaryID" v-bind:key="index" v-for="(x,index) in displayedItems">  
+                      <tr  :name="x.SalaryID" v-bind:key="index" v-for="(x,index) in items">  
                           <td>{{x.Date}}</td>
                           <td>{{x.Cost}}</td>
                           <td>{{getEmployeeName(x.EmployeeID)}}</td>
@@ -111,22 +98,6 @@
                    
                       </tr>
                     </table>
-                         <span>
-                <span class='prev'>
-                    <button  v-if="page != 1" @click="page--"  class='btn-submit'>
-                            Previous
-                    </button>
-                    </span>
-                    <span class='number'>
-                        <button  class='btn-submit-page'  :key='pageNumber' v-for="pageNumber in pages.slice(page-1, page+5)" @click="page = pageNumber">{{pageNumber}}</button>
-                    </span>
-                    <span class='next'>
-                        <button @click="page++" v-if="page < pages.length"  class='btn-submit'>
-                            Next
-                        </button>
-                    </span>
-                    
-            </span>
                 </fieldset>
             </div>
          
@@ -145,12 +116,6 @@ components:{
 data(){
     return{   
         items:[],
-        tempItems:[],
-        page:1,
-        pages:[],
-        perPage:5,
-        employeeFilter:'',
-        clicked:true,
         editableExpense:'',
         editDate:'',
         editCost:'',
@@ -184,49 +149,11 @@ data(){
             }
     ]
 }},
-methods:{  
-    filter(){
-        if(this.employeeFilter !=""){
-            this.items = this.tempItems.filter(item=>{
-            return item.EmployeeID == this.employeeFilter
-        })
-        }else{
-            this.items = this.tempItems;
-        }
-       
-    },
-setPages () {
-      this.pages = [];
-      let numberOfPages = Math.ceil(this.items.length / this.perPage);
-      for (let index = 1; index <= numberOfPages; index++) {
-        this.pages.push(index);
-      }
-    },
-    paginate (pagedItems) {
-      let page = this.page;
-      let perPage = this.perPage;
-      let from = (page * perPage) - perPage;
-      let to = (page * perPage);
-      return  pagedItems.slice(from, to);
-    },
-    sortCost(){
-  if(this.clicked){
-  this.items =  this.tempItems.sort((a,b)=>(a.Cost > b.Cost) ? 1 : -1);  
-
-  }else{
-  this.items = this.tempItems.sort((a,b)=>(a.Cost < b.Cost) ? 1 : -1);    
- 
-  }
-this.clicked = !this.clicked;
- 
-  console.log(this.clicked);
-
-
-},
+methods:{
 getSalaryExpense(){
     Expenses.getSalaryExpense().then(res=>{
+       console.log(res);
        this.items = res["data"];
-       this.tempItems = res["data"];
     })
 },
 addSalaryExpense(){
@@ -237,27 +164,18 @@ addSalaryExpense(){
     };
     Expenses.addSalaryExpense(data).then(res=>{
      this.items.push(data);   
-     this.$alert("Expense Added!!","SUCCESS","success");
      console.los(res);
     }).catch(err=>{
-     this.$alert(err.response.data.message,"ERROR","error");
-    });
+        console.log(err.response);
+        alert(err.response.data)});
 
 },
 removeSalaryExpense(e){
-    this.$confirm("Are you sure?  removing a salary can not be Undone").then(()=>{
-         const id= e.target.parentNode.parentNode.getAttribute("name");
+    const id= e.target.parentNode.parentNode.getAttribute("name");
     Expenses.removeSalaryExpense(id).then(res=>{
         this.items=this.items.filter(item=>{return item.SalaryID != id});
-        this.$alert("Salary Removed!!","SUCCESS","success");
-        
         console.log(res);
-    }).catch(err=>{
-        this.$alert(err.response.data.message,"ERROR","error");
-
-    });
-    })
-   
+    }).catch(err=>console.log(err));
 },
 getEmployees(){
 Employees.getEmployees().then(res=>{this.EmployeeList = res["data"];}
@@ -288,7 +206,6 @@ for(const x in this.EmployeeList){
         "SalaryID":this.editableExpense,
     }
     Expenses.updateSalary(data).then(res=>{
-     
       console.log(res["data"])
       this.editDate = '';
       this.editCost='';
@@ -296,21 +213,10 @@ for(const x in this.EmployeeList){
       this.editableExpense = "";
       this.getSalaryExpense();
       this.editVisible = false;
-      this.$alert("Salary Updated !!","SUCCESS","success")
 }).catch(err=>{
-    
-    this.$alert(err.response.data.message,"ERROR","error");
-        
+        alert(err.response.data.message);
     })
 }
-},watch:{
-    items (){
-        this.setPages();
-    }
-},computed:{
-    displayedItems(){
-        return this.paginate(this.items);
-    }
 },
 created(){
 this.getSalaryExpense();

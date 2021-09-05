@@ -211,11 +211,11 @@ const routes = [
       {
         path:"driver",
         name:"Deriver",
-        component:ViewDriver
-      },{
-        path:"addDriver",
-        name:"Deriver",
         component:AddDeriver
+      },{
+        path:"viewDriver",
+        name:"Deriver",
+        component:ViewDriver
       },{
         path:"addType",
         name:"AddType",
