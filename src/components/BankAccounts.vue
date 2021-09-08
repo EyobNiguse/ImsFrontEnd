@@ -60,6 +60,10 @@
                 <h3>Amount</h3>
               </label>
               <input v-model="Amount" type="number" class="txt-input" placeholder="Amount" />
+             <label for="amount">
+                <h3>Description</h3>
+              </label>
+              <input v-model="Description" type="text" class="txt-input" placeholder="Description" />
               <button class="btn-submit" type="submit">Add</button>
             </form>
           </vue-window-modal>
@@ -91,6 +95,7 @@
                 <th>Date</th>
                 <th>Deposit</th>
                 <th>WithDraw</th>
+                <th>Description</th>
                 <th>Del</th>
               </tr>
               <tr :key="x.BTID" v-for="x in displayedDetails">
@@ -99,6 +104,7 @@
                 <td>{{x.TransactionIN || "-"}}</td>
 
                 <td>{{x.TransactionOUT || "-"}}</td>
+                <td> {{x.Description}}  </td>
                 <td>
                   <button @click="removeTransaction(x.BTID)" class="btn-err">
                     <i class="fas fa-trash-alt"></i>
@@ -175,6 +181,7 @@ export default {
   },
   data() {
     return {
+      Description:'',
       Amount: "",
       editBankVisible:false,
       editableBank:'',
@@ -284,16 +291,20 @@ export default {
         PBID: this.tempTransactionID,
         Amount: this.Amount,
         TransactionType: this.TransactionType,
-        Date: this.transactionDate
+        Date: this.transactionDate,
+        Description:this.Description,
+          
       };
       BankAccounts.addTransaction(data)
         .then(res => {
           console.log(res);
           this.getMyAccounts();
-            this.visibleAdd =false;
+          this.$alert("Transaction Added!","SUCCESS","success")
+          this.visibleAdd =false;
         })
         .catch(err => {
-          alert(err.response.data.message);
+          this.$alert(err.response.data.message,"ERROR","error");
+        
         });
     },
     removeBank(id) {
@@ -316,21 +327,30 @@ export default {
    
     },
     removeTransaction(id) {
-      const data = {
+      this.$confirm("Are you sure? removing a Transaction can not be undone!").then(()=>{
+        
+           const data = {
         BTID: id
       };
       BankAccounts.removeTransaction(data)
         .then(res => {
+          this.visibleFormCrud = false;
+          this.$alert("Transaction Removed!!","SUCCESS","success");
           console.log(res);
           this.Transaction = this.Transaction.filter(item => {
             return item.BTID != id;
           });
-          this.visibleFormCrud = false;
+      
           this.getMyAccounts();
         })
         .catch(err => {
-          alert(err.response.data.message);
+           this.visibleFormCrud = false;
+          this.$alert(err.response.data.message,"ERROR","error");
+        
         });
+        
+        });
+   
     },updateBankView(id){
         this.editBankVisible = true;
         this.editableBank  =id;

@@ -153,7 +153,7 @@ ItemsList:[],
          },{
              id:1,
              address:"shipTowareHouse",
-             displayText:"Ship  WareHouse"
+             displayText:"Transfer To Store"
          }
      ]
  }

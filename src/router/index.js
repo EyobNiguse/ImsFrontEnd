@@ -67,7 +67,7 @@ const routes = [
       },{
         path:"orders",
         name:"orders",
-        component:AddOrder
+        component:ViewOrder
       },{
         path:"addOrder",
         name:"AddOrder",
@@ -84,10 +84,6 @@ const routes = [
       },{
         path:"sales",
         name:"sales",
-        component:AddSales
-      },{
-        path:"viewSales",
-        name:"ViewSales",
         component:ViewSales
       },{
         path:"addSales",

@@ -33,9 +33,7 @@
 </form>
 </vue-window-modal>
 <!-- /add grn settlement -->
-
-
-        <!-- view hdetails pop up -->
+<!-- view hdetails pop up -->
 <vue-window-modal :active="listVisible" title="Credit Transaction" v-on:clickClose="listVisibleUpdate(false)" style="width:auto;height:auto;">
 <table class="view-items">
 <tr class="view-items-header">
@@ -111,6 +109,41 @@
         </vue-window-modal>
     
         <!-- /edit Credit pop up -->
+            <fieldset class="view-items-container" style="margin-top:30px">
+                <legend>
+                    <h3>
+                        Search Settelements
+                    </h3>
+                </legend>
+                <table>
+                    <tr>
+                        <td>
+                            From
+                        </td>
+                        <td>
+                            To
+                        </td>
+                        <td>ReFno</td>
+                        <td>
+                            <button @click="clearForm" class="btn-submit-mini">
+                                X
+                            </button>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <input  @change="filter" v-model="dateFilterLower"  type="date">
+                        </td>
+                        <td>
+                            <input @change="filter"   type="date" v-model="dateFilterUpper">
+                        </td>
+                        <td>
+                                <input   @input="filter" v-model="refFilter" type="number">
+
+                        </td>
+                    </tr>
+                </table>
+            </fieldset>
                <div class="router-view">
             <div class="add-purchase">
    
@@ -125,10 +158,10 @@
                                  <th>
                                 PurchasedDate
                             </th>
-                            <th>
+                            <th @click="sortTotal" style="cursor:pointer;"> 
                                 Total
                             </th>
-                            <th>
+                            <th @click="sortPaid" style="cursor:pointer">
                                     Paid
                             </th>
                           
@@ -137,7 +170,7 @@
                             </th>
                           
                         </tr>
-                      <tr   v-bind:key="x.GRNNO" v-for="(x) in creditSettlements"> 
+                      <tr   v-bind:key="x.GRNNO" v-for="(x) in displayedItems"> 
                           <td>
                          {{x.GRNNO}}     
                          </td> 
@@ -155,6 +188,22 @@
                    
                       </tr>
                     </table>
+                       <span >
+                <span class='prev'>
+                    <button  v-if="page != 1" @click="page--"  class='btn-submit'>
+                            Previous
+                    </button>
+                    </span>
+                    <span class='number'>
+                        <button  class='btn-submit-page'  :key='pageNumber' v-for="pageNumber in pages.slice(page-1, page+5)" @click="page = pageNumber">{{pageNumber}}</button>
+                    </span>
+                    <span class='next'>
+                        <button @click="page++" v-if="page < pages.length"  class='btn-submit'>
+                            Next
+                        </button>
+                    </span>
+                    
+            </span>
                 </fieldset>
             </div>
          
@@ -172,6 +221,13 @@ components:{
 } ,
 data(){
     return{
+        dateFilterLower:'',
+        dateFilterUpper:'',
+        refFilter:'',
+        pages:[],
+        page:1,
+        perPage:5,
+        clicked:true,
         addVisible:false,
         addDate:'',
         addPayment:'',
@@ -187,10 +243,10 @@ data(){
         editableCredit:'',
         editDate:'',
         editmainder:'',
-        items:[],
+        tempItems:[],
         billDate:'',
         Suppliers:[],
-        creditSettlements:[],
+        items:[],
        Cost:'',
         
         
@@ -207,7 +263,62 @@ data(){
     ]
 }},
 methods:{
+clearForm(){
+this.dateFilterLower = "";
+this.dateFilterUpper = "";
+this.refFilter =  "";
+this.filter();
+},
+ sortPaid(){
+   if(this.clicked){
+  this.items =  this.tempItems.sort((a,b)=>(a.Paid > b.Paid) ? 1 : -1);  
+
+  }else{
+  this.items = this.tempItems.sort((a,b)=>(a.Paid < b.Paid) ? 1 : -1);    
  
+  }
+this.clicked = !this.clicked;
+ 
+  console.log(this.clicked);
+ },
+ sortTotal(){
+ if(this.clicked){
+  this.items =  this.tempItems.sort((a,b)=>(a.Total > b.Total) ? 1 : -1);  
+
+  }else{
+  this.items = this.tempItems.sort((a,b)=>(a.Total < b.Total) ? 1 : -1);    
+ 
+  }
+this.clicked = !this.clicked;
+ 
+  console.log(this.clicked);
+ },
+ filter(){
+//one variable
+if(this.dateFilterLower!=""){
+this.items = this.tempItems.filter(item=>{
+    return item.Date == this.dateFilterLower;
+})
+}
+if(this.refFilter!=""){
+this.items =  this.tempItems.filter(item=>{
+    return item.GRNNO ==  this.refFilter;
+}) 
+}
+
+//two Variable
+if(this.dateFilterLower!="" && this.dateFilterUpper !=""){
+  this.items = this.tempItems.filter(item=>{
+      const d1 =  new Date(this.dateFilterUpper);
+      const d2 =  new Date(item.Date);
+      const d3  = new Date(this.dateFilterLower);
+      return  d3 < d2 && d2 < d1;
+  });
+ }
+if(this.dateFilterLower=="" && this.dateFilterUpper=="" && this.refFilter ==""){
+    this.items =  this.tempItems;
+}
+ },
 addGRNCreditSettlement(){
     const data = {
     "GRNNO":this.GRNNO,
@@ -217,25 +328,38 @@ addGRNCreditSettlement(){
     Credit.addGRNCreditSettlement(data).then(res=>{
    this.getGRNsettlements(); 
    this.addVisible = false;
+   this.$alert("Credit Settelement Added","SUCCESS","success");
      console.los(res);
     }).catch(err=>{
-        console.log(err.response);
-        alert(err.response.data.message)});
+        this.addVisible = false;
+        console.log(" we are here");
+        this.$alert(err.response.data.message,"ERROR","error");
+       });
 
 },
 removeCreditSettlement(id,GRN){
+    this.listVisibleUpdate(false);
+    this.$confirm("Are you sure?  removing Credit Transaction can not be undone").then(()=>{
     const data = {
         "GRNNO":GRN,
         "CSID":id
     }
     Credit.removeCreditSettlement(data).then(res=>{
-        this.creditSettlement = this.creditSettlement.filter(item=>{return item.CSID != id});
+         this.listVisibleUpdate(false);
+       this.items = this.items.filter(item=>{return item.CSID != id});
+        this.$alert("Transaction Removed","SUCCESS","success");
+        this.getGRNsettlements();
         console.log(res);
-    }).catch(err=>console.log(err));
+    }).catch(err=>{
+        this.$alert(err.response.data.message,"ERROR","error");
+        })
+    })
+;
 }, 
 getGRNsettlements(){
     Credit.getGRNsettlements().then(res=>{
-        this.creditSettlements =  res["data"];
+        this.items =  res["data"];
+        this.tempItems =  res["data"];
     })
 }, getSupplierName(id){
     for(const x in this.Suppliers){
@@ -249,7 +373,7 @@ updateCreditView(id,grn){
     this.editVisible=true;
     this.editableCredit = id;
     this.GRNNO = grn;
-    const dt = this.creditSettlements.filter(item=>{return item.CSID == id})[0];
+    const dt = this.items.filter(item=>{return item.CSID == id})[0];
     console.log("this is to be checked", dt);
     this.editDate = dt.Date;
     this.editmainder = dt.remainder  || "";
@@ -267,8 +391,9 @@ updateCreditView(id,grn){
         this.editDate = "";
         this.editmainder = "";
         this.editVisible=false;
+        this.$alert("Credit Settlement Updated","SUCCESS","success");
     }).catch(err=>{
-        alert(err.response.data.message)
+        this.$alert(err.response.data.message,"ERROR","error");
     })
 },editVisibleUpdate(state){
     this.editVisible = state;
@@ -289,19 +414,22 @@ updateCreditView(id,grn){
       Credit.updateGRNCredit(data).then(res=>{
     this.getGRNsettlements();
     this.editVisible =  false;
+    this.$alert("Credit Settlement updated","SUCCESS","success");
     this.editPayment = "";
     this.editableCredit="";
     this.editDate="";
 
    console.log(res["data"]);
    }).catch(err=>{
-       alert(err.response.data.message);
+        this.editVisible =  false;
+    this.$alert(err.response.data.message,"ERROR","error");
+  
        })
 
 },
 getcreditSettlement(id){
 Credit.getcreditSettlement(id).then(res=>{this.creditSettlement = res["data"]}).catch(err=>{
-    this.creditSettlement = "";
+   this.items = "";
     alert(err.response.data.message)});
     this.listVisible =  false;
 this.listVisible =  true;
@@ -312,9 +440,9 @@ editView(id){
     this.editableCredit = id;
     this.editVisible =  true;
     this.listVisible= false;
-    this.GRNNO = this.creditSettlement.filter(item=>{return item.CSID ==  id})[0].GRN[0].GRNNO;
-    this.editDate = this.creditSettlement.filter(item=>{return item.CSID ==  id})[0].Date;
-    this.editPayment = this.creditSettlement.filter(item=>{return item.CSID ==  id})[0].Payment;
+    this.GRNNO =this.items.filter(item=>{return item.CSID ==  id})[0].GRN[0].GRNNO;
+    this.editDate =this.items.filter(item=>{return item.CSID ==  id})[0].Date;
+    this.editPayment =this.items.filter(item=>{return item.CSID ==  id})[0].Payment;
     
 },
 addGRNCreditSettlementView(id){
@@ -324,11 +452,35 @@ addGRNCreditSettlementView(id){
 addVisibleUpdate(state){
 this.addVisible =  state;
 }
-
+,    setPages () {
+      this.pages = [];
+      let numberOfPages = Math.ceil(this.items.length / this.perPage);
+      for (let index = 1; index <= numberOfPages; index++) {
+        this.pages.push(index);
+      }
+    
+      },
+    paginate (pagedItems) {
+      let page = this.page;
+      let perPage = this.perPage;
+      let from = (page * perPage) - perPage;
+      let to = (page * perPage);
+      return  pagedItems.slice(from, to);
+    }
 
 },
-created(){
+  watch: {
+    items () {
+      this.setPages();
+    }
+    
+  },computed:{
+      displayedItems(){
 
+          return this.paginate(this.items);
+      }
+  },
+created(){
 this.getGRNsettlements();
 }
 }

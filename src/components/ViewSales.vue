@@ -64,10 +64,8 @@
                                 </select>
                             </td>
                             <td>
-                                 
-
                                 <select  v-model="editDriver"  >
-                                    <option :key="x.DriverID" v-for="x in DriversList">{{x.DriverName}}</option>
+                                    <option :key="x.DriverID" :value="x.DriverID" v-for="x in DriversList">{{x.DriverName}}</option>
                                 </select>
                             </td>
                         </tr>
@@ -107,7 +105,7 @@
                                         Change
                                     </th>
                                 </tr>
-                                <tr  :key="x.ItemID"  v-for="x in SalesList">
+                                <tr  :key="x.ItemID"  v-for="x in items">
                                     <td>
                                         {{x.REFNO}}
                                     </td>
@@ -142,33 +140,38 @@
                   <fieldset class="form-contain">
                       <legend>
                           <h3>
-                              Search Purchase
+                              Search Sales
                         </h3>
                     </legend>
                     <table>
                 
                         <tr>
-                            <td>  <label for="supplier"> <h3>Supplier</h3></label>
-                                <select v-model="SupplierID" name="supplier" id="" class="txt-input">
-                                    <option :key="x.SupplierID" :value="x.SupplierID" v-for="x in SuppliersList">{{x.SupplierName}}</option>
-                                 
-                                 
-            
-                                </select></td> 
+                            <td> 
+                               <label  for="Customer"> <h3>Customer</h3></label>
+                                <select @change="filter" v-model="customerFilter" name="Customer" id="" class="txt-input" required>
+                                    
+                                <option  :key="x.CustomerID" :value="x.CustomerID" v-for="x in CustomersList">{{ x.CutomerID }}{{ x.CustomerName}}</option>
+                               </select></td>
                             <td>
                                 <label for="purchaseType"> <h3>Purchase type</h3></label>
-                                <select name="purchaseType" id="" class="txt-input">
-                                    <option value="Cash">cash</option>
-                                    <option value="Credit">Credit</option>
+                                <select  @change="filter" v-model="transactionFilter" name="purchaseType" id="" class="txt-input">
+                                    <option value="">--select Transaction--</option>
+                                    <option value="1">cash</option>
+                                    <option value="2">Credit</option>
                                 </select>
+                            </td>
+                            <td>
+                              <button class="btn-submit-mini" @click="clearForm">
+                                X
+                              </button>
                             </td>
                         </tr>
                         <tr>
                          <td>
-                            <label for="purchaseDate"> <h3> Purchase Date </h3></label>
-                            <input type="date" class="txt-input" name="purchaseDate" placeholder="GRN NO"  ></td>
-                         <td>  <label for="purchaseDate"> <h3> Delivery Date </h3></label>
-                            <input type="date" class="txt-input" name="deliveryDate"></td>
+                            <label for="purchaseDate"> <h3> From </h3></label>
+                            <input  @change="filter" v-model="dateFilterLower" type="date" class="txt-input" name="purchaseDate" placeholder="GRN NO"  ></td>
+                         <td>  <label for="purchaseDate"> <h3> To </h3></label>
+                            <input   @change="filter"  v-model="dateFilterUpper" type="date" class="txt-input" name="deliveryDate"></td>
                         </tr>
                 
                         <tr>
@@ -204,15 +207,31 @@
                                Change
                             </th>
                         </tr>
-                     <tr  :key="x.REFNO" :name="x.REFNO" v-for="x in items" >
+                     <tr  :key="x.REFNO" :name="x.REFNO" v-for="x in displayedItems" >
                         <td>{{x.REFNO}}</td>
                           <td>{{x.Date}}</td>
                           <td> {{x.TransactionID==1?'Cash':'Credit'}}</td>
-                          <td>{{getCustomerName(x.CutomerID)}}</td>
+                          <td>{{getCustomerName(x.CustomerID)}}</td>
                           <td> <button  @click="listView(x.REFNO)" class="btn-submit-mini"><i class="fas fa-eye"></i></button></td>
                           <td>   <button  @click="editView(x.REFNO)" class="btn-submit-mini">  <i class="fas fa-edit"></i> </button> <button class="btn-err" @click="removeSales(x.REFNO)"><i class="fas fa-trash-alt"></i></button></td>
                      </tr>
                     </table>
+                        <span >
+                <span class='prev'>
+                    <button  v-if="page != 1" @click="page--"  class='btn-submit'>
+                            Previous
+                    </button>
+                    </span>
+                    <span class='number'>
+                        <button  class='btn-submit-page'  :key='pageNumber' v-for="pageNumber in pages.slice(page-1, page+5)" @click="page = pageNumber">{{pageNumber}}</button>
+                    </span>
+                    <span class='next'>
+                        <button @click="page++" v-if="page < pages.length"  class='btn-submit'>
+                            Next
+                        </button>
+                    </span>
+                    
+            </span>
                 </fieldset>
                 </div>
             </div>
@@ -232,6 +251,11 @@ export default {
         SubHeaderControl
     },data(){
         return {
+            pages:[],
+            page:1,
+            perPage:5,
+            pageList:1,
+            pagesList:[],
             editPPP:'',
             editID:'',
             editableSale:'',
@@ -239,31 +263,372 @@ export default {
             editVisibleItem:false,
             REFNO:'',
             editDate:'',
+            dateFilterLower:'',
+            dateFilterUpper:'',
+            customerFilter:'',
+            transactionFilter:'',
             editCustomer:'',
             editDriver:'',
             editVisible:false,
             DriversList:[],
-             REFNNO:'',
+            REFNNO:'',
             listVisible:false,
             items:[],
+            tempItems:[],
             SuppliersList:[],
             CustomersList:[],
-            SalesList:[],
-            SupplierID:'',
+            CutomerID:'',
             links:[
+                {
+                    id:1,
+                    address:"Sales",
+                    displayText:"Sales"
+                },
                 {
                     id:0,
                     address:"addSales",
                     displayText:"Add Sales",
 
-                },{
-                    id:1,
-                    address:"viewSales",
-                    displayText:"Sales"
                 }
             ]
         }
     },methods:{
+      clearForm(){
+        this.customerFilter="";
+        this.transactionFilter="";
+        this.dateFilterLower="";
+        this.dateFilterUpper="";
+        this.filter();
+      },
+  filter() {
+      const filterValues = [
+        this.customerFilter,
+        this.transactionFilter,
+        this.dateFilterLower,
+        this.dateFilterUpper,
+       
+      ];
+      this.filterView = true;
+ 
+      let supplier = false;
+      let transaction = false;
+      let purchaseLower = false;
+      let purchaseUpper = false;
+      let deliveredLower = false;
+      let deliveredUpper = false;
+      let notEmpty = [];
+      
+      // const isEmpty = false;
+      // 0 supplier
+      // 1 transaction
+      // 2 purchase date lower
+      // 3 purchase date upper
+      // 4 delivered Lower
+      // 5 delivered upper
+      filterValues.forEach((item, index) => {
+        if (item != "") {
+          notEmpty.push({ item: item, index: index });
+        }
+      });
+      for (let i = 0; i < notEmpty.length; i++) {
+        switch (notEmpty[i].index) {
+          case 0:
+            supplier = true;
+            console.log(0);
+            break;
+          case 1:
+            transaction = true;
+            console.log(1);
+            break;
+          case 2:
+            purchaseLower = true;
+            console.log(2);
+            break;
+          case 3:
+            purchaseUpper = true;
+            console.log(3);
+
+            break;
+          case 4:
+            deliveredLower = true;
+            console.log(4);
+
+            break;
+          case 5:
+            deliveredUpper = true;
+            console.log(5);
+            break;
+        }
+      }
+      // one variable
+      if (supplier) {
+        console.log("check this field",this.tempItems);
+        this.items = this.tempItems.filter(item => {
+        
+          return item.CutomerID == this.customerFilter;
+        });
+        console.log("this after",this.items);
+      }
+      if (transaction) {
+        this.items = this.tempItems.filter(item => {
+          return item.TransactionID == this.transactionFilter;
+        });
+      }
+      if (deliveredLower) {
+        this.items = this.tempItems.filter(item => {
+          return item.DeliverdDate == this.deliveredDateFilterLower;
+        });
+      }
+      if (purchaseLower) {
+        this.items = this.tempItems.filter(item => {
+          return item.Date == this.dateFilterLower;
+        });
+      }
+      // two variables
+      if (purchaseLower && purchaseUpper) {
+        this.items = this.tempItems.filter(item => {
+          const d1 = new Date(this.dateFilterUpper);
+          const d2 = new Date(item.Date);
+          const d3 = new Date(this.dateFilterLower);
+          console.log("just handle ", d3 < d2 < d1);
+          return d3 < d2 && d2 < d1;
+        });
+      }
+      if (deliveredLower && deliveredUpper) {
+        this.items = this.tempItems.filter(item => {
+          const d1 = new Date(this.deliveredDateFilterUpper);
+          const d2 = new Date(item.DeliverdDate);
+          const d3 = new Date(this.deliveredDateFilterLower);
+          return d3 < d2 && d2 < d1;
+        });
+      }
+      if (transaction && deliveredLower) {
+        this.items = this.tempItems
+          .filter(item => {
+            return item.DeliverdDate == this.deliveredDateFilterLower;
+          })
+          .filter(item => {
+            return item.TransactionID == this.transactionFilter;
+          });
+      }
+      if (supplier && transaction) {
+        this.items = this.tempItems
+          .filter(item => {
+            return item.CutomerID == this.customerFilter;
+          })
+          .filter(item => {
+            return item.TransactionID == this.transactionFilter;
+          });
+      }
+      if (supplier && purchaseLower) {
+        this.items = this.tempItems
+          .filter(item => {
+            return item.CutomerID == this.customerFilter;
+          })
+          .filter(item => {
+            return item.Date == this.dateFilterLower;
+          });
+      }
+      if (supplier && deliveredLower) {
+        this.items = this.tempItems
+          .filter(item => {
+            return item.DeliverdDate == this.deliveredDateFilterLower;
+          })
+          .filter(item => {
+            return item.CutomerID == this.customerFilter;
+          });
+      }
+      if (purchaseLower && deliveredLower) {
+        this.items = this.tempItems
+          .filter(item => {
+            return item.Date == this.dateFilterLower;
+          })
+          .filter(item => {
+            return item.DeliverdDate == this.deliveredDateFilterLower;
+          });
+      }
+      // two is done
+
+      // three Variable
+      if (supplier && purchaseLower && purchaseUpper) {
+        this.items = this.tempItems
+          .filter(item => {
+            return item.CutomerID == this.customerFilter;
+          })
+          .filter(item => {
+            const d1 = new Date(this.dateFilterUpper);
+            const d2 = new Date(item.Date);
+            const d3 = new Date(this.dateFilterLower);
+            return d3 < d2 && d2 < d1;
+          });
+      }
+      if (supplier && transaction && purchaseLower) {
+        this.items = this.tempItems
+          .filter(item => {
+            return item.CutomerID == this.customerFilter;
+          })
+          .filter(item => {
+            return item.Date == this.dateFilterLower;
+          })
+          .filter(item => {
+            return item.TransactionID == this.transactionFilter;
+          });
+      }
+      if (supplier && deliveredLower && deliveredUpper) {
+        this.items = this.tempItems
+          .filter(item => {
+            const d1 = new Date(this.deliveredDateFilterUpper);
+            const d2 = new Date(item.DeliverdDate);
+            const d3 = new Date(this.deliveredDateFilterLower);
+            return d3 < d2 && d2 < d1;
+          })
+          .filter(item => {
+            return item.CutomerID == this.customerFilter;
+          });
+      }
+      if (supplier && deliveredLower && transaction) {
+        this.items = this.tempItems
+          .filter(item => {
+            return item.DeliverdDate == this.deliveredDateFilterLower;
+          })
+          .filter(item => {
+            return item.CutomerID == this.customerFilter;
+          })
+          .filter(item => {
+            return item.TransactionID == this.transactionFilter;
+          });
+      }
+      if (transaction && deliveredLower && deliveredUpper) {
+        this.items = this.tempItems
+          .filter(item => {
+            return item.TransactionID == this.transactionFilter;
+          })
+          .filter(item => {
+            const d1 = new Date(this.deliveredDateFilterUpper);
+            const d2 = new Date(item.DeliverdDate);
+            const d3 = new Date(this.deliveredDateFilterLower);
+            return d3 < d2 && d2 < d1;
+          });
+      }
+      if (transaction && purchaseLower && purchaseUpper) {
+        this.items = this.tempItems
+          .filter(item => {
+            const d1 = new Date(this.dateFilterUpper);
+            const d2 = new Date(item.Date);
+            const d3 = new Date(this.dateFilterLower);
+            return d3 < d2 && d2 < d1;
+          })
+          .filter(item => {
+            return item.TransactionID == this.transactionFilter;
+          });
+      }
+      if (purchaseLower && deliveredLower && deliveredUpper) {
+        this.items = this.tempItems
+          .filter(item => {
+            return item.Date == this.dateFilterLower;
+          })
+          .filter(item => {
+            const d1 = new Date(this.deliveredDateFilterUpper);
+            const d2 = new Date(item.DeliverdDate);
+            const d3 = new Date(this.deliveredDateFilterLower);
+            return d3 < d2 && d2 < d1;
+          });
+      }
+      //four variable
+      if (supplier && transaction && purchaseLower && purchaseUpper) {
+        this.items = this.tempItems
+          .filter(item => {
+            return item.CutomerID == this.customerFilter;
+          })
+          .filter(item => {
+            const d1 = new Date(this.dateFilterLower);
+            const d2 = new Date(this.dateFilterUpper);
+            const d3 = new Date(item.Date);
+            console.log("check handler", d1 < d3 && d3 < d2);
+            return d1 < d3 && d3 < d2;
+          })
+          .filter(item => {
+            return item.TransactionID == this.transactionFilter;
+          });
+      }
+      if (supplier && deliveredLower && deliveredUpper && transaction) {
+        this.items = this.tempItems
+          .filter(item => {
+            const d1 = new Date(this.deliveredDateFilterUpper);
+            const d2 = new Date(item.DeliverdDate);
+            const d3 = new Date(this.deliveredDateFilterLower);
+            return d3 < d2 && d2 < d1;
+          })
+          .filter(item => {
+            return item.CutomerID == this.customerFilter;
+          })
+          .filter(item => {
+            return item.TransactionID == this.transactionFilter;
+          });
+      }
+      if (supplier && transaction && deliveredLower && deliveredUpper) {
+        this.items = this.tempItems
+          .filter(item => {
+            return item.CutomerID == this.customerFilter;
+          })
+          .filter(item => {
+            const d1 = new Date(this.deliveredDateFilterLower);
+            const d2 = new Date(this.deliveredDateFilterUpper);
+            const d3 = new Date(item.deliveredDate);
+            return d1 < d3 && d3 < d2;
+          });
+      }
+      // six variable
+      if (
+        supplier &&
+        transaction &&
+        deliveredLower &&
+        deliveredUpper &&
+        purchaseLower &&
+        purchaseUpper
+      ) {
+        this.items = this.tempItems
+          .filter(item => {
+            const d1 = new Date(this.deliveredDateFilterLower);
+            const d2 = new Date(this.deliveredDateFilterUpper);
+            const d3 = new Date(item.deliveredDate);
+            return d1 < d3 && d3 < d2;
+          })
+          .filter(item => {
+            const d1 = new Date(this.dateFilterLower);
+            const d2 = new Date(this.dateFilterUpper);
+            const d3 = new Date(item.Date);
+            return d1 < d3 && d3 < d2;
+          })
+          .filter(item => {
+            return item.CutomerID == this.customerFilter;
+          })
+          .filter(item => {
+            return item.TransactionID == this.transactionFilter;
+          });
+      }
+      if (!supplier && !transaction && !purchaseLower && !deliveredLower) {
+        this.items = this.tempItems;
+        this.filterView = false;
+      }
+    console.log("final Output", this.items);
+      this.setPages();
+    },
+          setPages () {
+      this.pages = [];
+      let numberOfPages = Math.ceil(this.items.length / this.perPage);
+      for (let index = 1; index <= numberOfPages; index++) {
+        this.pages.push(index);
+      }
+    }
+      ,
+    paginate (pagedItems) {
+      let page = this.page;
+      let perPage = this.perPage;
+      let from = (page * perPage) - perPage;
+      let to = (page * perPage);
+      return  pagedItems.slice(from, to);
+    },
         getSuppliers(){
             Supplier.getSuppliers().then(res=>{
                 this.SuppliersList =  res["data"]
@@ -272,12 +637,14 @@ export default {
         getSales(){
             Sales.getSales().then(res=>{
                 this.items =  res["data"];
+                this.tempItems =  res["data"];
+                console.log(this.tempItems);
                 
             })
         },
         getCustomerName(id){
             for(const x in this.CustomersList){
-              if(this.CustomersList[x].CustomerID==id){
+              if(this.CustomersList[x].CutomerID==id){
                   return this.CustomersList[x].CustomerName;
               }
             }
@@ -297,7 +664,7 @@ export default {
         listView(id){
             this.listVisible = true;
             this.viewREF  = id;
-            this.SalesList = this.items.filter(item=>{return item.REFNO == id})[0].Sales;
+            this.items = this.items.filter(item=>{return item.REFNO == id})[0].Sales;
         }
         ,listVisibleUpdate(state){
             this.listVisible= state;
@@ -308,7 +675,7 @@ export default {
          const dt = this.items.filter(item=>{
              return item.REFNO == id;
          })[0]
-         console.log("check here", dt);
+       
          this.editDate  = dt.Date;
          this.editCustomer =  dt.CutomerID;
           
@@ -342,7 +709,7 @@ export default {
                 this.editID = id;
                 this.editVisibleItem = true;
                 this.listVisible = false;
-            const dt = this.SalesList.filter(item=>{return item.SalesId == id})[0]
+            const dt = this.items.filter(item=>{return item.SalesId == id})[0]
             
             this.editPPP = dt.PPP;
             this.editQuantity  = dt.Quantity; 
@@ -383,7 +750,22 @@ export default {
                     console.log(err);
                 })
             }
-    },created(){
+    },  computed: {
+    displayedItems () {
+      return this.paginate(this.items);
+    }, displayedListItems(){
+      return this.paginateList(this.purchaseItemsList) 
+    } 
+  },
+  watch: {
+    items () {
+      console.log(this.items);
+      this.setPages();
+    },
+    purchaseItemsList(){
+      this.setPagesList();
+    }
+  },created(){
         this.getSales();
         this.getCustomers();
          Driver.getDrivers().then(res=>{

@@ -31,8 +31,45 @@ const removeOrder  = (id)=>{
     return  axios(config);
 
 }
+const UpdateOrder = (data)=>{
+  var config = {
+    method: 'put',
+    url: '/api/order/update_order',
+    headers: { 
+      'Content-Type': 'application/json'
+    },
+    data : data
+  };
+  return axios(config);
+}
+const updateOrderItem = (data)=>{
+  var config = {
+    method: 'put',
+    url: '/api/order/update_order_list',
+    headers: { 
+      'Content-Type': 'application/json'
+    },
+    data : data
+  };
+  
+ return axios(config)
+}
+const removeItemList = (id)=>{
+ const data = '';
+  var config = {
+    method: 'delete',
+    url: `/api/order/delete_order_list/${id}`,
+    headers: { },
+    data : data
+  };
+  
+  return axios(config)
+}
 export default {
     getSalesOrders,
     addSalesOrder,
+    UpdateOrder,
+    updateOrderItem,
+    removeItemList,
     removeOrder
 }

@@ -135,7 +135,7 @@ export default {
                    {
                     id:1,
                     address:"shipToWareHouse",
-                    displayText:"Ship WareHouse"
+                    displayText:"Transfer To Store"
                    }
                ]
    }

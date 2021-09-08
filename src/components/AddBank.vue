@@ -58,8 +58,12 @@ export default {
        "BankName":this.BankName,
        "AccountNumber":this.BankNumber
    }  
-   BankAccounts.addPersonlaAccount(data).then(res=>{alert(res.response.data.message)}).catch(err=>{
-       alert(err.response.data.message)
+   BankAccounts.addPersonlaAccount(data).then(res=>{
+       this.$alert("Bank Account Added!!","SUCCESS","success");
+       console.log(res);
+       }).catch(err=>{
+        this.$alert(err.response.data.message,"ERROR","error");
+
    })
         }
     }

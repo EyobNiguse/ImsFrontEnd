@@ -18,8 +18,15 @@
                          <td>
                             <label for="purchaseDate"> <h3> Sales Date </h3></label>
                             <input v-model="SalesDate" type="date" class="txt-input" name="purchaseDate" placeholder="GRN NO"  >
-                         </td> 
-                         <td><button class="btn-submit"  type="submit">Add Item</button> <button class="btn-submit" @click="addSales" type="button">Finish</button> <button class="btn-submit error" type="button">Cancel</button></td>
+                         </td>
+                           <td> 
+                                    <label for="quantity"> <h3>Purchase Type</h3></label>
+                                    <select v-model="purchaseType" name="purchaseType" id="" class="txt-input" required>
+                                    <option value="1">cash</option>
+                                    <option value="2">Credit</option>
+                                </select>
+                                     
+                                </td>  
 
   
                         </tr>
@@ -28,7 +35,7 @@
                                 <label  for="Customer"> <h3>Customer</h3></label>
                                 <select v-model="CustomerID" name="Customer" id="" class="txt-input" required>
                                     
-                                <option  :key="x.CustomerID" :value="x.CustomerID" v-for="x in CustomerList">{{ x.CustomerID }} ,{{ x.CustomerName}}</option>
+                                <option  :key="x.CustomerID" :value="x.CustomerID" v-for="x in CustomerList">{{ x.CustomerName}}</option>
                                 </select></td>
                             <td>
                                 <label for="Driver"> <h3>Driver</h3></label>
@@ -48,28 +55,24 @@
                             <td> 
                                 <label for="quantity"> <h3>Item quantity</h3></label>
                                 <input  v-model="ItemQuantity" type="number" class="txt-input"  value="" placeholder="Item quantity" min="1" requried></td> 
-                                <td> 
-                                    <label for="quantity"> <h3>Purchase Type</h3></label>
-                                    <select v-model="purchaseType" name="purchaseType" id="" class="txt-input" required>
-                                    <option value="1">cash</option>
-                                    <option value="2">Credit</option>
-                                </select>
-                                     
-                                </td> 
+                                 <td>
+                            <label for="itemType"> <h3>Item Type</h3></label>
+                            <select v-model="ItemType" name="itemType" id="" class="txt-input" required>
+                                <option :key="x.ItemID" :value="x.ItemID" v-for="x in ItemsList">{{x.ItemType}}</option>
+                            </select>
+                        </td>
+                              
                                     
                         </tr>
                     <tr>
 
-                        <td>
-                            <label for="itemType"> <h3>Item Type</h3></label>
-                            <select v-model="ItemType" name="itemType" id="" class="txt-input" required>
-                                <option :key="x.ItemID" :value="x.ItemID" v-for="x in ItemsList">{{x.ItemCode}}</option>
-                            </select>
-                        </td>
+                       
                         <td>
                             <label for="pricePerPiece"> <h3>Price Per quantity</h3></label>
                             <input type="number"  v-model="PricePerQuantity" name="pricePerPiece" class="txt-input"  value="" placeholder="Price per Peice" min="1" required>
                         </td>
+                         <td><button class="btn-submit"  type="submit">Add Item</button> <button class="btn-submit" @click="addSales" type="button">Finish</button> <button class="btn-submit error" type="button">Cancel</button></td>
+
                     </tr>
                     </table>
                      
@@ -289,13 +292,14 @@ export default {
                     "Driver":'',
                     "Index":'',
             links:[
+                {
+                    id:1,
+                    address:"Sales",
+                    displayText:"Sales"
+                },
                 {   id:0,
                     address:"addSales",
                     displayText:"Add Sales"
-                },{
-                    id:1,
-                    address:"viewSales",
-                    displayText:"Sales"
                 }
             ],
             IndexForDelete:0,

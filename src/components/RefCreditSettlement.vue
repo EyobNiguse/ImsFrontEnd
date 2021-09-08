@@ -111,9 +111,43 @@
         </vue-window-modal>
     
         <!-- /edit Credit pop up -->
-               <div class="router-view">
+            <div class="router-view">
             <div class="add-purchase">
-   
+                            <fieldset class="view-items-container" style="margin-top:30px">
+                <legend>
+                    <h3>
+                        Search Settelements
+                    </h3>
+                </legend>
+                <table>
+                    <tr>
+                        <td>
+                            From
+                        </td>
+                        <td>
+                            To
+                        </td>
+                        <td>ReFno</td>
+                        <td>
+                            <button @click="clearForm" class="btn-submit-mini">
+                                X
+                            </button>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <input  @change="filter" v-model="dateFilterLower"  type="date">
+                        </td>
+                        <td>
+                            <input @change="filter"   type="date" v-model="dateFilterUpper">
+                        </td>
+                        <td>
+                                <input   @input="filter" v-model="refFilter" type="number">
+
+                        </td>
+                    </tr>
+                </table>
+            </fieldset>   
             <fieldset class="view-items-container">
                     <legend> <h3> Sales Credits</h3></legend>
                     <table class="view-items">
@@ -125,10 +159,10 @@
                                  <th>
                                 PurchasedDate
                             </th>
-                            <th>
+                            <th @click="sortTotal" style="cursor:pointer;">
                                 Total
                             </th>
-                            <th>
+                            <th  @click="sortPaid" style="cursor:pointer;">
                                     Paid
                             </th>
                           
@@ -137,7 +171,7 @@
                             </th>
                           
                         </tr>
-                      <tr   v-bind:key="x.REFNO" v-for="(x) in creditSettlements"> 
+                      <tr   v-bind:key="x.REFNO" v-for="(x) in displayedItems"> 
                           <td>
                          {{x.REFNO}}     
                          </td> 
@@ -155,6 +189,22 @@
                    
                       </tr>
                     </table>
+                                <span >
+                <span class='prev'>
+                    <button  v-if="page != 1" @click="page--"  class='btn-submit'>
+                            Previous
+                    </button>
+                    </span>
+                    <span class='number'>
+                        <button  class='btn-submit-page'  :key='pageNumber' v-for="pageNumber in pages.slice(page-1, page+5)" @click="page = pageNumber">{{pageNumber}}</button>
+                    </span>
+                    <span class='next'>
+                        <button @click="page++" v-if="page < pages.length"  class='btn-submit'>
+                            Next
+                        </button>
+                    </span>
+                    
+            </span>
                 </fieldset>
             </div>
          
@@ -172,6 +222,13 @@ components:{
 } ,
 data(){
     return{
+        dateFilterLower:'',
+        dateFilterUpper:'',
+        refFilter:'',
+        pages:[],
+        page:1,
+        perPage:5,
+        clicked:true,
         addVisible:false,
         addDate:'',
         addPayment:'',
@@ -187,11 +244,11 @@ data(){
         editableCredit:'',
         editDate:'',
         editmainder:'',
-        items:[],
         billDate:'',
         Suppliers:[],
-        creditSettlements:[],
-       Cost:'',
+        items:[],
+        tempItems:[],
+        Cost:'',
         
         
         links:[
@@ -207,7 +264,61 @@ data(){
     ]
 }},
 methods:{
+ clearForm(){
+this.dateFilterLower = "";
+this.dateFilterUpper = "";
+this.refFilter =  "";
+this.filter();
+},
+ sortPaid(){
+   if(this.clicked){
+  this.items =  this.tempItems.sort((a,b)=>(a.Paid > b.Paid) ? 1 : -1);  
+
+  }else{
+  this.items = this.tempItems.sort((a,b)=>(a.Paid < b.Paid) ? 1 : -1);    
  
+  }
+this.clicked = !this.clicked;
+ 
+  console.log(this.clicked);
+ },
+ sortTotal(){
+ if(this.clicked){
+  this.items =  this.tempItems.sort((a,b)=>(a.Total > b.Total) ? 1 : -1);  
+
+  }else{
+  this.items = this.tempItems.sort((a,b)=>(a.Total < b.Total) ? 1 : -1);    
+ 
+  }
+this.clicked = !this.clicked;
+ 
+  console.log(this.clicked);
+ },
+ filter(){
+//one variable
+if(this.dateFilterLower!=""){
+this.items = this.tempItems.filter(item=>{
+    return item.Date == this.dateFilterLower;
+})
+}
+if(this.refFilter!=""){
+this.items =  this.tempItems.filter(item=>{
+    return item.REFNO ==  this.refFilter;
+}) 
+}
+
+//two Variable
+if(this.dateFilterLower!="" && this.dateFilterUpper !=""){
+  this.items = this.tempItems.filter(item=>{
+      const d1 =  new Date(this.dateFilterUpper);
+      const d2 =  new Date(item.Date);
+      const d3  = new Date(this.dateFilterLower);
+      return  d3 < d2 && d2 < d1;
+  });
+ }
+if(this.dateFilterLower=="" && this.dateFilterUpper=="" && this.refFilter ==""){
+    this.items =  this.tempItems;
+}},
 addREFCreditSettlement(){
     const data = {
     "REFNO":this.REFNO,
@@ -217,10 +328,14 @@ addREFCreditSettlement(){
     Credit.addREFCreditSettlement(data).then(res=>{
    this.getREFsettlements(); 
    this.addVisible = false;
+   this.$alert("Credit Settlement Added","SUCCESS","success");
      console.los(res);
     }).catch(err=>{
-        console.log(err.response);
-        alert(err.response.data.message)});
+        
+        this.addVisible = false;
+        this.$alert(err.response.data.message," ERROR","error");
+       
+         });
 
 },
 removeCreditSettlement(id,GRN){
@@ -235,7 +350,8 @@ removeCreditSettlement(id,GRN){
 }, 
 getREFsettlements(){
     Credit.getREFsettlements().then(res=>{
-        this.creditSettlements =  res["data"];
+        this.items =  res["data"];
+        this.tempItems =  res["data"];
     })
 }, getSupplierName(id){
     for(const x in this.Suppliers){
@@ -249,7 +365,7 @@ updateCreditView(id,grn){
     this.editVisible=true;
     this.editableCredit = id;
     this.REFNO = grn;
-    const dt = this.creditSettlements.filter(item=>{return item.CSID == id})[0];
+    const dt = this.items.filter(item=>{return item.CSID == id})[0];
     console.log("this is to be checked", dt);
     this.editDate = dt.Date;
     this.editmainder = dt.remainder  || "";
@@ -289,13 +405,16 @@ updateCreditView(id,grn){
       Credit.updateREFCredit(data).then(res=>{
     this.getREFsettlements();
     this.editVisible =  false;
+    this.$alert("Credit Settlement Updated!!","SUCCESS","success");
     this.editPayment = "";
     this.editableCredit="";
     this.editDate="";
 
    console.log(res["data"]);
    }).catch(err=>{
-       alert(err.response.data.message);
+        this.editVisible =  false;
+        this.$alert(err.response.data.message,"ERROR","error");
+  
        })
 
 },
@@ -325,9 +444,32 @@ addGRNCreditSettlementView(id){
 addVisibleUpdate(state){
 this.addVisible =  state;
 }
+,    setPages () {
+      this.pages = [];
+      let numberOfPages = Math.ceil(this.items.length / this.perPage);
+      for (let index = 1; index <= numberOfPages; index++) {
+        this.pages.push(index);
+      }
+    
+      },
+    paginate (pagedItems) {
+      let page = this.page;
+      let perPage = this.perPage;
+      let from = (page * perPage) - perPage;
+      let to = (page * perPage);
+      return  pagedItems.slice(from, to);
+    }
 
-
-},
+} ,watch: {
+    items () {
+      this.setPages();
+    }
+    
+  },computed:{
+      displayedItems(){
+          return this.paginate(this.items);
+      }
+  },
 created(){
 
 this.getREFsettlements();
