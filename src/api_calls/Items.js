@@ -4,7 +4,7 @@ var axios = require('axios');
 const getItems = ()=>{
     var config = {
         method: 'get',
-        url: 'http://localhost/ims/api/v1/item/get_items',
+        url: '/api/item/get_items',
         headers: { "Access-Control-Allow-Origin":"*"}
       };
 return axios(config);
@@ -14,7 +14,7 @@ const addItem = (data)=>{
 console.log(data)
 var config = {
   method: 'post',
-  url: 'http://localhost/ims/api/v1/item/add_new_item',
+  url: '/api/item/add_new_item',
   headers: { 
        'Content-Type': 'application/json',
        "Access-Control-Allow-Origin":"*"
@@ -29,7 +29,7 @@ return axios(config)
 const getInventoryInfo  = (id)=>{
   var config = {
     method: 'get',
-    url: `http://localhost/ims/api/v1/item/get_item_inventory/${id}`,
+    url: `/api/item/get_item_inventory/${id}`,
     headers: { }
   };
   
@@ -38,7 +38,7 @@ const getInventoryInfo  = (id)=>{
 const getInventoryHistoryInfo = (id)=>{
   var config = {
     method: 'get',
-    url: `http://localhost/ims/api/v1/get_item_stock/${id}`,
+    url: `/api/get_item_stock/${id}`,
     headers: { }
   };
  
@@ -47,7 +47,7 @@ const getInventoryHistoryInfo = (id)=>{
 const updateItemDetails = (data)=>{
   var config = {
     method: 'put',
-    url: 'http://localhost/ims/api/v1/item/update_item',
+    url: '/api/item/update_item',
     headers: { 
       'Content-Type': 'application/json'
     },
@@ -60,7 +60,7 @@ const updateItemDetails = (data)=>{
 const updateItemPrice = (data)=>{
   var config = {
     method: 'put',
-    url: 'http://localhost/ims/api/v1/item/update_item_price',
+    url: '/api/item/update_item_price',
     headers: { 
       'Content-Type': 'application/json'
     },
@@ -72,7 +72,7 @@ const updateItemPrice = (data)=>{
 const removeItem = (data)=>{
   var config = {
     method: 'delete',
-    url: 'http://localhost/ims/api/v1/item/delete_item',
+    url: '/api/item/delete_item',
     headers: { 
       'Content-Type': 'application/json'
     },

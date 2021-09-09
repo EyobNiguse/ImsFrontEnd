@@ -5,7 +5,7 @@ import axios from "axios";
 const addLoadingExpense = (data) => {
   var config = {
     method: 'post',
-    url: 'http://localhost/ims/api/v1/expence/loadingExpence/add_loading_expence',
+    url: '/api/expence/loadingExpence/add_loading_expence',
     headers: {
       'Content-Type': 'application/json'
     },
@@ -19,7 +19,7 @@ const addLoadingExpense = (data) => {
 const getLoadingExpense = () => {
   var config = {
     method: 'get',
-    url: 'http://localhost/ims/api/v1/expence/loadingExpence/get_loading_expence',
+    url: '/api/expence/loadingExpence/get_loading_expence',
     headers: {}
   };
 
@@ -33,7 +33,7 @@ const removeLoadingExpense = (data) => {
   console.log(data);
   var config = {
     method: 'delete',
-    url: `http://localhost/ims/api/v1/expence/loadingExpence/delete_loading_expence/${data}`,
+    url: `/api/expence/loadingExpence/delete_loading_expence/${data}`,
     headers: {}
   };
 
@@ -46,7 +46,7 @@ const getUnloadingExpense = () => {
 
   var config = {
     method: 'get',
-    url: 'http://localhost/ims/api/v1/expence/unloadingExpence/get_unloading_expence',
+    url: '/api/expence/unloadingExpence/get_unloading_expence',
     headers: {}
   };
 
@@ -56,7 +56,7 @@ const getUnloadingExpense = () => {
 const addUnloadingExpense = (data) => {
   var config = {
     method: 'post',
-    url: 'http://localhost/ims/api/v1/expence/unloadingExpence/add_unloading_expence',
+    url: '/api/expence/unloadingExpence/add_unloading_expence',
     headers: {
       'Content-Type': 'application/json'
     },
@@ -70,7 +70,7 @@ const removeUnloadingExpense = (id) => {
 
   var config = {
     method: 'delete',
-    url: `http://localhost/ims/api/v1/expence/unloadingExpence/delete_unloading_expence/${id}`,
+    url: `/api/expence/unloadingExpence/delete_unloading_expence/${id}`,
     headers: {}
   };
 
@@ -79,7 +79,7 @@ const removeUnloadingExpense = (id) => {
 const updateUnloadingExpense = (data) => {
   var config = {
     method: 'put',
-    url: 'http://localhost/ims/api/v1/expence/unloadingExpence/update_unloading_expence',
+    url: '/api/expence/unloadingExpence/update_unloading_expence',
     headers: {
       'Content-Type': 'application/json'
     },
@@ -98,7 +98,7 @@ const updateUnloadingExpense = (data) => {
 const getSalaryExpense = () => {
   var config = {
     method: 'get',
-    url: 'http://localhost/ims/api/v1/expence/salary/get_salary_expense',
+    url: '/api/expence/salary/get_salary_expense',
     headers: {}
   };
 
@@ -110,7 +110,7 @@ const getSalaryExpense = () => {
 const addSalaryExpense = (data) => {
   var config = {
     method: 'post',
-    url: 'http://localhost/ims/api/v1/expence/salary/add_salary_expence',
+    url: '/api/expence/salary/add_salary_expence',
     headers: {
       'Content-Type': 'application/json'
     },
@@ -123,7 +123,7 @@ const addSalaryExpense = (data) => {
 const updateSalary = (data) => {
   var config = {
     method: 'put',
-    url: 'http://localhost/ims/api/v1/expence/salary/update_salary_expence',
+    url: '/api/expence/salary/update_salary_expence',
     headers: {
       'Content-Type': 'application/json'
     },
@@ -137,7 +137,7 @@ const updateSalary = (data) => {
 const removeSalaryExpense = (id) => {
   var config = {
     method: 'delete',
-    url: `http://localhost/ims/api/v1/expence/salary/delete_salary_expence/${id}`,
+    url: `/api/expence/salary/delete_salary_expence/${id}`,
     headers: {}
   };
 
@@ -150,7 +150,7 @@ const removeSalaryExpense = (id) => {
 const getMasatefiyaExpense = () => {
   var config = {
     method: 'get',
-    url: 'http://localhost/ims/api/v1/expence/masatefiya/get_masatefiya_expense',
+    url: '/api/expence/masatefiya/get_masatefiya_expense',
     headers: {}
   };
 
@@ -160,7 +160,7 @@ const getMasatefiyaExpense = () => {
 const addMasatefiyaExpense = (data) => {
   var config = {
     method: 'post',
-    url: 'http://localhost/ims/api/v1/expence/masatefiya/add_masatefiya_expence',
+    url: '/api/expence/masatefiya/add_masatefiya_expence',
     headers: {
       'Content-Type': 'application/json'
     },
@@ -173,7 +173,7 @@ const addMasatefiyaExpense = (data) => {
 const removeMasatefiyaExpense = (id) => {
   var config = {
     method: 'delete',
-    url: `http://localhost/ims/api/v1/expence/masatefiya/delete_masatefiya_expence/${id}`,
+    url: `/api/expence/masatefiya/delete_masatefiya_expence/${id}`,
     headers: {}
   };
 
@@ -184,7 +184,7 @@ const removeMasatefiyaExpense = (id) => {
 const updateMasatefiyaExpense = (data) => {
   var config = {
     method: 'put',
-    url: 'http://localhost/ims/api/v1/expence/masatefiya/update_masatefiya_expence',
+    url: '/api/expence/masatefiya/update_masatefiya_expence',
     headers: {
       'Content-Type': 'application/json'
     },
@@ -199,7 +199,7 @@ const updateMasatefiyaExpense = (data) => {
 const getOtherExpenseType = () => {
   var config = {
     method: 'get',
-    url: 'http://localhost/ims/api/v1/expence/OET/get_OET',
+    url: '/api/expence/OET/get_OET',
     headers: {}
   };
 
@@ -210,7 +210,7 @@ const getOtherExpenseType = () => {
 const addOtherExpenseType = (data) => {
   var config = {
     method: 'post',
-    url: 'http://localhost/ims/api/v1/expence/OET/add_OET',
+    url: '/api/expence/OET/add_OET',
     headers: {
       'Content-Type': 'application/json'
     },
@@ -224,7 +224,7 @@ const removeOtherExpenseType = (id) => {
 
   var config = {
     method: 'delete',
-    url: `http://localhost/ims/api/v1/expence/OET/delete_OET/${id}`,
+    url: `/api/expence/OET/delete_OET/${id}`,
     headers: {}
   };
 
@@ -239,7 +239,7 @@ const getOtherExpense = () => {
 
   var config = {
     method: 'get',
-    url: 'http://localhost/ims/api/v1/expence/OEL/get_OEL',
+    url: '/api/expence/OEL/get_OEL',
     headers: {}
   };
 
@@ -249,7 +249,7 @@ const getOtherExpense = () => {
 const addOtherExpense = (data) => {
   var config = {
     method: 'post',
-    url: 'http://localhost/ims/api/v1/expence/OEL/add_OEL',
+    url: '/api/expence/OEL/add_OEL',
     headers: {
       'Content-Type': 'application/json'
     },
@@ -263,7 +263,7 @@ const removeOtherExpense = (id) => {
 
   var config = {
     method: 'delete',
-    url: `http://localhost/ims/api/v1/expence/OEL/delete_OEL/${id}`,
+    url: `/api/expence/OEL/delete_OEL/${id}`,
     headers: {},
 
   };
@@ -273,7 +273,7 @@ const removeOtherExpense = (id) => {
 const updateExpenseType = (data) => {
   var config = {
     method: 'put',
-    url: 'http://localhost/ims/api/v1/expence/OET/update_OET',
+    url: '/api/expence/OET/update_OET',
     headers: {
       'Content-Type': 'application/json'
     },
@@ -285,7 +285,7 @@ const updateExpenseType = (data) => {
 const updateOtherExpense = (data) => {
   var config = {
     method: 'put',
-    url: 'http://localhost/ims/api/v1/expence/OEL/update_OEL',
+    url: '/api/expence/OEL/update_OEL',
     headers: {
       'Content-Type': 'application/json'
     },

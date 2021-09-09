@@ -209,7 +209,7 @@ export default {
 
       var config = {
         method: "post",
-        url: "http://localhost/ims/api/v1/report/get_report_interval",
+        url: "/api/report/get_report_interval",
         headers: {
           "Content-Type": "application/json",
         },

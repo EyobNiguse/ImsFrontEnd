@@ -4,7 +4,7 @@ var axios = require('axios');
 const getCategories =  ()=>{
   var config = {
     method: 'get',
-    url: 'http://localhost/ims/api/v1/category/getcategories',
+    url: '/api/category/getcategories',
     headers: { }
   };
  
@@ -13,7 +13,7 @@ const getCategories =  ()=>{
 const addCategory = (data)=>{
   var config = {
     method: 'post',
-    url: 'http://localhost/ims/api/v1/category/addcategory',
+    url: '/api/category/addcategory',
     headers: { 
       'Content-Type': 'application/json'
     },
@@ -25,7 +25,7 @@ const addCategory = (data)=>{
 const updateCategory = (data)=>{
   var config = {
     method: 'put',
-    url: 'http://localhost/ims/api/v1/category/update_category',
+    url: '/api/category/update_category',
     headers: { 
       'Content-Type': 'application/json'
     },
@@ -37,7 +37,7 @@ const updateCategory = (data)=>{
 const removeCategory = (data)=>{
   var config = {
     method: 'delete',
-    url: 'http://localhost/ims/api/v1/category/delete_category',
+    url: '/api/category/delete_category',
     headers: { 
       'Content-Type': 'application/json'
     },

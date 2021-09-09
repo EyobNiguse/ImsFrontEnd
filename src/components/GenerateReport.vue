@@ -135,7 +135,7 @@ export default {
 
       var config = {
         method: "post",
-        url: "http://localhost/ims/api/v1/report/get_all_report",
+        url: "/api/report/get_all_report",
         headers: {
           "Content-Type": "application/json",
         },
@@ -163,7 +163,7 @@ export default {
 
       var config = {
         method: "post",
-        url: "http://localhost/ims/api/v1/report/get_all_report",
+        url: "/api/report/get_all_report",
         headers: {
           "Content-Type": "application/json",
         },

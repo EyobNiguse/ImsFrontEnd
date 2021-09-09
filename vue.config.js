@@ -7,9 +7,9 @@ module.exports = {
       '^/api': {
         target: 'http://10.4.17.201/ims/api/v1/',
         changeOrigin: true,
-        pathRewrite: { '^/api': '' },
+        pathRewrite: {'^/api': ''},
         logLevel: 'debug'
-      },
+      },  
     }
   }
 }

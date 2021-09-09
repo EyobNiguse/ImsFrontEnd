@@ -3,7 +3,7 @@ const getPurchase = ()=>{
 
   var config = {
     method: 'get',
-    url: 'http://localhost/ims/api/v1/get_purchase_orders',
+    url: '/api/get_purchase_orders',
     headers: {}
   };
   
@@ -13,7 +13,7 @@ const getPurchase = ()=>{
 const getGRN  =  ()=>{
   var config = {
     method: 'get',
-    url: 'http://localhost/ims/api/v1/get_grns',
+    url: '/api/get_grns',
     headers: { }
   };
   
@@ -22,7 +22,7 @@ const getGRN  =  ()=>{
 const addPurchase = (data)=>{
     var config = {
         method: 'post',
-        url: 'http://localhost/ims/api/v1/purchase/make_purchase',
+        url: '/api/purchase/make_purchase',
         headers: { 
           'Content-Type': 'application/json'
         },
@@ -38,7 +38,7 @@ const removePurchase = (id)=>{
   }
   var config = {
     method: 'delete',
-    url: 'http://localhost/ims/api/v1/purchase/delte_grn',
+    url: '/api/purchase/delte_grn',
     headers: { 
       'Content-Type': 'application/json'
     },
@@ -52,7 +52,7 @@ const removePurchase = (id)=>{
 const getNotDelivered = ()=>{
   var config = {
     method: 'get',
-    url: 'http://localhost/ims/api/v1/grn_not_delivered',
+    url: '/api/grn_not_delivered',
     headers: { }
   };
   
@@ -62,7 +62,7 @@ const getNotDelivered = ()=>{
 const updateGRN = (data)=>{
   var config = {
     method: 'put',
-    url: 'http://localhost/ims/api/v1/purchase/update_grn',
+    url: '/api/purchase/update_grn',
     headers: { 
       'Content-Type': 'application/json'
     },
@@ -75,7 +75,7 @@ const updatePurchase = (data)=>{
   
   var config = {
     method: 'put',
-    url: 'http://localhost/ims/api/v1/purchase/update_purchase',
+    url: '/api/purchase/update_purchase',
     headers: { 
       'Content-Type': 'application/json'
     },
@@ -88,7 +88,7 @@ const updatePurchase = (data)=>{
 const removeItem = (id)=>{
   var config = {
     method: 'delete',
-    url: 'http://localhost/ims/api/v1/purchase/delete_purchase',
+    url: '/api/purchase/delete_purchase',
     headers: { 
       'Content-Type': 'application/json'
     },
