@@ -23,10 +23,10 @@
                             {{x.INCount}}
                         </td>
                         <td>
-                            <button class="btn-submit-mini">
+                            <button @click="updateSinlgeItemView(x.WSID)" class="btn-submit-mini">
                                 <i class="fas fa-edit"></i>
                             </button>
-                            <button class="btn-submit-mini err">
+                            <button @click="removeSingleItem(x.WSID)" class="btn-submit-mini err">
                               <i class="fas fa-trash-alt"></i>
                             </button>
                         </td>
@@ -35,11 +35,11 @@
         </vue-window-modal>
         <!-- / view items pop up -->
         <!-- edit Single Ship pop up -->
-        <vue-window-modal :active="singleEdit" v-on:clickClose="updateSingleEdit(false)">
+        <vue-window-modal :active="singleEdit" title="update Transfer Item" v-on:clickClose="updateSingleEdit(false)" style="width:auto;height:auto;">
            <form @submit.prevent="updateShipmentItem">
                <label for="">IN</label>
                <input v-model="editIN"  type="number" class='txt-input'>
-               <button   type="submit" class="btn-submit"> </button>
+               <button   type="submit" class="btn-submit"> Update </button>
            </form>
         </vue-window-modal>
         <!-- /edit single ship pop up -->
@@ -224,6 +224,8 @@ components:{
 } ,
 data(){
     return{ 
+        singleEdit:false,
+        editIN:'',
         drivers:[],
         editDriver:'',
         listAll:false, 
@@ -258,6 +260,48 @@ data(){
     ]
 }},
 methods:{
+    removeSingleItem(id){
+        this.listAll = false;
+  this.$confirm("Are you sure? removeing an item can not be undone!!").then(()=>{
+       const data = {
+             "WSID":id
+       }
+      Ship.removeShipmentItem(data).then(res=>{
+
+          this.$alert("Item Removed!!","SUCCESS","success");
+          console.log(res);
+      }).catch(err=>{
+          this.$alert(err.response.data.message,"ERROR","error");
+      })
+  })
+    },
+    updateShipmentItem(){
+        const data = {
+    "newtransferdCount":this.editIN,
+    "WSID":this.editItem
+        }
+        Ship.updateShipmentItem(data).then((res)=>{
+                this.updateSingleEdit(false);
+                this.$alert("Shipment Item Updated!!","SUCCESS","success");
+                console.log(res);
+        }).then(err=>{
+            this.updateSingleEdit(false);
+            this.$alert(err.response.data.message,"ERROR","error");
+        })
+    },
+    updateSingleEdit(state){
+        this.singleEdit =  state;
+    },
+    updateSinlgeItemView(id){
+        this.listAll = false;
+        this.singleEdit =   true;
+     const data  = this.itemsList.filter(item=>{
+         return item.WSID == id;
+     })[0];
+     console.log("check dat", data);
+     this.editItem = id;
+     this.editIN = data.INCount;
+    },
     getDrivers(){
       Driver.getDrivers().then(item => {
       this.drivers = item["data"];
@@ -275,6 +319,7 @@ methods:{
         this.itemsList = this.items.filter(item=>{
             return item.TEID ==id;
         })[0]["Warehouse-Store"];
+        console.log("check here 1", this.itemsList);
         
     },
         clearForm(){
@@ -394,7 +439,7 @@ updateExpenseView(id){
     console.log("check here", id);
     this.editVisible=true;
     this.editableBill = id;
-    const dt = this.items.filter(item=>{return item.RentID == id})[0];
+    const dt = this.items.filter(item=>{return item.TEID == id})[0];
     this.editDate = dt.Date;
     this.editCost = dt.Cost;
 

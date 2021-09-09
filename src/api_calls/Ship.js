@@ -32,8 +32,34 @@ const removeShipment = (data)=>{
       
 return axios(config);
 }
+const updateShipmentItem = (data)=>{
+  var config = {
+    method: 'put',
+    url: '/api/purchase/update_transferd_count',
+    headers: { 
+      'Content-Type': 'application/json'
+    },
+    data : data
+  };
+  
+  return axios(config)
+}
+ const removeShipmentItem = (data)=>{
+  var config = {
+    method: 'delete',
+    url: '/api/purchase/delete_transfered_item',
+    headers: { 
+      'Content-Type': 'application/json'
+    },
+    data : data
+  };
+  
+ return axios(config)
+ } 
 export default {
 getAllShipment,
 updateShipment,
-removeShipment
+removeShipment,
+updateShipmentItem,
+removeShipmentItem
 }
