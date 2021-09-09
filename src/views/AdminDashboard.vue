@@ -8,7 +8,7 @@
             <ul>
                        <router-link to="status">
                 <a href="">
-                    <li>Status</li>
+                    <li>Dashboard</li>
                 </a>
             </router-link>
                       <router-link to="Item">
