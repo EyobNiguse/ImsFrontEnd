@@ -145,16 +145,7 @@ export default {
 ItemsList:[],
      SupplierList:[],
      links:[
-         {
-             id:0,
-             address:"shipment",
-             displayText:"Ship Purchases",
-
-         },{
-             id:1,
-             address:"shipTowareHouse",
-             displayText:"Transfer To Store"
-         }
+      
      ]
  }
     },
@@ -163,7 +154,7 @@ ItemsList:[],
             Purchase.getNotDelivered().then(res=>{
                 this.items = res["data"];
                 console.log(res["data"]);
-            }).catch(err=>{this.$confirm(err.response.data.message,"ERROR","error")})
+            }).catch(err=>{console.log(err.response.data.message,"ERROR","error")})
         },
         Suppliers(){
             Supplier.getSuppliers().then(res=>{

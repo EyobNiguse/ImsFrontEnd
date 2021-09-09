@@ -42,6 +42,7 @@ import GrnCreditSettlement from "@/components/GrnCreditSettlement.vue";
 import RefCreditSettlement from "@/components/RefCreditSettlement.vue";
 import RentExpense from "@/components/RentExpense.vue";
 import   ShipExpense from "@/components/ShipExpense";
+import  Status from "@/components/Status.vue";
 Vue.use(VueRouter);
 const routes = [
   {
@@ -102,6 +103,11 @@ const routes = [
     name:"AdminDashboard",
     component:AdminDashboard,
     children:[
+      {
+        path:"status",
+        name:"status",
+        component:Status,
+      },
       {
         path:"purchase",
           name:"viewPurchase",
@@ -246,6 +252,43 @@ const routes = [
         name:"addBank",
         component:AddBank
 
+      },  {
+        path:"driver",
+        name:"Driver",
+        component:AddDeriver
+      },{
+        path:"shipment",
+        name:"shipment",
+        component:Shipment
+      },{
+        path:"shipToWareHouse",
+        name:"SHIPWAREHOUSE",
+        component:ShipToWareHouse
+      },{
+        path:"orders",
+        name:"orders",
+        component:ViewOrder
+      },{
+        path:"addOrder",
+        name:"AddOrder",
+        component:AddOrder
+      },{
+        path:"viewOrder",
+        name:"View Order",
+       component:ViewOrder
+      },{
+        path:"viewOrder/:id",
+        name:"ViewOrderId",
+        component:ViewOrderId
+      
+      },{
+        path:"sales",
+        name:"sales",
+        component:ViewSales
+      },{
+        path:"addSales",
+        name:"addSales",
+        component:AddSales
       }
     ]
   }

@@ -35,8 +35,12 @@
         </vue-window-modal>
         <!-- / view items pop up -->
         <!-- edit Single Ship pop up -->
-        <vue-window-modal :active="singleEdit" clickClose>
-
+        <vue-window-modal :active="singleEdit" v-on:clickClose="updateSingleEdit(false)">
+           <form @submit.prevent="updateShipmentItem">
+               <label for="">IN</label>
+               <input v-model="editIN"  type="number" class='txt-input'>
+               <button   type="submit" class="btn-submit"> </button>
+           </form>
         </vue-window-modal>
         <!-- /edit single ship pop up -->
         <!-- edit PersonalExpense Pop Up -->
@@ -181,8 +185,7 @@
                                   </i>
                               </button>
                           </td>
-                          <td>   <button  @click="updateExpenseView(x.RentID)" class="btn-submit-mini"> <i class="fas fa-edit"></i> </button> <button class="btn-err" @click="removePersonalExpense(x.RentID)"><i class="fas fa-trash-alt"></i></button></td>
-                   
+                          <td>   <button  @click="updateExpenseView(x.TEID)" class="btn-submit-mini"> <i class="fas fa-edit"></i> </button> <button class="btn-err" @click="removePersonalExpense(x.TEID)"><i class="fas fa-trash-alt"></i></button></td>
                       </tr>
                     </table>
                 <span>
@@ -352,10 +355,10 @@ addPersonalExpense(){
 removePersonalExpense(id){
  this.$confirm("Are you sure? removing expense can not be undone!!").then(()=>{
      const data = {
-    "RentID": id
+    "TEID": id
 }
-Rent.deleteRentExpense(data).then(res=>{
-        this.items = this.items.filter(item=>{return item.RentID != id});
+Ship.removeShipment(data).then(res=>{
+        this.items = this.items.filter(item=>{return item.TEID != id});
         this.$alert(res.data.message,"SUCCESS","success");
     }).catch(err=>{
         this.$alert(err.response.data.message,"ERROR","error");
@@ -403,7 +406,7 @@ updateExpenseView(id){
     "DriverID":this.editDriver
 
     }
-    Rent.updateRentExpense(data).then(res=>{
+    Ship.updateShipment(data).then(res=>{
         console.log(res["data"])
         this.getAllExpenseList();
         this.editDate = "";

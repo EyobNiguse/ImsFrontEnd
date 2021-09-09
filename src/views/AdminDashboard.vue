@@ -6,16 +6,49 @@
         <div class="dashboard-side-nav">
           <MainHeader/>
             <ul>
-                <router-link to="status">
+                       <router-link to="status">
                 <a href="">
                     <li>Status</li>
                 </a>
             </router-link>
+                      <router-link to="Item">
+                 <a href="">
+                    <li>Inventory</li>
+                </a>
+                </router-link>
+                 <router-link to="orders">
+                  <a href="">
+                    <li>Orders</li>
+                </a>
+            
+              </router-link>
                 <router-link to="purchase">
                   <a href="">
                     <li>Purchase</li>
                 </a>
                 </router-link>
+                    <router-link to="shipment">
+                 <a href="">
+                    <li>Shipment</li>
+                </a>
+                </router-link>
+                 <router-link to="shipTowareHouse">
+                  <a href="">
+                    <li>Transfer To Store</li>
+                </a>
+              </router-link>
+                <router-link to="sales">
+                <a href="">
+                    <li>Sales</li>
+                </a>
+            </router-link>
+          
+       
+        
+            
+
+       
+              
                 <router-link to="employees">
                   <a href="">
                     <li>Employees</li>
@@ -32,11 +65,7 @@
                 </a>
             
               </router-link>
-                    <router-link to="Item">
-                 <a href="">
-                    <li>Inventory</li>
-                </a>
-                </router-link>
+          
                      <router-link to="ItemCategory">
                  <a href="">
                     <li>Item  Category</li>
@@ -127,7 +156,7 @@ font-weight:bold;
  
  .dashboard-interactives{
     display:grid;
-    grid-template-columns:20% 70%;
+    grid-template-columns:15% 70%;
 }
 .dashboard-side-nav{
     padding:15px;
@@ -136,7 +165,7 @@ font-weight:bold;
 }
 .dashboard-side-nav li{
 list-style: none;
-padding:15px;
+padding:10px;
 margin:10px;
 background:none !important;
 text-align:left !important;
@@ -154,7 +183,7 @@ color:black !important;
 .dashboard-side-nav a{
     color:white;
     text-decoration:none;
-    font-size:20px;
+    font-size:18px;
     font-weight:bolder;
 }
 .dashboard-display{

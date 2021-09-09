@@ -8,6 +8,32 @@ const getAllShipment = ()=>{
       
       return axios(config)
 } 
+const updateShipment  = (data)=>{
+    var config = {
+        method: 'put',
+        url: '/api/purchase/update_teid',
+        headers: { 
+          'Content-Type': 'application/json'
+        },
+        data : data
+      };
+      
+     return axios(config)
+}
+const removeShipment = (data)=>{
+    var config = {
+        method: 'delete',
+        url: '/api/purchase/delete_teid',
+        headers: { 
+          'Content-Type': 'application/json'
+        },
+        data : data
+      };
+      
+return axios(config);
+}
 export default {
-getAllShipment
+getAllShipment,
+updateShipment,
+removeShipment
 }

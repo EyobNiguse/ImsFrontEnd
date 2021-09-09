@@ -127,16 +127,7 @@ export default {
         OrderString:'',
         links:
                [
-                   {    
-                       id:0,
-                       address:"shipment",
-                       displayText:"Ship Purchases"
-                   },
-                   {
-                    id:1,
-                    address:"shipToWareHouse",
-                    displayText:"Transfer To Store"
-                   }
+                
                ]
    }
     },
