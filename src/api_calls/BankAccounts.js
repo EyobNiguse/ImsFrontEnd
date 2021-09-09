@@ -4,7 +4,7 @@ const getAllPersonnalAccounts = ()=>{
 
     var config = {
         method: 'get',
-        url: '/api/personalBankAccount/Accounts',
+        url: '/api/v1/personalBankAccount/Accounts',
         headers: { }
       };
       
@@ -13,7 +13,7 @@ const getAllPersonnalAccounts = ()=>{
 const addPersonlaAccount = (data)=>{
     var config = {
         method: 'post',
-        url: '/api/personalBankAccount/add_bank_account',
+        url: '/api/v1/personalBankAccount/add_bank_account',
         headers: { 
           'Content-Type': 'application/json'
         },
@@ -25,7 +25,7 @@ const addPersonlaAccount = (data)=>{
 const addTransaction = (data)=>{
     var config = {
         method: 'post',
-        url: '/api/personalBankAccount/add_transaction',
+        url: '/api/v1/personalBankAccount/add_transaction',
         headers: { 
           'Content-Type': 'application/json'
         },
@@ -38,7 +38,7 @@ const addTransaction = (data)=>{
  const getTransaction= (id)=>{
     var config = {
         method: 'get',
-        url: ` /api/personalBankAccount/getBankAccount_transactions/${id}`,
+        url: ` /api/v1/personalBankAccount/getBankAccount_transactions/${id}`,
         headers: { }
       };
       
@@ -47,7 +47,7 @@ const addTransaction = (data)=>{
  const removeBankAccount = (data)=>{
   var config = {
     method: 'delete',
-    url: '/api/personalBankAccount/delete_bank_account',
+    url: '/api/v1/personalBankAccount/delete_bank_account',
     headers: { 
       'Content-Type': 'application/json'
     },
@@ -59,7 +59,7 @@ const addTransaction = (data)=>{
   const removeTransaction = (data)=>{
     var config = {
       method: 'delete',
-      url: '/api/personalBankAccount/delete_transaction',
+      url: '/api/v1/personalBankAccount/delete_transaction',
       headers: { 
         'Content-Type': 'application/json'
       },
@@ -71,7 +71,7 @@ const addTransaction = (data)=>{
   const updateBank = (data)=>{
     var config = {
       method: 'put',
-      url: '/api/personalBankAccount/update_bank_account',
+      url: '/api/v1/personalBankAccount/update_bank_account',
       headers: { 
         'Content-Type': 'application/json'
       },

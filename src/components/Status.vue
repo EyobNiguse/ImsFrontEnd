@@ -1,83 +1,104 @@
 <template>
-  <div class="container">
+  <div id="container">
     <form @submit.prevent="submitForm">
-      <div class="row">
-        <div class="col float-left">
-          starting date <input type="date" required v-model="post_data.date1" />
-        </div>
-        <div class="col">
-          <select
-            v-model="post_data.option"
-            name="report"
-            id="report"
-            @change="onChange($event)"
-          >
-            <option :key="i" v-for="i in report_type" :value="i">
-              {{ i }}
-            </option>
-          </select>
-        </div>
-        <div class="col float-right">
-          ending date <input type="date" required v-model="post_data.date2" />
-        </div>
-      </div>
-      <div class="row mt-5">
-        <div class="col-4 mx-auto">
-          <span>Day {{ post_data.dayInterval }}</span
+      <table>
+        <tr>
+          <td>
+            <label for="">Starting Date</label>
+            <input
+              type="date"
+              required
+              v-model="post_data.date1"
+              class="txt-input"
+            />
+          </td>
+          <td>
+            <label for=""> Ending Date</label>
+            <input
+              type="date"
+              required
+              v-model="post_data.date2"
+              class="txt-input"
+            />
+          </td>
+        </tr>
+        <tr>
+          <td>
+            <select
+              v-model="post_data.option"
+              name="report"
+              id="report"
+              @change="onChange($event)"
+              class="txt-input"
+            >
+              <option :key="i" v-for="i in report_type" :value="i">
+                {{ i }}
+              </option>
+            </select>
+          </td>
+          <td>
+            <span>Day {{ post_data.dayInterval }}</span
+            ><input
+              type="range"
+              min="0"
+              max="30"
+              step="1"
+              id="customRange3"
+              v-model="post_data.dayInterval"
+              class="txt-input"
+            />
+          </td>
+        </tr>
+        <tr>
+          <td>
+      <span> week {{ post_data.weekInterval }}</span
           ><input
             type="range"
-            class="form-range"
-            min="0"
-            max="30"
-            step="1"
-            id="customRange3"
-            v-model="post_data.dayInterval"
-          />
-
-          <span> week {{ post_data.weekInterval }}</span
-          ><input
-            type="range"
-            class="form-range"
             min="0"
             max="4"
             step="1"
             id="customRange3"
             v-model="post_data.weekInterval"
+            class="txt-input"
           />
-
+          </td>
+          <td>
+  
           <span>Month {{ post_data.monthInterval }}</span>
           <input
             type="range"
-            class="form-range"
+            class="txt-input"
             min="0"
             max="12"
             step="1"
             id="customRange3"
             v-model="post_data.monthInterval"
           />
-        </div>
-      </div>
-      <input class="btn btn-primary" type="submit" value="Generate report" />
+          </td>
+        </tr>
+      </table>
+      <input class="btn-submit" type="submit" value="Generate" />
     </form>
-    <div class="row sparkboxes mt-4 mb-4">
-      <div class="col-md-6">
-        <div class="box box2">
+    <div id="spark-container">
+    <div>
+      <div>
+        <div>
           <Sparkle
             :Series="generateSeries([{ name: 'Total-Purchase' }]).Series"
           ></Sparkle>
         </div>
       </div>
-      <div class="col-md-6">
-        <div class="box box2">
+      <div>
+        <div>
           <Sparkle
             :Series="generateSeries([{ name: 'Total-Sales' }]).Series"
           ></Sparkle>
         </div>
       </div>
     </div>
-    <div class="row sparkboxes mt-6 mb-4">
-      <div class="col-md-6">
-        <div class="box box2">
+    <div >
+      <div >
+        <div >
           <Sparkle
             :Series="
               generateSeries([{ name: 'Gross-Profit', type: 'area' }]).Series
@@ -85,8 +106,8 @@
           ></Sparkle>
         </div>
       </div>
-      <div class="col-md-6">
-        <div class="box box2">
+      <div >
+        <div>
           <Sparkle
             :Series="
               generateSeries([{ name: 'NET-Profit', type: 'area' }]).Series
@@ -96,9 +117,9 @@
       </div>
     </div>
 
-    <div class="row mt-5 mb-4">
-      <div class="col-md-6">
-        <div class="box">
+    <div >
+      <div >
+        <div>
           <ExpenceChart
             :Series="
               generateSeries([
@@ -117,6 +138,7 @@
         </div>
       </div>
     </div>
+      </div>
   </div>
 </template>
 
@@ -187,7 +209,7 @@ export default {
 
       var config = {
         method: "post",
-        url: "http://localhost/ims/api/v1/report/get_report_interval",
+        url: "/api/report/get_report_interval",
         headers: {
           "Content-Type": "application/json",
         },
@@ -255,3 +277,10 @@ export default {
   },
 };
 </script>
+<style >
+  #spark-container{
+    display: grid;
+    grid-template-columns:450px 450px 450px;
+    grid-gap:20px;
+  }
+</style>

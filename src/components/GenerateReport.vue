@@ -1,62 +1,74 @@
 <template>
-  <div class="container-fluid">
-    <div class="row">
-      <div class="col float-left" >
-        <div class="row">
-          <div class="col">
-            starting date <input type="date" v-model="starting_date" />
-          </div>
-          <div class="col">
-            ending date <input type="date" v-model="ending_date" />
-          </div>
-        </div>
+       <div id="main">
+         <div id="sub1">
+         <div id="top-notice">
+           <table>
+             <tr>
+<td>
+ <label for="">   
+           <h3>
+            Starting Date
+           </h3>
+           </label>
+            <input type="date" v-model="starting_date" class="txt-input" />
+</td>
+<td>
 
-        <select
+            <label for=""> Ending Date</label>
+             <input type="date" v-model="ending_date"  class="txt-input"/>
+</td>
+             </tr>
+             <tr>
+  <td>
+             <select
           v-model="selected"
           name="report"
           id="report"
           @change="onChange($event)"
-        >
+          class="txt-input">
           <option :key="i" v-for="i in report_type" :value="i">{{ i }}</option>
         </select>
-        <br />
-        <br />
+  </td>
+  <td>
+   <button class="btn-submit" @click="generateReport()">   Generate  </button>
+  </td>
+             </tr>
+           </table>      
+         </div>
 
-        <button class="btn-primary" @click="generateReport()">
-          Generate Report
-        </button>
-        <h1>Profit And Loss Calculator</h1>
-        <div class="container col-7">
-          <table class="table">
+      
+        <h1 id="center">Profit And Loss Calculator</h1>
+       
+          <table id="table">
             <thead>
               <tr>
-                <th scope="col" style="text-align: left">Theading income</th>
-                <th scope="col" style="text-align: right">Total Price</th>
+                <th >Theading income</th>
+                <th  >Total Price</th>
               </tr>
             </thead>
             <tbody>
               <tr :key="key" v-for="(value, key) in this.data.final_report">
-                <th style="text-align: left" scope="row">{{ key }}</th>
-                <td style="text-align: left">{{ value }} Birr</td>
+                <th >{{ key }}</th>
+                <td >{{ value }} Birr</td>
               </tr>
             </tbody>
           </table>
-        </div>
-      </div>
-      <div class="col float-right" style="overflow-y:scroll; height:100vh">
-        <div v-for="d,i in data" :key="i" class="row mb-3">
+       
+       </div>
+      <div  id="sub2" style="  overflow-y: scroll;
+  height:100vh;">
+        <div v-for="d,i in data" :key="i">
           <DynamicTable :Name="i" :data="d"></DynamicTable>
         </div>
       </div>
-    </div>
   </div>
 </template>
 
 <script>
 import axios from "axios";
 var _ = require("lodash");
-import DynamicTable from "DynamicTable.vue";
-
+import DynamicTable from "./DynamicTable.vue";
+ 
 export default {
   name: "GenerateReport",
   components: {
@@ -64,6 +76,7 @@ export default {
   },
   data: function () {
     return {
+      popButtons:[],
       selected: "fifo",
       starting_date: "2021-07-01",
       ending_date: "2021-09-29",
@@ -122,7 +135,7 @@ export default {
 
       var config = {
         method: "post",
-        url: "http://localhost/ims/api/v1/report/get_all_report",
+        url: "/api/report/get_all_report",
         headers: {
           "Content-Type": "application/json",
         },
@@ -133,6 +146,9 @@ export default {
         .then((result) => {
           this.data = "";
           this.data = result.data;
+           this.popButtons  = document.getElementsByClassName("popy");
+           console.log("pop buttons",this.popButtons);
+           
         })
         .catch((err) => {
           console.log(err);
@@ -147,7 +163,7 @@ export default {
 
       var config = {
         method: "post",
-        url: "http://localhost/ims/api/v1/report/get_all_report",
+        url: "/api/report/get_all_report",
         headers: {
           "Content-Type": "application/json",
         },
@@ -178,10 +194,57 @@ export default {
         },
       ];
     },
+  },created(){
+    // this.popButtons =  document.getElementsByClassName("popy");
+    
   },
   mounted() {},
 };
 </script>
 
-<style>
+<style scoped>
+#top-notice{
+display: inline-block;
+width:100%;
+}
+#main{
+  width:100%;
+  display: grid;
+  grid-template-columns: 50% 50%;
+  grid-gap:40px;
+
+}
+#sub1{
+  grid-column: 1;
+}
+#sub2{
+  width:100%;
+
+}
+#table{
+  /* padding:25px; */
+  width:100%;
+}
+#table thead{
+ 
+    background: rgb(11, 170, 96);
+
+  color:white;
+}
+#table thead th{
+   padding:20px;
+}
+#table tbody th{
+  text-align: left;
+}
+#table tbody td{
+  padding:10px;
+}
+#table tr{
+  /* padding:25px; */
+  border-bottom:1px solid gray;
+}
+#center{
+  text-align: center;
+}
 </style>

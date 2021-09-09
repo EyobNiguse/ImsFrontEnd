@@ -26,7 +26,7 @@ export default {
 <style >
   
     .top-nav{
-    width: 245px;
+    width:250px;
     height:70px;
     background:url(../assets/images/background-main.png) no-repeat;
     background-size:cover;

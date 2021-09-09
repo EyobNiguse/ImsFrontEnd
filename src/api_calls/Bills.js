@@ -2,7 +2,7 @@ import axios from "axios";
 const getAllExpenseList = () => {
   var config = {
     method: 'get',
-    url: '/api/expence/BL/get_BL',
+    url: '/api/v1/expence/BL/get_BL',
     headers: {}
   };
 
@@ -12,7 +12,7 @@ const getAllBillTypes = () => {
 
   var config = {
     method: 'get',
-    url: '/api/expence/BT/get_BT',
+    url: '/api/v1/expence/BT/get_BT',
     headers: {}
   };
 
@@ -21,7 +21,7 @@ const getAllBillTypes = () => {
 const addBillType = (data) => {
   var config = {
     method: 'post',
-    url: '/api/expence/BT/add_BT',
+    url: '/api/v1/expence/BT/add_BT',
     headers: {
       'Content-Type': 'application/json'
     },
@@ -33,7 +33,7 @@ const addBillType = (data) => {
 const addBillExpense = (data) => {
   var config = {
     method: 'post',
-    url: '/api/expence/BL/add_BL',
+    url: '/api/v1/expence/BL/add_BL',
     headers: {
       'Content-Type': 'application/json'
     },
@@ -45,7 +45,7 @@ const addBillExpense = (data) => {
 const removeBillExpense = (id) => {
   var config = {
     method: 'delete',
-    url: `/api/expence/BL/delete_BL/${id}`,
+    url: `/api/v1/expence/BL/delete_BL/${id}`,
     headers: {}
   };
   return axios(config);
@@ -53,7 +53,7 @@ const removeBillExpense = (id) => {
 const removeBillType = (id) => {
   var config = {
     method: 'delete',
-    url: `/api/expence/BT/delete_BT/${id}`,
+    url: `/api/v1/expence/BT/delete_BT/${id}`,
     headers: {}
   };
 
@@ -62,7 +62,7 @@ const removeBillType = (id) => {
 const updateBillExpense = (data) => {
   var config = {
     method: 'put',
-    url: '/api/expence/BL/update_BL',
+    url: '/api/v1/expence/BL/update_BL',
     headers: { 
       'Content-Type': 'application/json'
     },
@@ -74,7 +74,7 @@ const updateBillExpense = (data) => {
 const updateBillType = (data)=>{
   var config = {
     method: 'put',
-    url: '/api/expence/BT/update_BT',
+    url: '/api/v1/expence/BT/update_BT',
     headers: { 
       'Content-Type': 'application/json'
     },

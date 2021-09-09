@@ -40,21 +40,16 @@ import AddPersonnalExpense from  "@/components/AddPersonnalExpense.vue";
 import PersonalExpenseType from "@/components/PersonalExpenseType.vue";
 import GrnCreditSettlement from "@/components/GrnCreditSettlement.vue";
 import RefCreditSettlement from "@/components/RefCreditSettlement.vue";
-// import GenerateReport from "@/components/GenerateReport"
 import RentExpense from "@/components/RentExpense.vue";
-import   ShipExpense from "@/components/ShipExpense";
-import  Status from "@/components/Status.vue";
+import ShipExpense from "@/components/ShipExpense";
+import Status from "@/components/Status.vue";
+import GenerateReport from "@/components/GenerateReport.vue";
 Vue.use(VueRouter);
 const routes = [
   {
-    path: '/',
+    path: '/login',
     name: 'Home',
     component: Login
-  },
-  {
-    path: '/generate_report',
-    name:"GenerateReport",
-    component:"GenerateReport"
   },
   {
     path:"/dashboard",
@@ -105,10 +100,15 @@ const routes = [
     name:"login",
     component:Login
   },{
-    path:"/adminDashboard",
+    path:"/",
     name:"AdminDashboard",
     component:AdminDashboard,
     children:[
+      {
+        path:"generateReport",
+        name:"generateReport",
+        component:GenerateReport
+      },
       {
         path:"status",
         name:"status",
