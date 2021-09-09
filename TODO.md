@@ -1,11 +1,10 @@
 [] Generate Report with buttons and pop up
 [] Login
 [] fixed report interval
-[] color the graps
+[] color the graphs
 [] renaming
 [x] every thing should be local
-    [] local font
-    [] 
+    [x] local font 
 [] auto start apache serve
 [] add other todos
 [] inventory fixes

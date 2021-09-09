@@ -3,6 +3,7 @@
 </template>
 <script>
 import apexchart from "vue-apexcharts";
+var randomcolor = require("randomcolor");
 export default {
   name: "Sparkle",
   components: {
@@ -31,10 +32,7 @@ export default {
         stroke: {
           curve: "straight",
         },
-        fill: {
-          opacity: 1,
-          colors: ["#008FFB", "#5564BE", "#9C27B0"],
-        },
+        fill: { colors: ["#008FFB"] },
         legend: {
           position: "top",
           offsetY: -100,
@@ -49,7 +47,10 @@ export default {
         yaxis: {},
         // colors: ["#008FFB"],
         //colors: ['#5564BE'],
-        colors: ["#008FFB", "#5564BE", "#9C27B0"],
+        colors: randomcolor({
+          count: 1,
+          hue: "green",
+        }),
 
         title: {
           text: this.Series[0].title,
