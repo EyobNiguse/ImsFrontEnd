@@ -6,6 +6,7 @@
 
 <script>
 import apexchart from "vue-apexcharts";
+var randomcolor = require("randomcolor");
 export default {
   name: "ExpenceChart",
   components: {
@@ -20,28 +21,12 @@ export default {
     },
   },
   data() {
-    return {
-      // series: [
-      // {
-      //   name: "PRODUCT A",
-      //   data: [44, 55, 41, 67, 22, 43],
-      // },
-      // {
-      //   name: "PRODUCT B",
-      //   data: [13, 23, 20, 8, 13, 27],
-      // },
-      // {
-      //   name: "PRODUCT C",
-      //   data: [11, 17, 15, 15, 21, 14],
-      // },
-      // {
-      //   name: "PRODUCT D",
-      //   data: [21, 7, 25, 13, 22, 8],
-      // },
-      // ],
-    };
+    return {};
   },
   computed: {
+    color() {
+      return randomcolor({ count: this.Series.length });
+    },
     ChartOption() {
       return {
         chart: {
@@ -53,7 +38,7 @@ export default {
           },
         },
         stroke: {
-          width: [0, 4],
+          width: [0,10],
         },
         dataLabels: {
           enabled: true,
@@ -76,7 +61,10 @@ export default {
         yaxis: {},
         // colors: ["#008FFB"],
         //colors: ['#5564BE'],
-        colors: ["#008FFB", "#5564BE", "#9C27B0"],
+        colors: randomcolor({
+          count: this.Series.length,
+          hue: "random",
+        }),
 
         title: {
           text: this.Series[0].title,
