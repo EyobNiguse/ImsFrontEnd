@@ -6,7 +6,7 @@
         </div>
          <div class="name-info">
             <h3>
-                Abel KidaneMariam
+                Assya
             </h3>
             <h4>Sales</h4>         
          </div>
