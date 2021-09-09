@@ -1,10 +1,15 @@
 <template>
+<<<<<<< HEAD
        <div id="main">
          <div id="sub1">
          <div id="top-notice">
            <table>
+=======
+<div>
+             <table>
+>>>>>>> 6aa67f9 (Prototype Done)
              <tr>
-<td>
+      <td>
  <label for="">   
            <h3>
             Starting Date
@@ -33,7 +38,11 @@
    <button class="btn-submit" @click="generateReport()">   Generate  </button>
   </td>
              </tr>
-           </table>      
+           </table>  
+       <div id="main">
+         <div id="sub1">
+         <div id="top-notice">
+    
          </div>
 
       
@@ -42,8 +51,8 @@
           <table id="table">
             <thead>
               <tr>
-                <th >Theading income</th>
-                <th  >Total Price</th>
+                <th>Theading income</th>
+                <th>Total Price</th>
               </tr>
             </thead>
             <tbody>
@@ -55,13 +64,25 @@
           </table>
        
        </div>
+<<<<<<< HEAD
       <div  id="sub2" style="  overflow-y: scroll;
   height:100vh;">
         <div v-for="d,i in data" :key="i">
+=======
+
+      <div  id="sub2" style="  overflow-y: scroll;height:100vh;">
+        <h1 id="center">Profit And Loss Calculator</h1>
+        
+        <div :key="i" v-for="(d,i) in data" >
+>>>>>>> 6aa67f9 (Prototype Done)
           <DynamicTable :Name="i" :data="d"></DynamicTable>
         </div>
       </div>
   </div>
+<<<<<<< HEAD
+=======
+</div>
+>>>>>>> 6aa67f9 (Prototype Done)
 </template>
 
 <script>
@@ -132,6 +153,7 @@ export default {
         date2: this.ending_date,
         option: this.selected,
       });
+<<<<<<< HEAD
 
       var config = {
         method: "post",
@@ -149,6 +171,12 @@ export default {
            this.popButtons  = document.getElementsByClassName("popy");
            console.log("pop buttons",this.popButtons);
            
+=======
+GenerateReport.generateReport(data).then((result) => {
+          this.data = "";
+          this.data = result.data;
+          console.log(result);
+>>>>>>> 6aa67f9 (Prototype Done)
         })
         .catch((err) => {
           console.log(err);
@@ -161,6 +189,7 @@ export default {
         option: "weighted",
       });
 
+<<<<<<< HEAD
       var config = {
         method: "post",
         url: "/api/report/get_all_report",
@@ -175,6 +204,11 @@ export default {
         .then((result) => {
           console.log(result.data);
 
+=======
+  
+
+GenerateReport.generate_report(data).then((result) => {
+>>>>>>> 6aa67f9 (Prototype Done)
           this.data = result.data;
         })
         .catch((err) => {
@@ -202,7 +236,11 @@ export default {
 };
 </script>
 
+<<<<<<< HEAD
 <style scoped>
+=======
+<style >
+>>>>>>> 6aa67f9 (Prototype Done)
 #top-notice{
 display: inline-block;
 width:100%;

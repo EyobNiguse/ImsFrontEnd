@@ -229,16 +229,16 @@
                     </table>
                         <span >
                 <span class='prev'>
-                    <button  v-if="page != 1" @click="page--"  class='btn-submit'>
-                            Previous
+                    <button  v-if="page != 1" @click="page--"  class='btn-submit-mini'>
+                            <i class="fas fa-arrow-left"></i>
                     </button>
                     </span>
                     <span class='number'>
                         <button  class='btn-submit-page'  :key='pageNumber' v-for="pageNumber in pages.slice(page-1, page+5)" @click="page = pageNumber">{{pageNumber}}</button>
                     </span>
                     <span class='next'>
-                        <button @click="page++" v-if="page < pages.length"  class='btn-submit'>
-                            Next
+                        <button @click="page++" v-if="page < pages.length"  class='btn-submit-mini'>
+                            <i class="fas fa-arrow-right"></i>
                         </button>
                     </span>
                     

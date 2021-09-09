@@ -3,10 +3,11 @@
         <div class="login-container">
         <div class="login">
            <h1>login</h1>
-            <form action="" @submit="login">
+            <form  @submit="login">
                 <input type="text" placeholder="Enter Username" class="txt-input">
                 <input type="password" placeholder="*****" class="txt-input">
                 <button class="btn-submit">Login</button>
+              
             </form>
         </div>
         <div class="display-picture">

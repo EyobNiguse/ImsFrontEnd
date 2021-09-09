@@ -146,7 +146,12 @@
 import axios from "axios";
 import Sparkle from "@/components/Sparkle.vue";
 import ExpenceChart from "@/components/ExpenceChart.vue";
+<<<<<<< HEAD
 
+=======
+// import GenerateReportVue from './GenerateReport.vue';
+// import GenerateReport from "@/api_calls/GenerateReport.js";
+>>>>>>> 6aa67f9 (Prototype Done)
 export default {
   name: "Staus",
   components: {
@@ -281,7 +286,8 @@ export default {
 <style >
   #spark-container{
     display: grid;
-    grid-template-columns:450px 450px 450px;
+    grid-template-columns:33% 33% 33%;
+    grid-template-rows:100px;
     grid-gap:20px;
   }
 </style>

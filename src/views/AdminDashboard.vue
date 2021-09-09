@@ -2,7 +2,7 @@
 <div>
  
     <div class="dashboard-container">
-             <div class="dashboard-interactives">
+<div class="dashboard-interactives">
         <div class="dashboard-side-nav">
           <MainHeader/>
             <ul>
@@ -40,7 +40,7 @@
                 </router-link>
                  <router-link to="shipTowareHouse">
                   <a href="">
-                    <li>Transfer To Store</li>
+                    <li>Transfer To WareHouse</li>
                 </a>
               </router-link>
                 <router-link to="sales">
@@ -48,12 +48,6 @@
                     <li>Sales</li>
                 </a>
             </router-link>
-          
-       
-        
-            
-
-       
               
                 <router-link to="employees">
                   <a href="">
@@ -154,7 +148,10 @@ export default {
 }
 </script>
 <style>
- @import url('https://fonts.googleapis.com/css2?family=Gowun+Dodum&display=swap');
+ @font-face {
+    font-family: "Gowun Dodum";
+    src: url("~@/assets/Gowun_Dodum/GowunDodum-Regular.ttf");
+}
  *{
 font-family: 'Gowun Dodum', sans-serif;
 font-weight:bold;
@@ -162,8 +159,8 @@ font-weight:bold;
  
  .dashboard-interactives{
     display:grid;
-    grid-template-columns:15% 80%;
-    /* grid-gap:10px; */
+    grid-template-columns:220px 80%;
+    grid-gap:10px;
 }
 .dashboard-side-nav{
     padding:15px;
@@ -194,7 +191,7 @@ color:black !important;
     font-weight:bolder;
 }
 .dashboard-display{
-    /* padding:20px; */
+    padding:20px;
   
 }
 
