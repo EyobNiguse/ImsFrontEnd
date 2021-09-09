@@ -49,10 +49,22 @@
                 </a>
             
               </router-link>
+              <router-link to="rentExpense">
+                  <a href="">
+                    <li>Rent Expense</li>
+                </a>
+            
+              </router-link>
                   <router-link to="personalexpense">
                   <a href="">
                     <li>Personal Expense</li>
                 </a>
+            
+              </router-link>
+                   <router-link to="shipExpense">
+                  <a href="">
+                    <li>Ship Expense</li>
+                  </a>
             
               </router-link>
                    <router-link to="bill">

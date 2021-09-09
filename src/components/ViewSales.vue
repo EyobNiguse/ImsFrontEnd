@@ -104,6 +104,7 @@
                                     <th>
                                         Change
                                     </th>
+                                   
                                 </tr>
                                 <tr  :key="x.ItemID"  v-for="x in items">
                                     <td>
@@ -131,6 +132,7 @@
                                             </i>
                                         </button>
                                     </td>
+                                    
                                 </tr>
                             </table>
                 </vue-window-modal>
@@ -206,6 +208,9 @@
                             <th>
                                Change
                             </th>
+                            <th>
+                              Print
+                            </th>
                         </tr>
                      <tr  :key="x.REFNO" :name="x.REFNO" v-for="x in displayedItems" >
                         <td>{{x.REFNO}}</td>
@@ -214,6 +219,12 @@
                           <td>{{getCustomerName(x.CustomerID)}}</td>
                           <td> <button  @click="listView(x.REFNO)" class="btn-submit-mini"><i class="fas fa-eye"></i></button></td>
                           <td>   <button  @click="editView(x.REFNO)" class="btn-submit-mini">  <i class="fas fa-edit"></i> </button> <button class="btn-err" @click="removeSales(x.REFNO)"><i class="fas fa-trash-alt"></i></button></td>
+                          <td>
+                            <button @click="printView(x.REFNO)" class="btn-submit-mini">
+                               <i class="fas fa-print"></i>
+            
+                            </button>
+                          </td>
                      </tr>
                     </table>
                         <span >
@@ -293,6 +304,11 @@ export default {
             ]
         }
     },methods:{
+      printView(id){
+        this.itemsList = this.items.filter(item=>{
+          return item.REFNO == id;
+        });
+      },
       clearForm(){
         this.customerFilter="";
         this.transactionFilter="";
@@ -686,7 +702,8 @@ export default {
                 Customer.getCustomers().then(res=>{
                     this.CustomersList = res["data"];
                 }).catch(err=>{
-                    this.$alert(err.response.data.message);
+                  console.log(err)
+                    // this.$alert(err.response.data.message);
                 })
             },editVisibleUpdate(state){
                 this.editVisible = state;
@@ -710,7 +727,6 @@ export default {
                 this.editVisibleItem = true;
                 this.listVisible = false;
             const dt = this.items.filter(item=>{return item.SalesId == id})[0]
-            
             this.editPPP = dt.PPP;
             this.editQuantity  = dt.Quantity; 
             },editVisibleItemUpdate(state){
@@ -771,7 +787,7 @@ export default {
          Driver.getDrivers().then(res=>{
                this.DriversList =  res["data"];
            }).catch(err=>{
-               this.$alert(err.response.data.message);
+               console.log(err.response.data.message);
            }) 
     }
 }

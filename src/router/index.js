@@ -40,6 +40,8 @@ import AddPersonnalExpense from  "@/components/AddPersonnalExpense.vue";
 import PersonalExpenseType from "@/components/PersonalExpenseType.vue";
 import GrnCreditSettlement from "@/components/GrnCreditSettlement.vue";
 import RefCreditSettlement from "@/components/RefCreditSettlement.vue";
+import RentExpense from "@/components/RentExpense.vue";
+import   ShipExpense from "@/components/ShipExpense";
 Vue.use(VueRouter);
 const routes = [
   {
@@ -146,6 +148,15 @@ const routes = [
         path:"expenses",
         name:"Expenses",
         component:AddLoadingExpense
+      },{
+        path:"shipExpense",
+        name:"shipExpense",
+        component:ShipExpense,
+        
+      },{
+        path:"rentExpense",
+        name:"Rent Expenses",
+        component:RentExpense
       },{
         path:'personalexpense',
         name:"personal expense",

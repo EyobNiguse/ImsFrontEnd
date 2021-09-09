@@ -129,7 +129,7 @@
         <div id="printThis">
           <table class="view-items" style>
             <tr class="view-items-header" style="  background: rgb(11, 170, 96);color:white;">
-              <th style="   padding:15px;">Customer</th>
+              <th style="padding:15px;">Customer</th>
               <th>Item Code</th>
 
               <th style="padding:15px;">Item Quantity</th>

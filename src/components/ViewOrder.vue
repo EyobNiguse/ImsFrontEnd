@@ -52,28 +52,30 @@
                 <!-- printable Element -->
                 <vue-window-modal title="Order List" :active="false" >
                 <div class="router-view" id="printThis">
+                   <span style="padding:15px;font-weight:bolder;">Customer Name: {{this.customerName}}</span> 
+                  <span style="padding:15px;font-weight:bolder;"> Date :{{this.OrderDatePrint}}</span>
                 <table class="view-items">
                     <tr class="view-items-header">
-                      <th>
-                        Itemtype
+                    <th style="padding:15px;">
+                      Itemtype
                     </th>
-                    <th>
-                    PPP
+                    <th style="padding:15px;">
+                      PPP
                     </th>
-                    <th>
-                    Quantity    
+                    <th style="padding:15px;">
+                      Quantity    
                     </th> 
-                    <th>
+                    <th style="padding:15px;">
                         Total
                     </th>
                     </tr>
-                    <tr :key="x.ItemID"    v-for="x in listItems" >
-                        <td>
+                    <tr :key="x.ItemID"   v-for="x in listItems" >
+                        <td style="padding:15px;">
                          {{getItemName(x.ItemID)}}
                         </td>
-                        <td>{{x.PPP}}</td>
-                        <td> {{x.Quantity}}  </td>
-                       <td> {{x.Total}} </td>
+                        <td style="padding:15px;">{{x.PPP}}</td>
+                        <td style="padding:15px;"> {{x.Quantity}}  </td>
+                       <td style="padding:15px;"> {{x.Total}} </td>
                      
                     </tr>
                 </table>
@@ -269,11 +271,21 @@ export default {
             return total;
         },
         printView(id){
+          const dt  = this.items.filter(item=>{
+            return item.OrderID == id;
+          });
+          console.log("this is dt", dt)
+            this.customerName = this.getCustomerName(dt[0].CutomerID);
+            this.OrderDatePrint = dt[0].OrderDate;
               this.listItems = this.items.filter(item=>{
                 return item.OrderID == id;
             })[0].Orderitems;
-            console.log("print check",this.listItems);
-            this.$htmlToPaper("printThis");
+            this.$alert("Confirm to print").then(()=>{
+            
+              this.$htmlToPaper("printThis");
+            
+            })
+    
         },
            setPages () {
       this.pages = [];
@@ -766,6 +778,8 @@ export default {
     ,
     data(){
         return {
+          customerName:'',
+          OrderDatePrint:'',
             page:1,
             pages:[],
             perPage:5,
