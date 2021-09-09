@@ -1,6 +1,5 @@
 <template>
   <div id="main1">
-<<<<<<< HEAD
     <vue-window-modal
       :active="isPopup"
       title="Full Details"
@@ -29,32 +28,6 @@
           </td>
         </tr>
       </tbody>
-=======
-<vue-window-modal :active="isPopup" title="Full Details" v-on:clickClose="updateIsPopup(false)">
-   here
-</vue-window-modal>
-      <table >
-        <thead>
-          <tr>
-            <th colspan="100%">
-        <h1 id="center">{{ Name }}</h1>
-            </th>
-          </tr>
-          <tr>
-            <th v-for="k in columns" :key="k" scope="col">{{ k }}</th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr v-for="(d, i) in data" :key="i">
-            <td v-for="row in d" :key="row">
-              <button   class="btn-submit-mini popy" :hidden="!Array.isArray(row)">
-               <i class="fas fa-external-link-alt"></i>
-              </button>
-              {{ Array.isArray(row) ? "" : row }}
-            </td>
-          </tr>
-        </tbody>
->>>>>>> 6aa67f9 (Prototype Done)
     </table>
   </div>
 </template>
@@ -105,21 +78,12 @@ export default {
   border-radius: 10px;
   /* padding:5px; */
 }
-<<<<<<< HEAD
 #main1 table thead th {
   padding: 10px;
 }
 #main1 table tbody td {
   padding: 10px;
   border: none;
-=======
-#main1 table thead th{
-  padding:10px;
-}
-#main1 table tbody td{
-  padding:5px;
-  border:none;
->>>>>>> 6aa67f9 (Prototype Done)
 }
 #center {
   text-align: center;

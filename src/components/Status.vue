@@ -146,12 +146,8 @@
 import axios from "axios";
 import Sparkle from "@/components/Sparkle.vue";
 import ExpenceChart from "@/components/ExpenceChart.vue";
-<<<<<<< HEAD
-
-=======
 // import GenerateReportVue from './GenerateReport.vue';
 // import GenerateReport from "@/api_calls/GenerateReport.js";
->>>>>>> 6aa67f9 (Prototype Done)
 export default {
   name: "Staus",
   components: {

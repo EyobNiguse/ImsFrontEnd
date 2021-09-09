@@ -1,13 +1,6 @@
 <template>
-<<<<<<< HEAD
-       <div id="main">
-         <div id="sub1">
-         <div id="top-notice">
-           <table>
-=======
 <div>
              <table>
->>>>>>> 6aa67f9 (Prototype Done)
              <tr>
       <td>
  <label for="">   
@@ -64,32 +57,24 @@
           </table>
        
        </div>
-<<<<<<< HEAD
       <div  id="sub2" style="  overflow-y: scroll;
   height:100vh;">
         <div v-for="d,i in data" :key="i">
-=======
-
-      <div  id="sub2" style="  overflow-y: scroll;height:100vh;">
-        <h1 id="center">Profit And Loss Calculator</h1>
-        
-        <div :key="i" v-for="(d,i) in data" >
->>>>>>> 6aa67f9 (Prototype Done)
           <DynamicTable :Name="i" :data="d"></DynamicTable>
         </div>
       </div>
   </div>
-<<<<<<< HEAD
-=======
 </div>
->>>>>>> 6aa67f9 (Prototype Done)
+
+ 
+
 </template>
 
 <script>
-import axios from "axios";
+// import axios from "axios";
 var _ = require("lodash");
 import DynamicTable from "./DynamicTable.vue";
- 
+import GenerateReport from "@/api_calls/GenerateReport.js";
 export default {
   name: "GenerateReport",
   components: {
@@ -153,30 +138,10 @@ export default {
         date2: this.ending_date,
         option: this.selected,
       });
-<<<<<<< HEAD
-
-      var config = {
-        method: "post",
-        url: "/api/report/get_all_report",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        data: data,
-      };
-      const response = axios(config);
-      response
-        .then((result) => {
-          this.data = "";
-          this.data = result.data;
-           this.popButtons  = document.getElementsByClassName("popy");
-           console.log("pop buttons",this.popButtons);
-           
-=======
 GenerateReport.generateReport(data).then((result) => {
           this.data = "";
           this.data = result.data;
           console.log(result);
->>>>>>> 6aa67f9 (Prototype Done)
         })
         .catch((err) => {
           console.log(err);
@@ -188,27 +153,7 @@ GenerateReport.generateReport(data).then((result) => {
         date2: "2021-07-25",
         option: "weighted",
       });
-
-<<<<<<< HEAD
-      var config = {
-        method: "post",
-        url: "/api/report/get_all_report",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        data: data,
-      };
-
-      const response = axios(config);
-      response
-        .then((result) => {
-          console.log(result.data);
-
-=======
-  
-
 GenerateReport.generate_report(data).then((result) => {
->>>>>>> 6aa67f9 (Prototype Done)
           this.data = result.data;
         })
         .catch((err) => {
@@ -236,11 +181,7 @@ GenerateReport.generate_report(data).then((result) => {
 };
 </script>
 
-<<<<<<< HEAD
-<style scoped>
-=======
 <style >
->>>>>>> 6aa67f9 (Prototype Done)
 #top-notice{
 display: inline-block;
 width:100%;
