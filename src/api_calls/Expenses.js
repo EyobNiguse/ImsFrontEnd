@@ -1,4 +1,6 @@
 import axios from "axios";
+const dt = localStorage.getItem("accessToken")||"";
+
 //@ loading Expense 
 
 // addLoadingExpense
@@ -7,7 +9,8 @@ const addLoadingExpense = (data) => {
     method: 'post',
     url: '/api/expence/loadingExpence/add_loading_expence',
     headers: {
-      'Content-Type': 'application/json'
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${dt}`
     },
     data: data
   };
@@ -20,7 +23,7 @@ const getLoadingExpense = () => {
   var config = {
     method: 'get',
     url: '/api/expence/loadingExpence/get_loading_expence',
-    headers: {}
+    headers: { Authorization: `Bearer ${dt}`}
   };
 
   return axios(config)
@@ -34,7 +37,7 @@ const removeLoadingExpense = (data) => {
   var config = {
     method: 'delete',
     url: `/api/expence/loadingExpence/delete_loading_expence/${data}`,
-    headers: {}
+    headers: { Authorization: `Bearer ${dt}`}
   };
 
   return axios(config)
@@ -47,7 +50,7 @@ const getUnloadingExpense = () => {
   var config = {
     method: 'get',
     url: '/api/expence/unloadingExpence/get_unloading_expence',
-    headers: {}
+    headers: {  Authorization: `Bearer ${dt}` }
   };
 
   return axios(config)
@@ -58,7 +61,8 @@ const addUnloadingExpense = (data) => {
     method: 'post',
     url: '/api/expence/unloadingExpence/add_unloading_expence',
     headers: {
-      'Content-Type': 'application/json'
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${dt}`
     },
     data: data
   };
@@ -71,7 +75,7 @@ const removeUnloadingExpense = (id) => {
   var config = {
     method: 'delete',
     url: `/api/expence/unloadingExpence/delete_unloading_expence/${id}`,
-    headers: {}
+    headers: { Authorization: `Bearer ${dt}`}
   };
 
   return axios(config)
@@ -81,7 +85,8 @@ const updateUnloadingExpense = (data) => {
     method: 'put',
     url: '/api/expence/unloadingExpence/update_unloading_expence',
     headers: {
-      'Content-Type': 'application/json'
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${dt}`
     },
     data: data
   };
@@ -99,7 +104,7 @@ const getSalaryExpense = () => {
   var config = {
     method: 'get',
     url: '/api/expence/salary/get_salary_expense',
-    headers: {}
+    headers: { Authorization: `Bearer ${dt}`}
   };
 
   return axios(config)
@@ -112,7 +117,8 @@ const addSalaryExpense = (data) => {
     method: 'post',
     url: '/api/expence/salary/add_salary_expence',
     headers: {
-      'Content-Type': 'application/json'
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${dt}`
     },
     data: data
   };
@@ -125,7 +131,8 @@ const updateSalary = (data) => {
     method: 'put',
     url: '/api/expence/salary/update_salary_expence',
     headers: {
-      'Content-Type': 'application/json'
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${dt}`
     },
     data: data
   };
@@ -138,7 +145,7 @@ const removeSalaryExpense = (id) => {
   var config = {
     method: 'delete',
     url: `/api/expence/salary/delete_salary_expence/${id}`,
-    headers: {}
+    headers: {  Authorization: `Bearer ${dt}`}
   };
 
   return axios(config)
@@ -151,7 +158,7 @@ const getMasatefiyaExpense = () => {
   var config = {
     method: 'get',
     url: '/api/expence/masatefiya/get_masatefiya_expense',
-    headers: {}
+    headers: { Authorization: `Bearer ${dt}` }
   };
 
   return axios(config)
@@ -162,7 +169,8 @@ const addMasatefiyaExpense = (data) => {
     method: 'post',
     url: '/api/expence/masatefiya/add_masatefiya_expence',
     headers: {
-      'Content-Type': 'application/json'
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${dt}`
     },
     data: data
   };
@@ -174,7 +182,7 @@ const removeMasatefiyaExpense = (id) => {
   var config = {
     method: 'delete',
     url: `/api/expence/masatefiya/delete_masatefiya_expence/${id}`,
-    headers: {}
+    headers: {  Authorization: `Bearer ${dt}`}
   };
 
   return axios(config)
@@ -186,7 +194,8 @@ const updateMasatefiyaExpense = (data) => {
     method: 'put',
     url: '/api/expence/masatefiya/update_masatefiya_expence',
     headers: {
-      'Content-Type': 'application/json'
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${dt}`
     },
     data: data
   };
@@ -200,7 +209,7 @@ const getOtherExpenseType = () => {
   var config = {
     method: 'get',
     url: '/api/expence/OET/get_OET',
-    headers: {}
+    headers: {   Authorization: `Bearer ${dt}` }
   };
 
   return axios(config)
@@ -212,7 +221,8 @@ const addOtherExpenseType = (data) => {
     method: 'post',
     url: '/api/expence/OET/add_OET',
     headers: {
-      'Content-Type': 'application/json'
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${dt}`
     },
     data: data
   };
@@ -225,7 +235,7 @@ const removeOtherExpenseType = (id) => {
   var config = {
     method: 'delete',
     url: `/api/expence/OET/delete_OET/${id}`,
-    headers: {}
+    headers: { Authorization: `Bearer ${dt}`}
   };
 
   return axios(config)
@@ -240,7 +250,7 @@ const getOtherExpense = () => {
   var config = {
     method: 'get',
     url: '/api/expence/OEL/get_OEL',
-    headers: {}
+    headers: { Authorization: `Bearer ${dt}`}
   };
 
   return axios(config)
@@ -251,7 +261,8 @@ const addOtherExpense = (data) => {
     method: 'post',
     url: '/api/expence/OEL/add_OEL',
     headers: {
-      'Content-Type': 'application/json'
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${dt}`
     },
     data: data
   };
@@ -264,7 +275,7 @@ const removeOtherExpense = (id) => {
   var config = {
     method: 'delete',
     url: `/api/expence/OEL/delete_OEL/${id}`,
-    headers: {},
+    headers: {  Authorization: `Bearer ${dt}`},
 
   };
 
@@ -275,7 +286,8 @@ const updateExpenseType = (data) => {
     method: 'put',
     url: '/api/expence/OET/update_OET',
     headers: {
-      'Content-Type': 'application/json'
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${dt}`
     },
     data: data
   };
@@ -287,7 +299,8 @@ const updateOtherExpense = (data) => {
     method: 'put',
     url: '/api/expence/OEL/update_OEL',
     headers: {
-      'Content-Type': 'application/json'
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${dt}`
     },
     data: data
   };

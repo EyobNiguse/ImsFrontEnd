@@ -1,4 +1,6 @@
 import axios from "axios";
+const dt = localStorage.getItem("accessToken")||"";
+
 const addExpenseType = (data)=>{
     var config = {
         method: 'post',
@@ -16,7 +18,7 @@ const getAllExpenseTypeList = ()=>{
     var config = {
         method: 'get',
         url: '/api/expence/PET/get_PET',
-        headers: { }
+        headers: {   Authorization: `Bearer ${dt}` }
       };
       
      return axios(config)
@@ -25,7 +27,7 @@ const removeExpenseType= (id)=>{
     var config = {
         method: 'delete',
         url: `/api/expence/PET/delete_PET/${id}`,
-        headers: { }
+        headers: {   Authorization: `Bearer ${dt}` }
       };
       
      return  axios(config)
@@ -35,7 +37,8 @@ const updateExpensetype = (data)=>{
         method: 'put',
         url: '/api/expence/PET/update_PET',
         headers: { 
-          'Content-Type': 'application/json'
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${dt}`
         },
         data : data
       };
@@ -46,7 +49,7 @@ const getAllExpenseList = ()=>{
     var config = {
         method: 'get',
         url: '/api/expence/PEL/get_PEL',
-        headers: { }
+        headers: { Authorization: `Bearer ${dt}` }
       };
       
     return   axios(config);
@@ -56,7 +59,8 @@ const getAllExpenseList = ()=>{
         method: 'put',
         url: '/api/expence/PEL/update_PEL',
         headers: { 
-          'Content-Type': 'application/json'
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${dt}`
         },
         data : data
       };
@@ -69,7 +73,8 @@ const getAllExpenseList = ()=>{
         method: 'post',
         url: '/api/expence/PEL/add_PEL',
         headers: { 
-          'Content-Type': 'application/json'
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${dt}`
         },
         data : data
       };
@@ -80,7 +85,7 @@ const getAllExpenseList = ()=>{
     var config = {
         method: 'delete',
         url: `/api/expence/PEL/delete_PEL/${id}`,
-        headers: { }
+        headers: {  Authorization: `Bearer ${dt}` }
       };
       
       return axios(config)

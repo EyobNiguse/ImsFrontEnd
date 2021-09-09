@@ -6,22 +6,29 @@
         <div class="dashboard-side-nav">
           <MainHeader/>
             <ul>
+              <router-link to="status">
+                    <a href="">
+                    <li> Dashboard </li>
+                </a>
+              </router-link>
               <router-link  to="generateReport">
 
                    <a href="">
                     <li>Generate Report</li>
                 </a>
               </router-link>
-                <router-link to="status">
-                <a href="">
-                    <li>Dashboard</li>
-                </a>
-            </router-link>
+          
                       <router-link to="Item">
                  <a href="">
                     <li>Inventory</li>
                 </a>
                 </router-link>
+                        <router-link to="ItemCategory">
+                 <a href="">
+                    <li>Item  Category</li>
+                </a>
+                </router-link>
+        
                  <router-link to="orders">
                   <a href="">
                     <li>Orders</li>
@@ -66,12 +73,7 @@
             
               </router-link>
           
-                     <router-link to="ItemCategory">
-                 <a href="">
-                    <li>Item  Category</li>
-                </a>
-                </router-link>
-        
+             
               <router-link to="expenses">
                   <a href="">
                     <li>Expenses</li>

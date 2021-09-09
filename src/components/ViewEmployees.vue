@@ -62,6 +62,9 @@
                             <th>
                                 CHANGE
                             </th>
+                            <th>
+                                Activation
+                            </th>
                         </tr>
                       <tr  :name="x.EmployeeID" v-bind:key="index" v-for="(x,index) in items">  
                           <td> {{x.EmployeeName}}</td>
@@ -69,7 +72,14 @@
                           <td>{{x.EmployeePhoneNumber}}</td>
                           <td>{{x.EmployeeAddress}}</td>
                           <td> <button class="btn-submit-mini" @click="editEmployeeView(x.EmployeeID)"><i class="fas fa-edit"></i></button>  <button class="btn-err" @click="removeEmployee(x.EmployeeID)"><i class="fas fa-trash-alt"></i></button></td>
-
+                        <td>
+                            <button  @click="activateAccount(x.EmployeeID)" class="btn-submit-mini">
+                                    <i class="fas fa-plus"></i>
+                            </button>
+                            <button @click="deactivateAccount(x.EmployeeID)" class="btn-submit-mini err">
+                                    <i class="fas fa-minus"></i>
+                            </button>
+                        </td>
                       </tr>
                     </table>
                 </fieldset>
@@ -111,6 +121,27 @@ export default {
    }
     },
     methods:{
+        activateAccount(id){
+            const data = {
+                "EmployeeId":id
+            }
+            Employees.activateEmployee(data).then(()=>{
+
+                this.$alert("Employee Acitvated!!","SUCCESS","success");
+            }).catch(err=>{
+                this.$alert(err.response.data.message,"ERROR","error");
+            })
+        },deactivateAccount(id){
+                this.$alert("Are you sure?").then(()=>{})
+                const data = {
+                    "EmployeeId":id
+                }
+                Employees.deactivateEmployee(data).then(()=>{
+                    this.$alert("EMployee Deactivated","SUCCESS","success");
+                }).catch(err=>{
+                    this.$alert(err.response.data.message,"ERROR","error");
+                });
+        },
     editEmployeeView(id){
         this.editVisible = true;
         this.employeeEditable = this.items.filter(item=>{return item.EmployeeID ==  id});
@@ -123,12 +154,12 @@ export default {
         this.$confirm("Are you sure? Deleting an employee can not be Undone!").then(
 ()=>{
       Employees.removeEmployee(id).then(res=>{
-        this.$alert("Emloyee Removed Successfully",'SUCCESS','success');
+        this.$alert("Emloyee Removed Successfully","SUCCESS","success");
        
         this.items = this.items.filter(item=>{return item.EmployeeID != id});
          console.log(res);
         }).catch(err=>{
-            this.$alert(err.response.data.message,'ERROR','error');
+            this.$alert(err.response.data.message,"ERROR","error");
             })}
         )
   

@@ -1,4 +1,5 @@
 import axios from "axios";
+const dt = localStorage.getItem("accessToken")||"";
 
 const getCustomers = ()=>{
     var config = {
@@ -14,7 +15,8 @@ const addCustomer=(data)=>{
         method: 'post',
         url: '/api/customer/add_customer',
         headers: { 
-          'Content-Type': 'application/json'
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${dt}`
         },
         data : data
       };
@@ -26,7 +28,8 @@ const updateCustomerBank = (data)=>{
     method: 'put',
     url: '/api/customer/update_customer_bankaccount',
     headers: { 
-      'Content-Type': 'application/json'
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${dt}`
     },
     data : data
   };
@@ -38,7 +41,7 @@ const removeCustomerBank  = (id)=>{
   var config = {
     method: 'delete',
     url: `/api/customer/delete_customer_bankaccount/${id}`,
-    headers: { }
+    headers: {   Authorization: `Bearer ${dt}` }
   };
   
   return axios(config);
@@ -49,11 +52,11 @@ const addBankAccount = (data)=>{
     method: 'post',
     url: '/api/customer/add_customer_bankaccount',
     headers: { 
-      'Content-Type': 'application/json'
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${dt}`
     },
     data : data
   };
-  
   return axios(config)
 }
  const updateCustomer = (data)=>{
@@ -61,7 +64,8 @@ const addBankAccount = (data)=>{
     method: 'put',
     url: '/api/customer/update_customer',
     headers: { 
-      'Content-Type': 'application/json'
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${dt}`
     },
     data : data
   };
@@ -73,7 +77,8 @@ const removeCustomer = (data)=>{
     method: 'delete',
     url: '/api/customer/delete_customer',
     headers: { 
-      'Content-Type': 'application/json'
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${dt}`
     },
     data : data
   };

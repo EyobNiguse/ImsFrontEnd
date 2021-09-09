@@ -1,11 +1,12 @@
 var axios = require('axios');
 
+const dt = localStorage.getItem("accessToken")||"";
 
 const getCategories =  ()=>{
   var config = {
     method: 'get',
     url: '/api/category/getcategories',
-    headers: { }
+    headers: {  Authorization: `Bearer ${dt}` }
   };
  
   return axios(config)
@@ -15,7 +16,8 @@ const addCategory = (data)=>{
     method: 'post',
     url: '/api/category/addcategory',
     headers: { 
-      'Content-Type': 'application/json'
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${dt}`
     },
     data : data
   };
@@ -27,7 +29,8 @@ const updateCategory = (data)=>{
     method: 'put',
     url: '/api/category/update_category',
     headers: { 
-      'Content-Type': 'application/json'
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${dt}`
     },
     data : data
   };
@@ -39,7 +42,8 @@ const removeCategory = (data)=>{
     method: 'delete',
     url: '/api/category/delete_category',
     headers: { 
-      'Content-Type': 'application/json'
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${dt}`
     },
     data : data
   };

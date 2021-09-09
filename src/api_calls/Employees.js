@@ -1,11 +1,12 @@
 import axios from "axios";
+const dt = localStorage.getItem("accessToken")||"";
 
 // get Employees
 const getEmployees = ()=>{
     var config = {
         method: 'get',
         url: '/api/employee/list_employees',
-        headers: { }
+        headers: { Authorization: `Bearer ${dt}` }
       };
       
       return axios(config)
@@ -17,7 +18,8 @@ const addEmployee = (data)=>{
         method: 'post',
         url: '/api/employee/add_employee',
         headers: { 
-          'Content-Type': 'application/json'
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${dt}`
         },
         data : data
       };
@@ -29,7 +31,8 @@ const updateEmployee = (data)=>{
     method: 'put',
     url: '/api/employee/update_employee',
     headers: { 
-      'Content-Type': 'application/json'
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${dt}`
     },
     data : data
   };
@@ -44,16 +47,48 @@ const removeEmployee = (id)=>{
        method: 'delete',
        url: 'http://localhost/api/employee/delete_employee',
        headers: { 
-       'Content-Type': 'application/json'
+       'Content-Type': 'application/json',
+       Authorization: `Bearer ${dt}`
        },
       data : data
 };
 
 return axios(config);
 }
+const activateEmployee = (data)=>{
+  var config = {
+    method: 'post',
+    url: '/api/employee/activate_employee',
+    headers: { 
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${dt}`
+    },
+    data : data
+  };
+  
+ return  axios(config);
+}
+const deactivateEmployee=(data)=>{
+
+  var config = {
+    method: 'post',
+    url: '/api/employee/deactivate_employee',
+    headers: { 
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${dt}`
+    },
+    data : data
+  };
+  
+   
+  return axios(config);
+
+}
 export default {
     getEmployees,
     addEmployee,
     updateEmployee,
-    removeEmployee
+    removeEmployee,
+    activateEmployee,
+    deactivateEmployee
 }

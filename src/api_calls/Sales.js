@@ -1,9 +1,10 @@
 import axios from "axios";
+const dt = localStorage.getItem("accessToken")||"";
 const getSales = ()=>{
     var config = {
         method: 'get',
         url: '/api/get_refs',
-        headers: { }
+        headers: {   Authorization: `Bearer ${dt}`}
       };
       
      return  axios(config)
@@ -15,7 +16,8 @@ const addSales = (data)=>{
         method: 'post',
         url: '/api/purchase/make_sales',
         headers: { 
-          'Content-Type': 'application/json'
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${dt}`
         },
         data :data
       };
@@ -43,7 +45,8 @@ const updateSale = (data)=>{
     method: 'put',
     url: '/api/purchase/update_ref',
     headers: { 
-      'Content-Type': 'application/json'
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${dt}`
     },
     data : data
   };
@@ -55,7 +58,8 @@ const updateSaleItem = (data)=>{
     method: 'put',
     url: '/api/purchase/update_sales',
     headers: { 
-      'Content-Type': 'application/json'
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${dt}`
     },
     data : data
   };
@@ -67,7 +71,8 @@ const removeItem = (data)=>{
     method: 'delete',
     url: '/api/purchase/delete_sales',
     headers: { 
-      'Content-Type': 'application/json'
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${dt}`
     },
     data : data
   };

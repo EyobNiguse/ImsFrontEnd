@@ -1,9 +1,10 @@
 import axios from "axios";
+const dt = localStorage.getItem("accessToken")||"";
 const getAllExpenseList = () => {
   var config = {
     method: 'get',
     url: '/api/expence/BL/get_BL',
-    headers: {}
+    headers: { Authorization: `Bearer ${dt}`}
   };
 
   return axios(config)
@@ -13,7 +14,7 @@ const getAllBillTypes = () => {
   var config = {
     method: 'get',
     url: '/api/expence/BT/get_BT',
-    headers: {}
+    headers: { Authorization: `Bearer ${dt}`}
   };
 
   return axios(config)
@@ -35,7 +36,8 @@ const addBillExpense = (data) => {
     method: 'post',
     url: '/api/expence/BL/add_BL',
     headers: {
-      'Content-Type': 'application/json'
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${dt}`
     },
     data: data
   };
@@ -46,7 +48,7 @@ const removeBillExpense = (id) => {
   var config = {
     method: 'delete',
     url: `/api/expence/BL/delete_BL/${id}`,
-    headers: {}
+    headers: { Authorization: `Bearer ${dt}`}
   };
   return axios(config);
 }
@@ -54,7 +56,7 @@ const removeBillType = (id) => {
   var config = {
     method: 'delete',
     url: `/api/expence/BT/delete_BT/${id}`,
-    headers: {}
+    headers: { Authorization: `Bearer ${dt}`}
   };
 
   return axios(config)
@@ -64,7 +66,8 @@ const updateBillExpense = (data) => {
     method: 'put',
     url: '/api/expence/BL/update_BL',
     headers: { 
-      'Content-Type': 'application/json'
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${dt}`
     },
     data : data
   };
@@ -76,7 +79,8 @@ const updateBillType = (data)=>{
     method: 'put',
     url: '/api/expence/BT/update_BT',
     headers: { 
-      'Content-Type': 'application/json'
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${dt}`
     },
     data : data
   };

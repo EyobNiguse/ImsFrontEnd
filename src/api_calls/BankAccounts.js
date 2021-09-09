@@ -1,11 +1,12 @@
 import axios from "axios";
+const dt = localStorage.getItem("accessToken")||"";
 const getAllPersonnalAccounts = ()=>{
     
 
     var config = {
         method: 'get',
         url: '/api/personalBankAccount/Accounts',
-        headers: { }
+         headers: { Authorization: `Bearer ${dt}` }
       };
       
       return axios(config)
@@ -15,7 +16,8 @@ const addPersonlaAccount = (data)=>{
         method: 'post',
         url: '/api/personalBankAccount/add_bank_account',
         headers: { 
-          'Content-Type': 'application/json'
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${dt}`
         },
         data : data
       };
@@ -27,7 +29,8 @@ const addTransaction = (data)=>{
         method: 'post',
         url: '/api/personalBankAccount/add_transaction',
         headers: { 
-          'Content-Type': 'application/json'
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${dt}`
         },
         data : data
       };
@@ -39,7 +42,7 @@ const addTransaction = (data)=>{
     var config = {
         method: 'get',
         url: ` /api/personalBankAccount/getBankAccount_transactions/${id}`,
-        headers: { }
+         headers: { Authorization: `Bearer ${dt}` }
       };
       
      return  axios(config)
@@ -49,7 +52,8 @@ const addTransaction = (data)=>{
     method: 'delete',
     url: '/api/personalBankAccount/delete_bank_account',
     headers: { 
-      'Content-Type': 'application/json'
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${dt}`
     },
     data : data
   };
@@ -61,7 +65,8 @@ const addTransaction = (data)=>{
       method: 'delete',
       url: '/api/personalBankAccount/delete_transaction',
       headers: { 
-        'Content-Type': 'application/json'
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${dt}`
       },
       data : data
     };
@@ -73,7 +78,8 @@ const addTransaction = (data)=>{
       method: 'put',
       url: '/api/personalBankAccount/update_bank_account',
       headers: { 
-        'Content-Type': 'application/json'
+        'Content-Type': 'application/json',
+        Authorization: `Bearer ${dt}`
       },
       data : data
     };

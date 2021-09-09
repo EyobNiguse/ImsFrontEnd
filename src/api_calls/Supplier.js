@@ -1,11 +1,12 @@
 import axios from "axios";
-
+const dt = localStorage.getItem("accessToken")||"";
 const addSupplier = (data)=>{
     var config = {
         method: 'post',
         url: '/api/supplier/addSupplier',
         headers: { 
-          'Content-Type': 'application/json'
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${dt}`
         },
         data : data
       };
@@ -16,7 +17,7 @@ const getSuppliers = ()=>{
   var config = {
     method: 'get',
     url: '/api/supplier/listSuppliers',
-    headers: { }
+    headers: {  Authorization: `Bearer ${dt}`}
   };
   
   return axios(config)
@@ -27,7 +28,8 @@ const addBankAccount =  (data)=>{
     method: 'post',
     url: '/api/supplier/add_supplier_bankaccount',
     headers: { 
-      'Content-Type': 'application/json'
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${dt}`
     },
     data : data
   };
@@ -41,7 +43,8 @@ const updateSupplierBank = (data)=>{
     method: 'put',
     url: '/api/supplier/update_supplier_bankaccount',
     headers: { 
-      'Content-Type': 'application/json'
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${dt}`
     },
     data : data
   };
@@ -54,7 +57,8 @@ const updateSupplier = (data)=>{
     method: 'put',
     url: '/api/supplier/updateSupplier',
     headers: { 
-      'Content-Type': 'application/json'
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${dt}`
     },
     data : data
   };
@@ -67,7 +71,8 @@ const removeSupplier = (id)=>{
     method: 'delete',
     url: '/api/supplier/deleteSupplier',
     headers: { 
-      'Content-Type': 'application/json'
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${dt}`
     },
     data : id
   };
@@ -79,7 +84,7 @@ const removeSupplierBank = (id)=>{
   var config = {
     method: 'delete',
     url: `/api/supplier/delete_supplier_bankaccount/${id}`,
-    headers: { }
+    headers: {  Authorization: `Bearer ${dt}`}
   };
   
 return   axios(config);

@@ -1,10 +1,11 @@
 import axios from "axios";
+const dt = localStorage.getItem("accessToken")||"";
 
 const getSalesOrders = ()=>{
     var config = {
         method: 'get',
         url: '/api/get_sales_orders',
-        headers: { }
+        headers: {  Authorization: `Bearer ${dt}` }
       };
       
       return axios(config);
@@ -25,7 +26,7 @@ const removeOrder  = (id)=>{
     var config = {
         method: 'delete',
         url: `/api/order/delete_order/${id}`,
-        headers: { }
+        headers: {  Authorization: `Bearer ${dt}` }
       };
       
     return  axios(config);
@@ -36,7 +37,8 @@ const UpdateOrder = (data)=>{
     method: 'put',
     url: '/api/order/update_order',
     headers: { 
-      'Content-Type': 'application/json'
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${dt}`
     },
     data : data
   };
@@ -47,7 +49,8 @@ const updateOrderItem = (data)=>{
     method: 'put',
     url: '/api/order/update_order_list',
     headers: { 
-      'Content-Type': 'application/json'
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${dt}`
     },
     data : data
   };
@@ -59,7 +62,7 @@ const removeItemList = (id)=>{
   var config = {
     method: 'delete',
     url: `/api/order/delete_order_list/${id}`,
-    headers: { },
+    headers: {  Authorization: `Bearer ${dt}` },
     data : data
   };
   

@@ -1,9 +1,11 @@
 import axios from  "axios";
+const dt = localStorage.getItem("accessToken")||"";
+
 const getAllShipment = ()=>{
     var config = {
         method: 'get',
         url: '/api/transfered_Items_List',
-        headers: { }
+        headers: { Authorization: `Bearer ${dt}` }
       };
       
       return axios(config)
@@ -13,7 +15,8 @@ const updateShipment  = (data)=>{
         method: 'put',
         url: '/api/purchase/update_teid',
         headers: { 
-          'Content-Type': 'application/json'
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${dt}`
         },
         data : data
       };
@@ -25,7 +28,8 @@ const removeShipment = (data)=>{
         method: 'delete',
         url: '/api/purchase/delete_teid',
         headers: { 
-          'Content-Type': 'application/json'
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${dt}`
         },
         data : data
       };
@@ -37,7 +41,8 @@ const updateShipmentItem = (data)=>{
     method: 'put',
     url: '/api/purchase/update_transferd_count',
     headers: { 
-      'Content-Type': 'application/json'
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${dt}`
     },
     data : data
   };
@@ -49,7 +54,8 @@ const updateShipmentItem = (data)=>{
     method: 'delete',
     url: '/api/purchase/delete_transfered_item',
     headers: { 
-      'Content-Type': 'application/json'
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${dt}`
     },
     data : data
   };

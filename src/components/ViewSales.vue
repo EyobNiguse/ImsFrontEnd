@@ -208,9 +208,7 @@
                             <th>
                                Change
                             </th>
-                            <th>
-                              Print
-                            </th>
+                           
                         </tr>
                      <tr  :key="x.REFNO" :name="x.REFNO" v-for="x in displayedItems" >
                         <td>{{x.REFNO}}</td>
@@ -219,12 +217,7 @@
                           <td>{{getCustomerName(x.CustomerID)}}</td>
                           <td> <button  @click="listView(x.REFNO)" class="btn-submit-mini"><i class="fas fa-eye"></i></button></td>
                           <td>   <button  @click="editView(x.REFNO)" class="btn-submit-mini">  <i class="fas fa-edit"></i> </button> <button class="btn-err" @click="removeSales(x.REFNO)"><i class="fas fa-trash-alt"></i></button></td>
-                          <td>
-                            <button @click="printView(x.REFNO)" class="btn-submit-mini">
-                               <i class="fas fa-print"></i>
-            
-                            </button>
-                          </td>
+                         
                      </tr>
                     </table>
                         <span >

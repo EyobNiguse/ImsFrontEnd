@@ -203,7 +203,12 @@ export default {
             "json":this.ShipJson,
             "Date": this.shipDate
             }
-           Shipmnet.shipWareHouse(this.data).then(res=>console.log(res)).catch(err=>{alert(err.response.data.message)});
+           Shipmnet.shipWareHouse(this.data).then(()=>{
+               this.$alert("Items Shipped!!","SUCCESS","success");
+                }).catch(err=>{
+                    this.$alert(err.response.data.message,"ERROR","error");
+                });
+
             console.log(this.data);
         },
         getItemType(){

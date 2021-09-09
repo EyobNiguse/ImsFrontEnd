@@ -1,9 +1,11 @@
 import axios from "axios";
+const dt = localStorage.getItem("accessToken")||"";
+
 const getRentExpenses = ()=>{
     var config = {
         method: 'get',
         url: '/api/expence/rent/get_rents',
-        headers: { }
+        headers: {  Authorization: `Bearer ${dt}` }
       };
       
     return axios(config)  
@@ -13,7 +15,8 @@ const addRentExpense = (data)=>{
         method: 'post',
         url: '/api/expence/rent/add_rent',
         headers: { 
-          'Content-Type': 'application/json'
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${dt}`
         },
         data : data
       };
@@ -25,7 +28,8 @@ const updateRentExpense = (data)=>{
         method: 'put',
         url: '/api/expence/rent/update_rent',
         headers: { 
-          'Content-Type': 'application/json'
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${dt}`
         },
         data : data
       };
@@ -37,7 +41,8 @@ const deleteRentExpense = (data)=>{
         method: 'delete',
         url: '/api/expence/rent/delete_rent',
         headers: { 
-          'Content-Type': 'application/json'
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${dt}`
         },
         data : data
       };

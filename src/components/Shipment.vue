@@ -203,9 +203,15 @@ ItemsList:[],
                 "ShipmentInfo":shipmentString
             }
             console.log(data);
-            Shipment.addShipment(data).then(res=>{
-                console.log(res)
-            }).catch(err=>{alert(err.response.data.message)});
+            Shipment.addShipment(data).then(()=>{
+                this.editVisible = false;
+               this.$alert("Shipment  Added!!","SUCCESS","success");
+               this.getNotDelivered();
+            }).catch(err=>{
+                this.editVisible = false;
+
+                this.$alert(err.response.data.message,"ERROR","error")
+                });
         },
         setExt(e){
             const elem =  e.target.parentNode.parentNode;

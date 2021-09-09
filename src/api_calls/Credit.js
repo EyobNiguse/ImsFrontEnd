@@ -1,9 +1,11 @@
 import axios from "axios";
+const dt = localStorage.getItem("accessToken")||"";
+
 const getGRNsettlements = ()=>{
     var config = {
         method: 'get',
         url: '/api/creaditSettlemnt/GRN/list_all_credit_settlements',
-        headers: { }
+        headers: {  Authorization: `Bearer ${dt}`}
       };
       
      return  axios(config)
@@ -13,7 +15,8 @@ const addGRNCreditSettlement = (data)=>{
         method: 'post',
         url: '/api/creaditSettlemnt/GRN/add_credit_settlemnts',
         headers: { 
-          'Content-Type': 'application/json'
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${dt}`
         },
         data : data
       };
@@ -27,7 +30,8 @@ var config = {
   method: 'put',
   url: '/api/creaditSettlemnt/GRN/update_credit_settlemt',
   headers: { 
-    'Content-Type': 'application/json'
+    'Content-Type': 'application/json',
+    Authorization: `Bearer ${dt}`
   },
   data : data
 };

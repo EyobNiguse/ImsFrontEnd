@@ -1,9 +1,11 @@
 import axios from "axios";
+const dt = localStorage.getItem("accessToken")||"";
+
 const getDrivers = ()=>{
     var config = {
         method: 'get',
         url: '/api/driver/list_drivers',
-        headers: { }
+        headers: {  Authorization: `Bearer ${dt}`}
       };
       
       return axios(config)
@@ -13,7 +15,8 @@ const addDriver = (data)=>{
         method: 'post',
         url: '/api/driver/add_driver',
         headers: { 
-          'Content-Type': 'application/json'
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${dt}`
         },
         data : data
       };
@@ -25,7 +28,8 @@ const updateDriver = (data)=>{
     method: 'put',
     url: '/api/driver/update_driver',
     headers: { 
-      'Content-Type': 'application/json'
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${dt}`
     },
     data : data
   };
@@ -37,7 +41,8 @@ const removeDriver= (data)=>{
     method: 'delete',
     url: '/api/driver/delete_driver',
     headers: { 
-      'Content-Type': 'application/json'
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${dt}`
     },
     data : data
   };

@@ -1,10 +1,11 @@
 import axios from "axios";
+const dt = localStorage.getItem("accessToken")||"";
 const getPurchase = ()=>{
 
   var config = {
     method: 'get',
     url: '/api/get_purchase_orders',
-    headers: {}
+    headers: {  Authorization: `Bearer ${dt}`}
   };
   
   return  axios(config)
@@ -14,7 +15,7 @@ const getGRN  =  ()=>{
   var config = {
     method: 'get',
     url: '/api/get_grns',
-    headers: { }
+    headers: { Authorization: `Bearer ${dt}` }
   };
   
   return axios(config)
@@ -24,7 +25,8 @@ const addPurchase = (data)=>{
         method: 'post',
         url: '/api/purchase/make_purchase',
         headers: { 
-          'Content-Type': 'application/json'
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${dt}`
         },
         data : data
       };
@@ -40,7 +42,8 @@ const removePurchase = (id)=>{
     method: 'delete',
     url: '/api/purchase/delte_grn',
     headers: { 
-      'Content-Type': 'application/json'
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${dt}`
     },
     data : data
   };
@@ -53,7 +56,7 @@ const getNotDelivered = ()=>{
   var config = {
     method: 'get',
     url: '/api/grn_not_delivered',
-    headers: { }
+    headers: { Authorization: `Bearer ${dt}` }
   };
   
   return axios(config)
@@ -64,7 +67,8 @@ const updateGRN = (data)=>{
     method: 'put',
     url: '/api/purchase/update_grn',
     headers: { 
-      'Content-Type': 'application/json'
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${dt}`
     },
     data : data
   };
@@ -77,7 +81,8 @@ const updatePurchase = (data)=>{
     method: 'put',
     url: '/api/purchase/update_purchase',
     headers: { 
-      'Content-Type': 'application/json'
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${dt}`
     },
     data : data
   }
@@ -90,7 +95,8 @@ const removeItem = (id)=>{
     method: 'delete',
     url: '/api/purchase/delete_purchase',
     headers: { 
-      'Content-Type': 'application/json'
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${dt}`
     },
     data : id
   };

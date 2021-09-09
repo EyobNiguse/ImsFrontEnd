@@ -47,7 +47,7 @@ import GenerateReport from "@/components/GenerateReport.vue";
 Vue.use(VueRouter);
 const routes = [
   {
-    path: '/login',
+    path: '/',
     name: 'Home',
     component: Login
   },
@@ -94,13 +94,24 @@ const routes = [
         name:"addSales",
         component:AddSales
       }
-    ]
+    ],
+    beforeEnter: (to, from,next)=>{
+      console.log(from)
+   
+        const data = JSON.parse(localStorage.getItem("loginData")) || ""; 
+        if(!(data.EmployeeID)){
+         next("/login")
+        }else{
+          next()
+        }
+       
+   }
   },{
     path:"/login",
     name:"login",
     component:Login
   },{
-    path:"/",
+    path:"/Admin",
     name:"AdminDashboard",
     component:AdminDashboard,
     children:[
@@ -296,13 +307,25 @@ const routes = [
         name:"addSales",
         component:AddSales
       }
-    ]
+    ],
+    beforeEnter: (to, from,next)=>{
+       console.log(from)
+    
+         const data = JSON.parse(localStorage.getItem("loginData")) || ""; 
+         console.log(data);
+         if(!(data.AdminID)){
+          next("/login")
+         }else{
+           next()
+         }
+        
+    }
   }
  
 ];
-// beforeEnter: (to, from,next)=>{
-// console.log(from);
-// }
+ 
+
+ 
 
 const router = new VueRouter({
   mode: 'history',

@@ -3,10 +3,10 @@
         <div class="login-container">
         <div class="login">
            <h1>login</h1>
-            <form  @submit="login">
-                <input type="text" placeholder="Enter Username" class="txt-input">
-                <input type="password" placeholder="*****" class="txt-input">
-                <button class="btn-submit">Login</button>
+            <form  @submit.prevent="login">
+                <input  v-model="Username"  type="text" placeholder="Enter Username" class="txt-input">
+                <input  v-model="password" type="password" placeholder="*****" class="txt-input">
+                <button class="btn-submit" type="submit">Login</button>
               
             </form>
         </div>
@@ -18,11 +18,40 @@
     </div>
 </template>
 <script>
+import Login from  "@/api_calls/Login.js";
 export default {
     name:"Login",
+    data(){
+        return {
+            Username:'',
+            password:'',
+        }
+    },
     methods:{
         login(){
+            const data  = {
+                 "username":this.Username,
+               "password":this.password
+            }
 
+            Login.login(data).then(res=>{
+                this.$confirm(res.message,"SUCCESS","success").then(()=>{
+                        localStorage.setItem("accessToken",res.data.access_token);
+                        localStorage.setItem("username",res.data.EmployeeName);
+                        localStorage.setItem("loginData", JSON.stringify(res.data));
+                        console.log(res.data);
+                        console.log(res);
+                         if(res.data.AdminID){
+                             this.$router.push("/Admin/status");
+                              localStorage.setItem("username",res.data.AdminUsername);
+                         }else{
+                             this.$router.push("/dashboard/")
+                         }
+                })
+               
+            }).catch(err=>{
+                this.$alert(err.response.data.message,"ERROR","error");
+            })
         }
     }
 }

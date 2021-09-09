@@ -6,9 +6,9 @@
         </div>
          <div class="name-info">
             <h3>
-                Assya
+                {{username || ""}}
             </h3>
-            <h4>Sales</h4>         
+                
          </div>
          <!-- <div class="logout-container">
              <button class="btn-logout">
@@ -20,7 +20,14 @@
 </template>
 <script>
 export default {
-    name:"MainHeader"
+    name:"MainHeader",
+    data(){
+        return {
+            username:''
+        }
+    },created(){
+        this.username = localStorage.getItem("username");
+    }
 }
 </script>
 <style >

@@ -1,11 +1,14 @@
 var axios = require('axios');
 
+const dt = localStorage.getItem("accessToken")||"";
 
 const getItems = ()=>{
     var config = {
         method: 'get',
         url: '/api/item/get_items',
-        headers: { "Access-Control-Allow-Origin":"*"}
+        headers: { "Access-Control-Allow-Origin":"*",
+        Authorization: `Bearer ${dt}`
+      }
       };
 return axios(config);
 }
@@ -17,7 +20,8 @@ var config = {
   url: '/api/item/add_new_item',
   headers: { 
        'Content-Type': 'application/json',
-       "Access-Control-Allow-Origin":"*"
+       "Access-Control-Allow-Origin":"*",
+       Authorization: `Bearer ${dt}`
       },
   data : data
 
@@ -30,7 +34,7 @@ const getInventoryInfo  = (id)=>{
   var config = {
     method: 'get',
     url: `/api/item/get_item_inventory/${id}`,
-    headers: { }
+    headers: {  Authorization: `Bearer ${dt}` }
   };
   
  return  axios(config)
@@ -39,7 +43,7 @@ const getInventoryHistoryInfo = (id)=>{
   var config = {
     method: 'get',
     url: `/api/get_item_stock/${id}`,
-    headers: { }
+    headers: {   Authorization: `Bearer ${dt}` }
   };
  
   return axios(config)
@@ -49,7 +53,8 @@ const updateItemDetails = (data)=>{
     method: 'put',
     url: '/api/item/update_item',
     headers: { 
-      'Content-Type': 'application/json'
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${dt}`
     },
     data : data
   };
@@ -62,7 +67,8 @@ const updateItemPrice = (data)=>{
     method: 'put',
     url: '/api/item/update_item_price',
     headers: { 
-      'Content-Type': 'application/json'
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${dt}`
     },
     data : data
   };
@@ -74,7 +80,8 @@ const removeItem = (data)=>{
     method: 'delete',
     url: '/api/item/delete_item',
     headers: { 
-      'Content-Type': 'application/json'
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${dt}`
     },
     data : data
   };

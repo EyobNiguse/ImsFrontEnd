@@ -1,4 +1,6 @@
 import axios from "axios";
+const dt = localStorage.getItem("accessToken")||"";
+
 const generate_report = (data) =>{
     
     var config = {
@@ -6,6 +8,7 @@ const generate_report = (data) =>{
         url: "/api/report/get_all_report",
         headers: {
           "Content-Type": "application/json",
+          Authorization: `Bearer ${dt}`
         },
         data: data,
       };
@@ -17,6 +20,7 @@ const generateReport = (data)=>{
         url: "/api/report/get_all_report",
         headers: {
           "Content-Type": "application/json",
+          Authorization: `Bearer ${dt}`
         },
         data: data,
       };
