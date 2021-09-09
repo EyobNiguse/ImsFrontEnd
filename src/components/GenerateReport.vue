@@ -55,10 +55,10 @@
 <script>
 import axios from "axios";
 var _ = require("lodash");
-import DynamicTable from "../components/DynamicTable.vue";
+import DynamicTable from "DynamicTable.vue";
 
 export default {
-  name: "Apex",
+  name: "GenerateReport",
   components: {
     DynamicTable,
   },
