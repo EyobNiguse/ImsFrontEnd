@@ -2,7 +2,7 @@ import axios from "axios";
 const getSales = ()=>{
     var config = {
         method: 'get',
-        url: '/api/get_refs',
+        url: 'http://localhost/ims/api/v1/get_refs',
         headers: { }
       };
       
@@ -13,7 +13,7 @@ const addSales = (data)=>{
    
     var config = {
         method: 'post',
-        url: '/api/purchase/make_sales',
+        url: 'http://localhost/ims/api/v1/purchase/make_sales',
         headers: { 
           'Content-Type': 'application/json'
         },
@@ -29,7 +29,7 @@ const removeSales = (id)=>{
     }
     var config = {
         method: 'delete',
-        url: '/api/purchase/delte_ref',
+        url: 'http://localhost/ims/api/v1/purchase/delte_ref',
         headers: { 
           'Content-Type': 'application/json'
         },
@@ -41,7 +41,7 @@ const removeSales = (id)=>{
 const updateSale = (data)=>{
   var config = {
     method: 'put',
-    url: '/api/purchase/update_ref',
+    url: 'http://localhost/ims/api/v1/purchase/update_ref',
     headers: { 
       'Content-Type': 'application/json'
     },
@@ -53,7 +53,7 @@ const updateSale = (data)=>{
 const updateSaleItem = (data)=>{
   var config = {
     method: 'put',
-    url: '/api/purchase/update_sales',
+    url: 'http://localhost/ims/api/v1/purchase/update_sales',
     headers: { 
       'Content-Type': 'application/json'
     },
@@ -65,7 +65,7 @@ const updateSaleItem = (data)=>{
 const removeItem = (data)=>{
   var config = {
     method: 'delete',
-    url: '/api/purchase/delete_sales',
+    url: 'http://localhost/ims/api/v1/purchase/delete_sales',
     headers: { 
       'Content-Type': 'application/json'
     },

@@ -2,7 +2,7 @@ import axios from "axios";
 const getDrivers = ()=>{
     var config = {
         method: 'get',
-        url: '/api/driver/list_drivers',
+        url: 'http://localhost/ims/api/v1/driver/list_drivers',
         headers: { }
       };
       
@@ -11,7 +11,7 @@ const getDrivers = ()=>{
 const addDriver = (data)=>{
     var config = {
         method: 'post',
-        url: '/api/driver/add_driver',
+        url: 'http://localhost/ims/api/v1/driver/add_driver',
         headers: { 
           'Content-Type': 'application/json'
         },
@@ -23,7 +23,7 @@ const addDriver = (data)=>{
 const updateDriver = (data)=>{
   var config = {
     method: 'put',
-    url: '/api/driver/update_driver',
+    url: 'http://localhost/ims/api/v1/driver/update_driver',
     headers: { 
       'Content-Type': 'application/json'
     },
@@ -35,7 +35,7 @@ const updateDriver = (data)=>{
 const removeDriver= (data)=>{
   var config = {
     method: 'delete',
-    url: '/api/driver/delete_driver',
+    url: 'http://localhost/ims/api/v1/driver/delete_driver',
     headers: { 
       'Content-Type': 'application/json'
     },

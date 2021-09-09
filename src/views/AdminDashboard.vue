@@ -6,7 +6,13 @@
         <div class="dashboard-side-nav">
           <MainHeader/>
             <ul>
-                       <router-link to="status">
+              <router-link  to="generateReport">
+
+                   <a href="">
+                    <li>Generate Report</li>
+                </a>
+              </router-link>
+                <router-link to="status">
                 <a href="">
                     <li>Dashboard</li>
                 </a>
@@ -156,7 +162,8 @@ font-weight:bold;
  
  .dashboard-interactives{
     display:grid;
-    grid-template-columns:15% 70%;
+    grid-template-columns:15% 80%;
+    /* grid-gap:10px; */
 }
 .dashboard-side-nav{
     padding:15px;
@@ -187,7 +194,7 @@ color:black !important;
     font-weight:bolder;
 }
 .dashboard-display{
-    padding:20px;
+    /* padding:20px; */
   
 }
 

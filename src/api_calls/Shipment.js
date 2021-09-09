@@ -2,7 +2,7 @@ import axios from "axios";
 const addShipment = (data)=>{
     var config = {
         method: 'post',
-        url: '/api/purchase/ship_purchase',
+        url: 'http://localhost/ims/api/v1/purchase/ship_purchase',
         headers: { 
           'Content-Type': 'application/json'
         },
@@ -14,7 +14,7 @@ const addShipment = (data)=>{
 const shipWareHouse = (data)=>{
   var config = {
     method: 'post',
-    url: '/api/purchase/move_to_store',
+    url: 'http://localhost/ims/api/v1/purchase/move_to_store',
     headers: { 
       'Content-Type': 'application/json'
     },

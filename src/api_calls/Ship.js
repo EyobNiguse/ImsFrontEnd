@@ -2,7 +2,7 @@ import axios from  "axios";
 const getAllShipment = ()=>{
     var config = {
         method: 'get',
-        url: '/api/transfered_Items_List',
+        url: 'http://localhost/ims/api/v1/transfered_Items_List',
         headers: { }
       };
       
@@ -11,7 +11,7 @@ const getAllShipment = ()=>{
 const updateShipment  = (data)=>{
     var config = {
         method: 'put',
-        url: '/api/purchase/update_teid',
+        url: 'http://localhost/ims/api/v1/purchase/update_teid',
         headers: { 
           'Content-Type': 'application/json'
         },
@@ -23,7 +23,7 @@ const updateShipment  = (data)=>{
 const removeShipment = (data)=>{
     var config = {
         method: 'delete',
-        url: '/api/purchase/delete_teid',
+        url: 'http://localhost/ims/api/v1/purchase/delete_teid',
         headers: { 
           'Content-Type': 'application/json'
         },

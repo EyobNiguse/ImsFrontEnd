@@ -2,7 +2,7 @@ import axios from "axios";
 const getGRNsettlements = ()=>{
     var config = {
         method: 'get',
-        url: '/api/creaditSettlemnt/GRN/list_all_credit_settlements',
+        url: 'http://localhost/ims/api/v1/creaditSettlemnt/GRN/list_all_credit_settlements',
         headers: { }
       };
       
@@ -11,7 +11,7 @@ const getGRNsettlements = ()=>{
 const addGRNCreditSettlement = (data)=>{
     var config = {
         method: 'post',
-        url: '/api/creaditSettlemnt/GRN/add_credit_settlemnts',
+        url: 'http://localhost/ims/api/v1/creaditSettlemnt/GRN/add_credit_settlemnts',
         headers: { 
           'Content-Type': 'application/json'
         },
@@ -25,7 +25,7 @@ const updateGRNCreditSettlement = ()=>{}
 const updateGRNCredit = (data)=>{
 var config = {
   method: 'put',
-  url: '/api/creaditSettlemnt/GRN/update_credit_settlemt',
+  url: 'http://localhost/ims/api/v1/creaditSettlemnt/GRN/update_credit_settlemt',
   headers: { 
     'Content-Type': 'application/json'
   },
@@ -37,7 +37,7 @@ var config = {
 const getcreditSettlement = (id)=>{
   var config = {
     method: 'get',
-    url: `/api/creaditSettlemnt/GRN/list_credit_settlement/${id}`,
+    url: `http://localhost/ims/api/v1/creaditSettlemnt/GRN/list_credit_settlement/${id}`,
     headers: { }
   };
   
@@ -48,7 +48,7 @@ const removeCreditSettlement = (data)=>{
 
   var config = {
     method: 'delete',
-    url: '/api/creaditSettlemnt/GRN/delete_credit_settlemnts',
+    url: 'http://localhost/ims/api/v1/creaditSettlemnt/GRN/delete_credit_settlemnts',
     headers: { 
       'Content-Type': 'application/json'
     },
@@ -62,7 +62,7 @@ const removeCreditSettlement = (data)=>{
  const addREFCreditSettlement = (data)=>{
   var config = {
     method: 'post',
-    url: '/api/creaditSettlemnt/REF/add_credit_settlemnts',
+    url: 'http://localhost/ims/api/v1/creaditSettlemnt/REF/add_credit_settlemnts',
     headers: { 
       'Content-Type': 'application/json'
     },
@@ -74,7 +74,7 @@ const removeCreditSettlement = (data)=>{
 const getREFsettlements = ()=>{
   var config = {
     method: 'get',
-    url: '/api/creaditSettlemnt/REF/list_all_credit_settlements',
+    url: 'http://localhost/ims/api/v1/creaditSettlemnt/REF/list_all_credit_settlements',
     headers: { }
   };
   
@@ -83,7 +83,7 @@ const getREFsettlements = ()=>{
 const getcreditSettlementREF = (id)=>{
   var config = {
     method: 'get',
-    url: `/api/creaditSettlemnt/REF/list_credit_settlement/${id}`,
+    url: `http://localhost/ims/api/v1/creaditSettlemnt/REF/list_credit_settlement/${id}`,
     headers: { }
   };
   
@@ -92,7 +92,7 @@ const getcreditSettlementREF = (id)=>{
 const updateREFCredit = (data)=>{
   var config = {
     method: 'put',
-    url: '/api/creaditSettlemnt/REF/update_credit_settlemt',
+    url: 'http://localhost/ims/api/v1/creaditSettlemnt/REF/update_credit_settlemt',
     headers: { 
       'Content-Type': 'application/json'
     },
@@ -104,7 +104,7 @@ const updateREFCredit = (data)=>{
 const removeCreditSettlementREF  = (data)=>{
   var config = {
     method: 'delete',
-    url: '/api/creaditSettlemnt/REF/delete_credit_settlemnts',
+    url: 'http://localhost/ims/api/v1/creaditSettlemnt/REF/delete_credit_settlemnts',
     headers: { 
       'Content-Type': 'application/json'
     },

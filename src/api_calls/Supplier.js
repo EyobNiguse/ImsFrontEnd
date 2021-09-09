@@ -3,7 +3,7 @@ import axios from "axios";
 const addSupplier = (data)=>{
     var config = {
         method: 'post',
-        url: '/api/supplier/addSupplier',
+        url: 'http://localhost/ims/api/v1/supplier/addSupplier',
         headers: { 
           'Content-Type': 'application/json'
         },
@@ -15,7 +15,7 @@ const addSupplier = (data)=>{
 const getSuppliers = ()=>{
   var config = {
     method: 'get',
-    url: '/api/supplier/listSuppliers',
+    url: 'http://localhost/ims/api/v1/supplier/listSuppliers',
     headers: { }
   };
   
@@ -25,7 +25,7 @@ const getSuppliers = ()=>{
 const addBankAccount =  (data)=>{
   var config = {
     method: 'post',
-    url: '/api/supplier/add_supplier_bankaccount',
+    url: 'http://localhost/ims/api/v1/supplier/add_supplier_bankaccount',
     headers: { 
       'Content-Type': 'application/json'
     },
@@ -39,7 +39,7 @@ const updateSupplierBank = (data)=>{
 
   var config = {
     method: 'put',
-    url: '/api/supplier/update_supplier_bankaccount',
+    url: 'http://localhost/ims/api/v1/supplier/update_supplier_bankaccount',
     headers: { 
       'Content-Type': 'application/json'
     },
@@ -52,7 +52,7 @@ const updateSupplier = (data)=>{
   
   var config = {
     method: 'put',
-    url: '/api/supplier/updateSupplier',
+    url: 'http://localhost/ims/api/v1/supplier/updateSupplier',
     headers: { 
       'Content-Type': 'application/json'
     },
@@ -65,7 +65,7 @@ const updateSupplier = (data)=>{
 const removeSupplier = (id)=>{
   var config = {
     method: 'delete',
-    url: '/api/supplier/deleteSupplier',
+    url: 'http://localhost/ims/api/v1/supplier/deleteSupplier',
     headers: { 
       'Content-Type': 'application/json'
     },
@@ -78,7 +78,7 @@ const removeSupplier = (id)=>{
 const removeSupplierBank = (id)=>{
   var config = {
     method: 'delete',
-    url: `/api/supplier/delete_supplier_bankaccount/${id}`,
+    url: `http://localhost/ims/api/v1/supplier/delete_supplier_bankaccount/${id}`,
     headers: { }
   };
   

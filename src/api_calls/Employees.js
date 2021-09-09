@@ -4,7 +4,7 @@ import axios from "axios";
 const getEmployees = ()=>{
     var config = {
         method: 'get',
-        url: '/api/employee/list_employees',
+        url: 'http://localhost/ims/api/v1/employee/list_employees',
         headers: { }
       };
       
@@ -15,7 +15,7 @@ const getEmployees = ()=>{
 const addEmployee = (data)=>{
     var config = {
         method: 'post',
-        url: '/api/employee/add_employee',
+        url: 'http://localhost/ims/api/v1/employee/add_employee',
         headers: { 
           'Content-Type': 'application/json'
         },
@@ -27,7 +27,7 @@ const addEmployee = (data)=>{
 const updateEmployee = (data)=>{
   var config = {
     method: 'put',
-    url: '/api/employee/update_employee',
+    url: 'http://localhost/ims/api/v1/employee/update_employee',
     headers: { 
       'Content-Type': 'application/json'
     },
@@ -42,7 +42,7 @@ const removeEmployee = (id)=>{
 }
   var config = {
        method: 'delete',
-       url: '/api/employee/delete_employee',
+       url: 'http://localhosthttp://localhost/ims/api/v1/employee/delete_employee',
        headers: { 
        'Content-Type': 'application/json'
        },

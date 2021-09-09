@@ -2,7 +2,7 @@ import axios from "axios";
 const getRentExpenses = ()=>{
     var config = {
         method: 'get',
-        url: '/api/expence/rent/get_rents',
+        url: 'http://localhost/ims/api/v1/expence/rent/get_rents',
         headers: { }
       };
       
@@ -11,7 +11,7 @@ const getRentExpenses = ()=>{
 const addRentExpense = (data)=>{
     var config = {
         method: 'post',
-        url: '/api/expence/rent/add_rent',
+        url: 'http://localhost/ims/api/v1/expence/rent/add_rent',
         headers: { 
           'Content-Type': 'application/json'
         },
@@ -23,7 +23,7 @@ const addRentExpense = (data)=>{
 const updateRentExpense = (data)=>{
     var config = {
         method: 'put',
-        url: '/api/expence/rent/update_rent',
+        url: 'http://localhost/ims/api/v1/expence/rent/update_rent',
         headers: { 
           'Content-Type': 'application/json'
         },
@@ -35,7 +35,7 @@ const updateRentExpense = (data)=>{
 const deleteRentExpense = (data)=>{
     var config = {
         method: 'delete',
-        url: '/api/expence/rent/delete_rent',
+        url: 'http://localhost/ims/api/v1/expence/rent/delete_rent',
         headers: { 
           'Content-Type': 'application/json'
         },
