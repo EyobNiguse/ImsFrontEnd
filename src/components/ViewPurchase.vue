@@ -223,6 +223,7 @@
             <table class="view-items">
               <tr class="view-items-header">
                 <th>GRNNO</th>
+                <th>Item-ID</th>
                 <th>PPP</th>
                 <th>Quantity</th>
                 <th>Extra</th>
@@ -232,6 +233,7 @@
               </tr>
               <tr :key="x.ItemID" v-for="x in displayedListItems">
                 <td>{{x.GRNNO}}</td>
+                <td>{{x.ItemID}}</td>
                 <td>{{x.PPP}}</td>
                 <td>{{x.Quantity}}</td>
                 <td>{{x.Extra}}</td>

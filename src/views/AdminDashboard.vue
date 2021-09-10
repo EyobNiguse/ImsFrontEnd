@@ -94,7 +94,7 @@
               </router-link>
                    <router-link to="shipExpense">
                   <a href="">
-                    <li>Ship Expense</li>
+                    <li>Transfer to Shop Expense</li>
                   </a>
             
               </router-link>
@@ -124,6 +124,12 @@
                 </a>
       
               </router-link>
+
+                <button   @click="logout"   class="btn-submit err">
+                  logout
+                </button>
+      
+        
               
         
      
@@ -146,6 +152,13 @@ export default {
     components:{
         MainHeader,
        
+    },methods:{
+      logout(){
+        localStorage.setItem("accessToken","");
+        localStorage.setItem("username","");
+         localStorage.setItem("loginData","");
+        this.$router.push("/login");
+      }
     }
 }
 </script>
