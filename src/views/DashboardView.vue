@@ -25,7 +25,10 @@
                     <li>Shipment</li>
                 </a>
                 </router-link>
-
+    <button   @click="logout"   class="btn-submit err">
+                  logout
+                </button>
+      
              
             </ul>
         </div>
@@ -46,6 +49,13 @@ export default {
     components:{
         MainHeader,
        
+    },methods:{
+         logout(){
+        localStorage.setItem("accessToken","");
+        localStorage.setItem("username","");
+        localStorage.setItem("loginData","");
+        this.$router.push("/login");
+      }
     }
 }
 </script>

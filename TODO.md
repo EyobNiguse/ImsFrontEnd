@@ -11,3 +11,5 @@
 [] pagination fix
 [] update stock data
 [] json changes
+
+[] filter purchases,filter GRN

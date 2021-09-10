@@ -45,7 +45,7 @@ const removeEmployee = (id)=>{
 }
   var config = {
        method: 'delete',
-       url: 'http://localhost/api/employee/delete_employee',
+       url: '/api/employee/delete_employee',
        headers: { 
        'Content-Type': 'application/json',
        Authorization: `Bearer ${dt}`
