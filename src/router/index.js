@@ -96,9 +96,14 @@ const routes = [
       }
     ],
     beforeEnter: (to, from,next)=>{
-      console.log(from)
    
-        const data = JSON.parse(localStorage.getItem("loginData")) || ""; 
+      let data = {};
+   try{
+      data = JSON.parse(localStorage.getItem("loginData")) || ""; 
+   }catch{
+     data={}
+   }
+     
         if(!(data.EmployeeID)){
          next("/login")
         }else{
@@ -309,10 +314,15 @@ const routes = [
       }
     ],
     beforeEnter: (to, from,next)=>{
-       console.log(from)
-    
-         const data = JSON.parse(localStorage.getItem("loginData")) || ""; 
-         console.log(data);
+       
+       let data = {};
+       try{
+          data = JSON.parse(localStorage.getItem("loginData")) || ""; 
+       }catch{
+         data={}
+       }
+         
+      
          if(!(data.AdminID)){
           next("/login")
          }else{

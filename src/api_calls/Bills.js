@@ -24,7 +24,8 @@ const addBillType = (data) => {
     method: 'post',
     url: '/api/expence/BT/add_BT',
     headers: {
-      'Content-Type': 'application/json'
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${dt}`
     },
     data: data
   };

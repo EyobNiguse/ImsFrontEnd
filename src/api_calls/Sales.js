@@ -26,16 +26,17 @@ const addSales = (data)=>{
 }
 
 const removeSales = (id)=>{
-    const dt = {
+    const data = {
         "REFNO":id
     }
     var config = {
         method: 'delete',
         url: '/api/purchase/delte_ref',
         headers: { 
-          'Content-Type': 'application/json'
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${dt}`
         },
-        data : dt
+        data : data
       };
       
      return axios(config)

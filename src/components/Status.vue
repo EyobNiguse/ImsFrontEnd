@@ -143,11 +143,11 @@
 </template>
 
 <script>
-import axios from "axios";
+// import axios from "axios";
 import Sparkle from "@/components/Sparkle.vue";
 import ExpenceChart from "@/components/ExpenceChart.vue";
 // import GenerateReportVue from './GenerateReport.vue';
-// import GenerateReport from "@/api_calls/GenerateReport.js";
+import GenerateReport from "@/api_calls/GenerateReport.js";
 export default {
   name: "Staus",
   components: {
@@ -209,18 +209,9 @@ export default {
     async submitForm() {
       var data = JSON.stringify(this.post_data);
 
-      var config = {
-        method: "post",
-        url: "/api/report/get_report_interval",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        data: data,
-      };
+GenerateReport.getreportInterval(data).then(()=>{
 
-      const response = axios(config);
-      response
-        .then((result) => {
+}).then((result) => {
           this.data = result.data;
           this.updateChart();
         })

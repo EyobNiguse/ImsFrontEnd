@@ -6,7 +6,7 @@ const getItems = ()=>{
     var config = {
         method: 'get',
         url: '/api/item/get_items',
-        headers: { "Access-Control-Allow-Origin":"*",
+        headers: {  
         Authorization: `Bearer ${dt}`
       }
       };
@@ -20,7 +20,7 @@ var config = {
   url: '/api/item/add_new_item',
   headers: { 
        'Content-Type': 'application/json',
-       "Access-Control-Allow-Origin":"*",
+        
        Authorization: `Bearer ${dt}`
       },
   data : data

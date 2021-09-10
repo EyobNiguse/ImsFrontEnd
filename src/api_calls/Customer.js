@@ -5,7 +5,7 @@ const getCustomers = ()=>{
     var config = {
         method: 'get',
         url: '/api/customer/list_customers',
-        headers: { }
+        headers: {  Authorization: `Bearer ${dt}` }
       };
       
       return axios(config);

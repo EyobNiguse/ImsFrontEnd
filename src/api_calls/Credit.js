@@ -42,7 +42,7 @@ const getcreditSettlement = (id)=>{
   var config = {
     method: 'get',
     url: `/api/creaditSettlemnt/GRN/list_credit_settlement/${id}`,
-    headers: { }
+    headers: {    Authorization: `Bearer ${dt}` }
   };
   
   return axios(config)
@@ -54,7 +54,8 @@ const removeCreditSettlement = (data)=>{
     method: 'delete',
     url: '/api/creaditSettlemnt/GRN/delete_credit_settlemnts',
     headers: { 
-      'Content-Type': 'application/json'
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${dt}`
     },
     data : data
   };
@@ -68,7 +69,8 @@ const removeCreditSettlement = (data)=>{
     method: 'post',
     url: '/api/creaditSettlemnt/REF/add_credit_settlemnts',
     headers: { 
-      'Content-Type': 'application/json'
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${dt}`
     },
     data : data
   };
@@ -79,7 +81,7 @@ const getREFsettlements = ()=>{
   var config = {
     method: 'get',
     url: '/api/creaditSettlemnt/REF/list_all_credit_settlements',
-    headers: { }
+    headers: { Authorization: `Bearer ${dt}` }
   };
   
  return  axios(config)
@@ -88,7 +90,7 @@ const getcreditSettlementREF = (id)=>{
   var config = {
     method: 'get',
     url: `/api/creaditSettlemnt/REF/list_credit_settlement/${id}`,
-    headers: { }
+    headers: { Authorization: `Bearer ${dt}` }
   };
   
   return axios(config)
@@ -98,7 +100,8 @@ const updateREFCredit = (data)=>{
     method: 'put',
     url: '/api/creaditSettlemnt/REF/update_credit_settlemt',
     headers: { 
-      'Content-Type': 'application/json'
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${dt}`
     },
     data : data
   };
@@ -110,7 +113,8 @@ const removeCreditSettlementREF  = (data)=>{
     method: 'delete',
     url: '/api/creaditSettlemnt/REF/delete_credit_settlemnts',
     headers: { 
-      'Content-Type': 'application/json'
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${dt}`
     },
     data : data
   };

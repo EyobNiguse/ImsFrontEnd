@@ -6,7 +6,8 @@ const addExpenseType = (data)=>{
         method: 'post',
         url: '/api/expence/PET/add_PET',
         headers: { 
-          'Content-Type': 'application/json'
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${dt}`
         },
         data : data
       };

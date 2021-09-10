@@ -26,7 +26,20 @@ const generateReport = (data)=>{
       };
       return axios(config);
 }
+ const getreportInterval = (data)=>{
+
+  var config = {
+    method: "post",
+    url: "/api/report/get_report_interval",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    data: data,
+  }
+  return axios(config);
+ }
 export default {
     generate_report, 
-    generateReport  
+    generateReport,
+    getreportInterval  
 }

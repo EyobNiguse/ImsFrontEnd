@@ -15,7 +15,8 @@ const addSalesOrder = (data)=>{
         method: 'post',
         url: '/api/order/make_order',
         headers: { 
-          'Content-Type': 'application/json'
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${dt}`
         },
         data : data
       };
